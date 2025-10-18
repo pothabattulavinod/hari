@@ -23,15 +23,15 @@ body {
 /* Navbar */
 .navbar { background: linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
 
-/* Navbar brand without logo image */
+/* Navbar brand */
 .navbar-brand {
   display:flex;
   align-items:center;
-  color: var(--gold); /* Logo text color */
+  color: var(--gold);
   font-weight:700;
   padding: 5px 12px;
   background-color: transparent;
-  border-radius: 0; /* Square edges */
+  border-radius: 0;
 }
 
 /* Empty menu placeholder */
@@ -58,7 +58,7 @@ body {
   line-height:1.5;
 }
 
-/* Diwali Wish Card - Square edges */
+/* Diwali Wish Card */
 #wish-card, #wish-preview {
   max-width:700px; 
   margin:40px auto; 
@@ -68,21 +68,23 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.15), 0 0 20px rgba(0,153,255,0.3); 
   color:#2c3e50;
   transition: transform 0.3s, box-shadow 0.3s;
-  border-radius:0; /* Square edges */
+  border-radius:0;
 }
 
-/* Hover effect */
 #wish-card:hover, #wish-preview:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 40px rgba(0,0,0,0.25), 0 0 30px rgba(0,153,255,0.5);
 }
 
+/* Form */
 #wish-form .input-group-text { background:var(--blue); color:#fff; border:none; border-radius:0; }
 #wish-form .form-control { border-radius:0; border-left:none; }
 #wish-form button { background:var(--blue); color:#fff; font-weight:700; border:none; border-radius:0; }
 #wish-form button:hover { background:#0077cc; }
 
+/* Result */
 #wish-result { display:none; margin:30px auto; position:relative; }
+
 #wish-preview { 
   text-align:justify; 
   position:relative; 
@@ -90,6 +92,19 @@ body {
   font-family:'Merriweather', serif;
 }
 
+/* Header Image */
+#wish-preview .header-img {
+  display: block;
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  border-bottom: 4px solid var(--blue);
+}
+
+/* Watermark (unchanged) */
 #wish-preview::before {
   content:"";
   position:absolute;
@@ -103,14 +118,6 @@ body {
   opacity:0.12; 
   pointer-events:none;
   z-index:0;
-}
-
-#wish-preview img.logo {
-  display:block;
-  margin:0 auto 20px auto;
-  height:100px;
-  position:relative; 
-  z-index:1;
 }
 
 #wish-preview h2 { 
@@ -156,7 +163,14 @@ body {
   margin-top:5px; 
 }
 
-footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; margin-top:30px; font-size:0.9rem; }
+footer { 
+  background: linear-gradient(90deg,#0f2027,#2c5364); 
+  color:#fff; 
+  text-align:center; 
+  padding:20px 0; 
+  margin-top:30px; 
+  font-size:0.9rem; 
+}
 
 @media(max-width:992px){
   #wish-form { flex-direction:column; gap:10px; }
@@ -211,7 +225,9 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 
 <div id="wish-result">
   <div id="wish-preview">
-    <img src="https://harietechnoschool.com/LOGO.png" class="logo" alt="School Logo">
+    <!-- New Letterhead Header Image -->
+    <img src="https://harietechnoschool.com/IMG-20251018-WA0015.jpg" class="header-img" alt="Letter Header">
+    
     <h2>Hari E Techno School Wishes You!</h2>
     <p class="wish-text" id="preview-wish"></p>
     <div class="signature">- Hari</div>
@@ -235,36 +251,36 @@ const wishResult = document.getElementById('wish-result');
 const wishPreview = document.getElementById('wish-preview');
 
 const diwaliWishes = [
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
+  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
 On this joyous Diwali, Hari E Techno School sends its heartfelt wishes. 
 May your home be filled with lights of happiness, health, prosperity, and wisdom. 
 May <span class="wish-name">{student}</span> continue to shine academically and personally. 
-Let the festival bring countless moments of laughter, love, and cherished memories for the entire family.<br>&nbsp;<br>
+Let the festival bring countless moments of laughter, love, and cherished memories for the entire family.<br><br>
 With warm regards,`,
 
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
+  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
 As Diwali lights up the world, we wish your life to sparkle with joy, peace, and success. 
 May <span class="wish-name">{student}</span> embrace new opportunities with courage and wisdom. 
 Hari E Techno School blesses your family with boundless happiness and countless moments to treasure. 
-Let this Diwali illuminate your path towards brighter achievements.<br>&nbsp;<br>
+Let this Diwali illuminate your path towards brighter achievements.<br><br>
 With warm regards,`,
 
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
+  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
 May the glow of diyas and the echoes of happiness fill your home. 
 Hari E Techno School extends heartfelt wishes to you. 
 May <span class="wish-name">{student}</span> excel in studies, develop new talents, and grow with love and kindness. 
-May your family enjoy prosperity, health, and delightful moments throughout the year.<br>&nbsp;<br>
+May your family enjoy prosperity, health, and delightful moments throughout the year.<br><br>
 With warm regards,`,
 
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
+  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
 This Diwali, may every lamp you light bring new hope, success, and joy into your lives. 
 Hari E Techno School wishes <span class="wish-name">{student}</span> continuous progress and learning. 
-Celebrate the festival with delight, and may your journey ahead be bright and prosperous.<br>&nbsp;<br>
+Celebrate the festival with delight, and may your journey ahead be bright and prosperous.<br><br>
 With warm regards,`,
 
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
+  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
 On this festival of lights, may your hearts be filled with love, your home with laughter, and your life with endless happiness. 
-Hari E Techno School blesses <span class="wish-name">{student}</span> and your family with joy, knowledge, and success.<br>&nbsp;<br>
+Hari E Techno School blesses <span class="wish-name">{student}</span> and your family with joy, knowledge, and success.<br><br>
 With warm regards,`
 ];
 
