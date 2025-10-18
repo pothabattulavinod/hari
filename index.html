@@ -23,22 +23,13 @@ body {
 /* Navbar */
 .navbar { background: linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
 
-/* Colored logo image + text */
+/* Logo text only, colored */
 .navbar-brand {
-  display:flex;
-  align-items:center;
-  color: var(--gold); /* Logo text color */
+  color: var(--gold);
   font-weight:700;
-  padding: 5px 12px;
-  background-color: transparent;
-  border-radius: 0; /* Square edges */
-}
-.navbar-brand img {
-  height:50px;
-  margin-right:10px;
-  background-color: var(--blue); /* Background behind logo image */
-  padding: 5px;
-  border-radius: 0; /* Square edges */
+  font-size:1.5rem;
+  padding:5px 12px;
+  border-radius:0;
 }
 
 /* Empty menu placeholder */
@@ -97,29 +88,6 @@ body {
   font-family:'Merriweather', serif;
 }
 
-#wish-preview::before {
-  content:"";
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  width:250px;
-  height:250px;
-  background:url('https://harietechnoschool.com/LOGO.png') no-repeat center center;
-  background-size:contain;
-  opacity:0.12; 
-  pointer-events:none;
-  z-index:0;
-}
-
-#wish-preview img.logo {
-  display:block;
-  margin:0 auto 20px auto;
-  height:100px;
-  position:relative; 
-  z-index:1;
-}
-
 #wish-preview h2 { 
   font-family:'Merriweather', serif; 
   font-size:2rem; 
@@ -172,6 +140,8 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 }
 
 @media(max-width:576px){
+  .hero h1 { font-size:2rem; }
+  .hero p { font-size:1rem; }
   #wish-preview h2 { font-size:1.5rem; }
   #wish-preview .wish-text { font-size:1rem; }
   #wish-preview .signature { font-size:1.5rem; }
@@ -183,10 +153,7 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <img src="https://harietechnoschool.com/LOGO.png" alt="Logo">
-      Hari E Techno School
-    </a>
+    <a class="navbar-brand" href="#">Hari E Techno School</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -219,7 +186,6 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 
 <div id="wish-result">
   <div id="wish-preview">
-    <img src="https://harietechnoschool.com/LOGO.png" class="logo" alt="School Logo">
     <h2>Hari E Techno School Wishes You!</h2>
     <p class="wish-text" id="preview-wish"></p>
     <div class="signature">- Hari</div>
@@ -243,42 +209,21 @@ const wishResult = document.getElementById('wish-result');
 const wishPreview = document.getElementById('wish-preview');
 
 const diwaliWishes = [
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
-On this joyous Diwali, Hari E Techno School sends its heartfelt wishes. 
-May your home be filled with lights of happiness, health, prosperity, and wisdom. 
-May <span class="wish-name">{student}</span> continue to shine academically and personally. 
-Let the festival bring countless moments of laughter, love, and cherished memories for the entire family.<br>&nbsp;<br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
-As Diwali lights up the world, we wish your life to sparkle with joy, peace, and success. 
-May <span class="wish-name">{student}</span> embrace new opportunities with courage and wisdom. 
-Hari E Techno School blesses your family with boundless happiness and countless moments to treasure. 
-Let this Diwali illuminate your path towards brighter achievements.<br>&nbsp;<br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
-May the glow of diyas and the echoes of happiness fill your home. 
-Hari E Techno School extends heartfelt wishes to you. 
-May <span class="wish-name">{student}</span> excel in studies, develop new talents, and grow with love and kindness. 
-May your family enjoy prosperity, health, and delightful moments throughout the year.<br>&nbsp;<br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
-This Diwali, may every lamp you light bring new hope, success, and joy into your lives. 
-Hari E Techno School wishes <span class="wish-name">{student}</span> continuous progress and learning. 
-Celebrate the festival with delight, and may your journey ahead be bright and prosperous.<br>&nbsp;<br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br>&nbsp;<br>
-On this festival of lights, may your hearts be filled with love, your home with laughter, and your life with endless happiness. 
-Hari E Techno School blesses <span class="wish-name">{student}</span> and your family with joy, knowledge, and success.<br>&nbsp;<br>
-With warm regards,`
+  `Dear <span class="wish-name">{parent}</span> and <span class="wish-name">{student}</span>,<br>&nbsp;<br>
+On this joyous Diwali, may your home be filled with happiness, prosperity, and love. May <span class="wish-name">{student}</span> shine brightly in all endeavors.<br>&nbsp;<br>With warm regards,`,
+  
+  `Dear <span class="wish-name">{parent}</span> and <span class="wish-name">{student}</span>,<br>&nbsp;<br>
+Wishing you a Diwali full of lights, laughter, and memorable moments. May your family thrive with health and success. <span class="wish-name">{student}</span> continue to achieve greatness.<br>&nbsp;<br>With warm regards,`,
+  
+  `Dear <span class="wish-name">{parent}</span> and <span class="wish-name">{student}</span>,<br>&nbsp;<br>
+May the festival of lights bring endless joy, peace, and happiness to your home. Hari E Techno School blesses <span class="wish-name">{student}</span> with knowledge and success.<br>&nbsp;<br>With warm regards,`,
+  
+  `Dear <span class="wish-name">{parent}</span> and <span class="wish-name">{student}</span>,<br>&nbsp;<br>
+This Diwali, may every lamp illuminate your life with positivity and hope. May <span class="wish-name">{student}</span> excel in studies and personal growth.<br>&nbsp;<br>With warm regards,`
 ];
 
-function capitalizeWords(str) {
-    return str.replace(/\b\w/g, char => char.toUpperCase());
-}
+// Capitalize each word
+function capitalizeWords(str) { return str.replace(/\b\w/g, c => c.toUpperCase()); }
 
 wishForm.addEventListener('submit', function(e){
   e.preventDefault();
@@ -287,9 +232,8 @@ wishForm.addEventListener('submit', function(e){
   if(!student || !parent){ alert("Please enter both Student Name and Parent Name."); return; }
   student = capitalizeWords(student);
   parent = capitalizeWords(parent);
-  const randomIndex = Math.floor(Math.random() * diwaliWishes.length);
-  let selectedWish = diwaliWishes[randomIndex];
-  selectedWish = selectedWish.replace(/{parent}/g, parent).replace(/{student}/g, student);
+  const selectedWish = diwaliWishes[Math.floor(Math.random() * diwaliWishes.length)]
+    .replace(/{student}/g, student).replace(/{parent}/g, parent);
   previewWish.innerHTML = selectedWish;
   wishResult.style.display = 'block';
   wishResult.scrollIntoView({behavior:'smooth'});
@@ -314,7 +258,7 @@ document.getElementById('download-btn').addEventListener('click', function(){
         link.click();
         document.body.removeChild(clone);
     }).catch(err => {
-        console.error("Error generating image:", err);
+        console.error(err);
         alert("Sorry, failed to generate the image.");
     });
 });
