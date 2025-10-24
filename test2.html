@@ -102,7 +102,7 @@ function utcToLocalYMD(utcDateStr) {
   return `${year}-${month}-${day}`;
 }
 
-// Fetch data
+// Fetch JSON data and populate Class dropdown
 fetch(WORKER_URL)
   .then(res => res.json())
   .then(data => {
@@ -115,13 +115,15 @@ fetch(WORKER_URL)
       Date: utcToLocalYMD(s.Date),
       Status: s.Status
     }));
-    const classSelect = document.getElementById('class-select');
-    [...new Set(studentData.map(s=>s.Class))].forEach(c=>{
-      classSelect.appendChild(new Option(c, c));
-    });
-  })
-  .catch(err=>console.error("Failed to load data", err));
 
+    // Populate Class dropdown with unique classes
+    const classSelect = document.getElementById('class-select');
+    const classes = [...new Set(studentData.map(s=>s.Class))];
+    classes.forEach(c => classSelect.appendChild(new Option(c, c)));
+  })
+  .catch(err => console.error("Failed to load data", err));
+
+// Populate Month dropdown
 function populateMonths(student) {
   const monthSelect = document.getElementById('month-select');
   monthSelect.innerHTML = '<option value="">Select Month</option>';
@@ -129,6 +131,7 @@ function populateMonths(student) {
     const d = new Date(r.Date);
     return `${d.getFullYear()}-${d.getMonth()+1}`;
   }))].sort((a,b)=>new Date(a)-new Date(b));
+
   months.forEach(m=>{
     const [year, month] = m.split("-");
     const monthName = new Date(year, month-1).toLocaleString('default',{month:'long', year:'numeric'});
@@ -136,6 +139,7 @@ function populateMonths(student) {
   });
 }
 
+// Display attendance
 function displayAttendance(student, selectedMonth=null){
   const container = document.getElementById('result-container');
   const records = student.records;
@@ -187,6 +191,7 @@ document.getElementById('search-btn').addEventListener('click',()=>{
     return;
   }
 
+  // Filter student records
   const records = studentData.filter(s=> 
     s.Roll===roll && s.Class===cls && s.Section.toLowerCase()===section.toLowerCase() && s.DOB===dob
   );
@@ -197,7 +202,7 @@ document.getElementById('search-btn').addEventListener('click',()=>{
   }
 
   currentStudent = { records };
-  displayAttendance(currentStudent); // overall only
+  displayAttendance(currentStudent); // Show overall
   populateMonths(currentStudent);
   document.getElementById('month-container').style.display="flex";
 });
@@ -209,5 +214,6 @@ document.getElementById('month-select').addEventListener('change', function(){
   }
 });
 </script>
+
 </body>
 </html>
