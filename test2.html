@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari E Techno School | Attendance</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Fredoka+One&display=swap" rel="stylesheet">
+
+<style>
+:root { --blue:#0099FF; --green:#28a745; --red:#dc3545; --yellow:#ffe66d; }
+body { font-family:'Roboto', sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; padding:0; }
+.navbar { background: linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
+.navbar-brand { display:flex; align-items:center; font-weight:700; color:#fff; }
+.navbar-brand img { height:50px; margin-right:10px; transition: transform 0.3s; }
+.navbar-brand:hover img { transform:scale(1.1); }
+.navbar-nav .nav-link { color:#fff; font-weight:500; }
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color:var(--yellow); }
+.section-title { text-align:center; font-family:'Fredoka One', cursive; color:var(--blue); margin:30px 0 20px; font-size:2rem; }
+
+#search-card { width:95%; max-width:900px; margin:20px auto; background:#fff; padding:20px; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.1); }
+#filters { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; }
+.input-group-text { background:var(--blue); color:#fff; border:none; border-radius:12px 0 0 12px; }
+.form-control, .form-select { border-radius:0 12px 12px 0; border-left:none; }
+#filters button { background:var(--blue); color:#fff; font-weight:600; border:none; border-radius:12px; }
+#filters button:hover { background:#0077cc; }
+
+.result-card { background:#fff; border-radius:15px; padding:20px; width:95%; max-width:900px; margin:20px auto; box-shadow:0 6px 20px rgba(0,0,0,0.1); word-wrap:break-word; }
+.result-card h4 { color:var(--blue); text-align:center; margin-bottom:15px; font-size:1.5rem; }
+.attendance-table { width:100%; border-collapse:collapse; margin-bottom:15px; font-size:0.9rem; }
+.attendance-table th, .attendance-table td { border:1px solid #ddd; text-align:center; padding:6px 8px; }
+.attendance-table th { background:var(--blue); color:#fff; }
+.attendance-table .present { background:var(--green); color:#fff; }
+.attendance-table .absent { background:var(--red); color:#fff; }
+.overall-result { background:var(--yellow); border-radius:12px; padding:15px; text-align:center; font-weight:600; color:#2c3e50; margin-bottom:20px; }
+
+#month-container { width:95%; max-width:900px; margin:10px auto 20px; display:none; }
+
+footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; margin-top:40px; font-size:0.9rem; }
+
+@media(max-width:992px){
+  #filters { flex-direction:column; align-items:center; }
+  .input-group { width:100%; }
+  #filters button { width:100%; }
+}
+
+@media(max-width:576px){
+  .section-title { font-size:1.5rem; }
+  .result-card h4 { font-size:1.2rem; }
+  .attendance-table th, .attendance-table td { font-size:0.8rem; padding:4px 6px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="https://harietechnoschool.com/LOGO.png" alt="Logo">
+      Hari E Techno School
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Attendance</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<h2 class="section-title">Check Your Attendance</h2>
+
+<div id="search-card">
+  <div id="filters">
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+      <input type="text" id="roll-number" placeholder="Roll Number" class="form-control">
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-journal-bookmark"></i></span>
+      <select id="class-select" class="form-select"><option value="">Select Class</option></select>
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-building"></i></span>
+      <input type="text" id="section-input" placeholder="Section" class="form-control">
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+      <input type="date" id="dob-input" class="form-control">
+    </div>
+    <button id="search-btn" class="btn w-100 mt-2"><i class="bi bi-search"></i> Search</button>
+  </div>
+</div>
+
+<!-- Month dropdown -->
+<div id="month-container" class="input-group">
+  <span class="input-group-text"><i class="bi bi-calendar-month"></i></span>
+  <select id="month-select" class="form-select"><option value="">Select Month</option></select>
+</div>
+
+<div id="result-container"></div>
+
+<footer>
+  <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const WORKER_URL = "https://rough-violet-f922.vinodyadavpothabattula666.workers.dev/";
+
+let studentData = [];
+let currentStudent = null;
+
+function utcToLocalYMD(utcDateStr) { 
+  const date = new Date(utcDateStr);
+  const year = date.getFullYear();
+  const month = String(date.getMonth()+1).padStart(2,'0');
+  const day = String(date.getDate()).padStart(2,'0');
+  return `${year}-${month}-${day}`;
+}
+
+// Fetch JSON
+fetch(WORKER_URL)
+  .then(res => res.json())
+  .then(data => {
+    studentData = data.map(s => ({
+      ...s,
+      DOB: utcToLocalYMD(s.DOB),
+      Date: utcToLocalYMD(s.Date)
+    }));
+
+    const classSelect = document.getElementById('class-select');
+    const classes = [...new Set(studentData.map(s => s.Class))].sort((a,b)=>a-b);
+    classes.forEach(c => classSelect.appendChild(new Option(c, c)));
+  })
+  .catch(err => console.error("Failed to load data:", err));
+
+// Populate months dropdown
+function populateMonths(records) {
+  const monthSelect = document.getElementById('month-select');
+  monthSelect.innerHTML = '<option value="">Select Month</option>';
+  const months = [...new Set(records.map(r => {
+    const d = new Date(r.Date);
+    return `${d.getFullYear()}-${d.getMonth()+1}`;
+  }))].sort((a,b) => new Date(a)-new Date(b));
+  months.forEach(m => {
+    const [year, month] = m.split("-");
+    const monthName = new Date(year, month-1).toLocaleString('default',{month:'long', year:'numeric'});
+    monthSelect.appendChild(new Option(monthName, m));
+  });
+}
+
+// Display overall attendance or monthly records
+function displayAttendance(records, selectedMonth=null){
+  const container = document.getElementById('result-container');
+  if(!selectedMonth){
+    // Show only overall summary
+    const totalDays = records.length;
+    const presentDays = records.filter(r=>r.Status==="Present").length;
+    const overallPercentage = totalDays ? ((presentDays/totalDays)*100).toFixed(2) : 0;
+    container.innerHTML = `<div class="overall-result">
+      <p><strong>Overall Attendance:</strong> ${presentDays} / ${totalDays} days</p>
+      <p><strong>Percentage:</strong> ${overallPercentage}%</p>
+    </div>`;
+    return;
+  }
+
+  // Filter by month
+  const [year, month] = selectedMonth.split("-");
+  const filtered = records.filter(r=>{
+    const d=new Date(r.Date);
+    return d.getFullYear()==year && d.getMonth()+1==month;
+  });
+
+  const totalDays = filtered.length;
+  const presentDays = filtered.filter(r=>r.Status==="Present").length;
+  const overallPercentage = totalDays ? ((presentDays/totalDays)*100).toFixed(2) : 0;
+
+  let html = `<div class="overall-result">
+      <p><strong>Total Days in Month:</strong> ${totalDays}</p>
+      <p><strong>Present:</strong> ${presentDays}</p>
+      <p><strong>Percentage:</strong> ${overallPercentage}%</p>
+    </div>`;
+
+  html += `<div class="result-card">
+      <h4>Attendance Records for ${new Date(year,month-1).toLocaleString('default',{month:'long', year:'numeric'})}</h4>
+      <table class="attendance-table">
+        <tr><th>Date</th><th>Status</th></tr>`;
+  filtered.forEach(r=>{
+    const cls = r.Status==="Present"?"present":"absent";
+    html+=`<tr class="${cls}"><td>${r.Date}</td><td>${r.Status}</td></tr>`;
+  });
+  html += `</table></div>`;
+  container.innerHTML = html;
+}
+
+// Search button
+document.getElementById('search-btn').addEventListener('click',()=>{
+  const roll=document.getElementById('roll-number').value.trim();
+  const cls=document.getElementById('class-select').value;
+  const section=document.getElementById('section-input').value.trim();
+  const dob=document.getElementById('dob-input').value;
+  const container=document.getElementById('result-container');
+  container.innerHTML="";
+  document.getElementById('month-container').style.display="none";
+
+  if(!roll || !cls || !section || !dob){
+    container.innerHTML='<p class="text-center mt-4 text-danger">Please fill all fields first.</p>';
+    return;
+  }
+
+  const records = studentData.filter(s =>
+    s.Roll == roll &&
+    s.Class == cls &&
+    s.Section.toLowerCase() === section.toLowerCase() &&
+    s.DOB === dob
+  );
+
+  if(records.length===0){
+    container.innerHTML='<p class="text-center mt-4 text-danger">No student found.</p>';
+    return;
+  }
+
+  currentStudent = records;
+  displayAttendance(records); // show only overall percentage
+  populateMonths(records);
+  document.getElementById('month-container').style.display="flex";
+});
+
+// Month selection
+document.getElementById('month-select').addEventListener('change',function(){
+  if(currentStudent && this.value){
+    displayAttendance(currentStudent, this.value);
+  }
+});
+</script>
+</body>
+</html>
