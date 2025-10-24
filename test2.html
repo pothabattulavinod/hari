@@ -93,7 +93,7 @@ const WORKER_URL = "https://rough-violet-f922.vinodyadavpothabattula666.workers.
 let studentData = [];
 let currentStudent = null;
 
-// UTC to YYYY-MM-DD
+// Convert UTC → YYYY-MM-DD
 function utcToLocalYMD(utcDateStr) {
   const date = new Date(utcDateStr);
   const year = date.getFullYear();
@@ -102,11 +102,11 @@ function utcToLocalYMD(utcDateStr) {
   return `${year}-${month}-${day}`;
 }
 
-// Fetch JSON data
+// Fetch Data
 fetch(WORKER_URL)
   .then(res => res.json())
   .then(data => {
-    studentData = data.map(s=>({
+    studentData = data.map(s => ({
       Roll: String(s.Roll),
       Name: s.Name,
       Class: String(s.Class),
@@ -116,55 +116,62 @@ fetch(WORKER_URL)
       Status: s.Status
     }));
 
-    // Populate Class dropdown
     const classSelect = document.getElementById('class-select');
-    [...new Set(studentData.map(s=>s.Class))].forEach(c=>{
+    [...new Set(studentData.map(s => s.Class))].forEach(c => {
       classSelect.appendChild(new Option(c, c));
     });
   })
-  .catch(err=>console.error("Failed to load data", err));
+  .catch(err => console.error("Failed to load data", err));
 
+// Populate Month Dropdown
 function populateMonths(student) {
   const monthSelect = document.getElementById('month-select');
   monthSelect.innerHTML = '<option value="">Select Month</option>';
-  const months = [...new Set(student.records.map(r=>{
+
+  const months = [...new Set(student.records.map(r => {
     const d = new Date(r.Date);
     return `${d.getFullYear()}-${d.getMonth()+1}`;
-  }))].sort((a,b)=>new Date(a)-new Date(b));
-  months.forEach(m=>{
+  }))].sort((a, b) => new Date(a) - new Date(b));
+
+  months.forEach(m => {
     const [year, month] = m.split("-");
-    const monthName = new Date(year, month-1).toLocaleString('default',{month:'long', year:'numeric'});
+    const monthName = new Date(year, month - 1).toLocaleString('default', { month: 'long', year: 'numeric' });
     monthSelect.appendChild(new Option(monthName, m));
   });
+
+  return months[months.length - 1]; // return latest month
 }
 
-function displayAttendance(student, selectedMonth=null){
+// Display Attendance
+function displayAttendance(student, selectedMonth = null) {
   const container = document.getElementById('result-container');
   const records = student.records;
   const total = records.length;
-  const present = records.filter(r=>r.Status==="Present").length;
-  const percent = total ? ((present/total)*100).toFixed(2) : 0;
+  const present = records.filter(r => r.Status === "Present").length;
+  const percent = total ? ((present / total) * 100).toFixed(2) : 0;
 
   let html = `<div class="overall-result">
     <p><strong>Overall Attendance:</strong> ${present} / ${total}</p>
     <p><strong>Percentage:</strong> ${percent}%</p>
   </div>`;
 
-  if(selectedMonth){
+  if (selectedMonth) {
     const [year, month] = selectedMonth.split("-");
-    const monthRecords = records.filter(r=>{
+    const monthRecords = records.filter(r => {
       const d = new Date(r.Date);
-      return d.getFullYear()==parseInt(year) && (d.getMonth()+1)==parseInt(month);
+      return d.getFullYear() == parseInt(year) && (d.getMonth() + 1) == parseInt(month);
     });
+
     html += `<div class="result-card">
-      <h4>Attendance for ${new Date(year,month-1).toLocaleString('default',{month:'long', year:'numeric'})}</h4>
+      <h4>Attendance for ${new Date(year, month - 1).toLocaleString('default', { month: 'long', year: 'numeric' })}</h4>
       <table class="attendance-table">
         <tr><th>Date</th><th>Status</th></tr>`;
-    if(monthRecords.length===0){
+
+    if (monthRecords.length === 0) {
       html += `<tr><td colspan="2">No records for this month</td></tr>`;
     } else {
-      monthRecords.forEach(r=>{
-        const cls = r.Status==="Present"?"present":"absent";
+      monthRecords.forEach(r => {
+        const cls = r.Status === "Present" ? "present" : "absent";
         html += `<tr class="${cls}"><td>${r.Date}</td><td>${r.Status}</td></tr>`;
       });
     }
@@ -174,39 +181,40 @@ function displayAttendance(student, selectedMonth=null){
   container.innerHTML = html;
 }
 
-// Search
-document.getElementById('search-btn').addEventListener('click',()=>{
+// Search Button
+document.getElementById('search-btn').addEventListener('click', () => {
   const roll = document.getElementById('roll-number').value.trim();
   const cls = document.getElementById('class-select').value;
   const section = document.getElementById('section-input').value.trim();
   const dob = document.getElementById('dob-input').value;
   const container = document.getElementById('result-container');
-  container.innerHTML="";
-  document.getElementById('month-container').style.display="none";
+  container.innerHTML = "";
+  document.getElementById('month-container').style.display = "none";
 
-  if(!roll||!cls||!section||!dob){
-    container.innerHTML='<p class="text-center text-danger mt-3">Please fill all fields.</p>';
+  if (!roll || !cls || !section || !dob) {
+    container.innerHTML = '<p class="text-center text-danger mt-3">Please fill all fields.</p>';
     return;
   }
 
-  const records = studentData.filter(s=> 
-    s.Roll===roll && s.Class===cls && s.Section.toLowerCase()===section.toLowerCase() && s.DOB===dob
+  const records = studentData.filter(s =>
+    s.Roll === roll && s.Class === cls && s.Section.toLowerCase() === section.toLowerCase() && s.DOB === dob
   );
 
-  if(records.length===0){
-    container.innerHTML='<p class="text-center text-danger mt-3">No student found.</p>';
+  if (records.length === 0) {
+    container.innerHTML = '<p class="text-center text-danger mt-3">No student found.</p>';
     return;
   }
 
   currentStudent = { records };
-  displayAttendance(currentStudent); // overall
-  populateMonths(currentStudent);
-  document.getElementById('month-container').style.display="flex";
+  const latestMonth = populateMonths(currentStudent);
+  document.getElementById('month-container').style.display = "flex";
+  document.getElementById('month-select').value = latestMonth;
+  displayAttendance(currentStudent, latestMonth); // show latest month + overall
 });
 
-// Month selection
-document.getElementById('month-select').addEventListener('change', function(){
-  if(currentStudent && this.value){
+// Month change event
+document.getElementById('month-select').addEventListener('change', function () {
+  if (currentStudent && this.value) {
     displayAttendance(currentStudent, this.value);
   }
 });
