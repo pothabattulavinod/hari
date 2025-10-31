@@ -36,12 +36,12 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One', cursive; margin:0; }
 .result-card h4 { color:var(--blue); margin-bottom:15px; text-align:center; }
 .result-card img.logo { height:80px; display:block; margin:0 auto 15px auto; }
 
-/* Subjects Table */
+/* Table */
 .table-wrapper { overflow-x:auto; }
 .subjects-table { width:100%; border-collapse: collapse; margin-bottom:15px; min-width:900px; }
 .subjects-table th, .subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
 .subjects-table th { background:#0099FF; color:#fff; }
-.subjects-table td { background:#fdfdfd; }
+.subjects-table td { background:#fff; }
 
 .overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
 
@@ -56,8 +56,6 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 }
 @media(max-width:576px){
   #search-card { padding:15px 10px; }
-  .input-group-text { font-size:0.9rem; }
-  .form-control, .form-select { font-size:0.9rem; }
   .subjects-table th, .subjects-table td { font-size:12px; padding:6px; }
   .overall-result { font-size:0.95rem; padding:10px; }
 }
@@ -86,7 +84,7 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
   </div>
 </nav>
 
-<!-- Page Title -->
+<!-- Title -->
 <section class="py-5 bg-light">
   <div class="container text-center">
     <h2 class="section-title">Check Your Result</h2>
@@ -127,7 +125,7 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 <!-- Result Display -->
 <div id="result-container" class="result-card-container"></div>
 
-<!-- Download Image Button -->
+<!-- Download Button -->
 <div id="download-wrapper" class="text-center mt-3" style="display:none;">
   <button id="download-btn" class="btn btn-success"><i class="bi bi-download"></i> Download as Image</button>
 </div>
@@ -137,7 +135,7 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
   <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
 </footer>
 
-<!-- JS -->
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -146,103 +144,95 @@ const WORKER_URL = "https://sweet-star-d68b.vinodyadavpothabattula666.workers.de
 let studentResults = [];
 const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
 
-// Convert UTC date to local YYYY-MM-DD
+// Convert UTC to YYYY-MM-DD
 function utcToLocalYMD(utcDateStr) {
   const date = new Date(utcDateStr);
-  const year = date.getFullYear();
-  const month = String(date.getMonth()+1).padStart(2,'0');
-  const day = String(date.getDate()).padStart(2,'0');
-  return `${year}-${month}-${day}`;
+  const y = date.getFullYear();
+  const m = String(date.getMonth()+1).padStart(2,'0');
+  const d = String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
 }
 
-// Fetch data from worker
+// Fetch Data
 fetch(WORKER_URL)
-  .then(res => res.json())
+  .then(r => r.json())
   .then(data => {
     studentResults = data.map(s => ({ ...s, dob: utcToLocalYMD(s.dob) }));
-
     const classes = new Set();
     const exams = new Set();
     studentResults.forEach(s => { classes.add(s.class); exams.add(s.examType); });
-
-    const classSelect = document.getElementById('class-select');
-    classes.forEach(c => classSelect.appendChild(new Option(c, c)));
-
-    const examSelect = document.getElementById('exam-select');
-    exams.forEach(e => examSelect.appendChild(new Option(e, e)));
+    classes.forEach(c => document.getElementById('class-select').appendChild(new Option(c, c)));
+    exams.forEach(e => document.getElementById('exam-select').appendChild(new Option(e, e)));
   })
-  .catch(err => console.error("Error fetching data:", err));
+  .catch(err => console.error(err));
 
-document.getElementById('search-btn').addEventListener('click', function() {
+// Search and Display
+document.getElementById('search-btn').addEventListener('click', () => {
   const roll = document.getElementById('roll-number').value.trim();
-  const classSel = document.getElementById('class-select').value;
-  const section = document.getElementById('section-input').value.trim();
+  const cls = document.getElementById('class-select').value;
+  const sec = document.getElementById('section-input').value.trim();
   const exam = document.getElementById('exam-select').value;
   const dob = document.getElementById('dob-input').value;
   const container = document.getElementById('result-container');
   const downloadWrapper = document.getElementById('download-wrapper');
   downloadWrapper.style.display = 'none';
 
-  if(!roll || !classSel || !section || !exam || !dob){
-    container.innerHTML = '<p class="text-center mt-4 text-danger">Please fill all fields.</p>';
+  if(!roll || !cls || !sec || !exam || !dob){
+    container.innerHTML = '<p class="text-center text-danger mt-4">Please fill all fields.</p>';
     return;
   }
 
-  const student = studentResults.find(s =>
-    s.roll == roll &&
-    s.class == classSel &&
-    s.section.toLowerCase() === section.toLowerCase() &&
-    s.examType === exam &&
-    s.dob === dob
+  const subjects = ['Telugu','Hindi','English','Maths','Science/EVS','Social'];
+
+  const studentSubs = studentResults.filter(s =>
+    s.roll == roll && s.class == cls && s.section.toLowerCase() === sec.toLowerCase() &&
+    s.examType === exam && s.dob === dob
   );
 
-  if(!student){
-    container.innerHTML = '<p class="text-center mt-4 text-danger">No student found.</p>';
+  if(studentSubs.length === 0){
+    container.innerHTML = '<p class="text-center text-danger mt-4">No student found.</p>';
     return;
   }
 
-  // Compute total (each subject out of 100)
-  const subjects = ['telugu','hindi','english','maths','science','evs','social'];
-  const marks = subjects.map(sub => Number(student[sub]) || 0);
-  const total = marks.reduce((a,b)=>a+b,0);
-  const grade = total >= 540 ? 'A+' : total >= 480 ? 'A' : total >= 420 ? 'B' : total >= 350 ? 'C' : 'D';
+  const first = studentSubs[0];
+  const marksMap = {};
+  let total = 0;
 
-  const html = `<div class="result-card" id="printable-result">
+  studentSubs.forEach(sub => {
+    marksMap[sub.subject.toLowerCase()] = sub.marks;
+    total += Number(sub.marks);
+  });
+
+  const grade = total >= 540 ? 'A+' : total >= 480 ? 'A' : total >= 420 ? 'B' :
+                total >= 350 ? 'C' : 'D';
+
+  const html = `
+  <div class="result-card" id="printable-result">
     <div id="image-content">
       <img src="${logoBase64}" class="logo" alt="School Logo">
-      <h4 class="text-center">${student.examType} Exam Result</h4>
+      <h4>${first.examType} Exam Result</h4>
       <div class="table-wrapper">
         <table class="subjects-table">
           <tr>
-            <th>Roll No</th>
-            <th>Name</th>
-            <th>Class</th>
-            <th>Section</th>
-            <th>DOB</th>
-            <th>Telugu (100)</th>
-            <th>Hindi (100)</th>
-            <th>English (100)</th>
-            <th>Maths (100)</th>
-            <th>Science/EVS (100)</th>
-            <th>Social (100)</th>
-            <th>Total (600)</th>
-            <th>Rank</th>
-            <th>Grade</th>
+            <th>Roll No</th><th>Name</th><th>Class</th><th>Section</th><th>DOB</th>
+            <th>Telugu (100)</th><th>Hindi (100)</th><th>English (100)</th>
+            <th>Maths (100)</th><th>Science/EVS (100)</th><th>Social (100)</th>
+            <th>Total (600)</th><th>Rank</th><th>Grade</th>
           </tr>
           <tr>
-            <td>${student.roll}</td>
-            <td>${student.name}</td>
-            <td>${student.class}</td>
-            <td>${student.section}</td>
-            <td>${student.dob}</td>
-            <td>${student.telugu}</td>
-            <td>${student.hindi}</td>
-            <td>${student.english}</td>
-            <td>${student.maths}</td>
-            <td>${student.science || student.evs || '-'}</td>
-            <td>${student.social}</td>
+            <td>${first.roll}</td>
+            <td>${first.name}</td>
+            <td>${first.class}</td>
+            <td>${first.section}</td>
+            <td>${first.dob}</td>
+            <td>${marksMap['telugu'] || '-'}</td>
+            <td>${marksMap['hindi'] || '-'}</td>
+            <td>${marksMap['english'] || '-'}</td>
+            <td>${marksMap['maths'] || '-'}</td>
+            <td>${marksMap['science'] || marksMap['evs'] || '-'}</td>
+            <td>${marksMap['social'] || '-'}</td>
             <td>${total}</td>
-            <td>${student.rank || '-'}</td>
+            <td>${first.rank || '-'}</td>
             <td>${grade}</td>
           </tr>
         </table>
@@ -258,7 +248,7 @@ document.getElementById('search-btn').addEventListener('click', function() {
   downloadWrapper.style.display = 'block';
 });
 
-// Download as image
+// Download Image
 document.getElementById('download-btn').addEventListener('click', () => {
   html2canvas(document.getElementById('image-content')).then(canvas => {
     const link = document.createElement('a');
