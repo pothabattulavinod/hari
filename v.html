@@ -12,67 +12,63 @@
 
 <style>
 :root { --pink:#ff6b6b; --yellow:#ffe66d; --blue:#0099FF; --lightblue:#e7f5ff; }
-body { font-family:'Roboto', sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; }
-h1,h2,h3,h4,h5 { font-family:'Fredoka One', cursive; margin:0; }
-.navbar { background: linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
+body { font-family:'Roboto',sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; }
+h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
+.navbar { background:linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
 .navbar-brand { display:flex; align-items:center; font-weight:700; color:#fff; }
-.navbar-brand img { height:50px; margin-right:10px; transition: transform 0.3s; }
-.navbar-brand:hover img { transform: scale(1.1); }
+.navbar-brand img { height:50px; margin-right:10px; transition:transform .3s; }
+.navbar-brand:hover img { transform:scale(1.1); }
 .navbar-nav .nav-link { color:#fff; font-weight:500; }
-.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color:var(--yellow); }
+.navbar-nav .nav-link:hover,.navbar-nav .nav-link.active { color:var(--yellow); }
 
 .section-title { text-align:center; margin-bottom:30px; color:var(--pink); }
 
-/* Search Card */
-#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff;
+ box-shadow:0 10px 30px rgba(0,0,0,0.15); }
 #filters { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; }
 .input-group-text { background:var(--blue); color:#fff; border:none; border-radius:12px 0 0 12px; }
-.form-control, .form-select { border-radius:0 12px 12px 0; border-left:none; }
+.form-control,.form-select { border-radius:0 12px 12px 0; border-left:none; }
 #filters button { flex:none; background:var(--blue); color:#fff; font-weight:600; border:none; border-radius:12px; }
 #filters button:hover { background:#0077cc; }
 
-/* Result Cards */
 .result-card-container { max-width:900px; margin:20px auto; }
-.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px;
+ box-shadow:0 6px 20px rgba(0,0,0,0.1); }
 .result-card h4 { color:var(--blue); margin-bottom:15px; text-align:center; }
 .result-card img.logo { height:80px; display:block; margin:0 auto 15px auto; }
 
-/* Subjects Table */
 .subjects-table { width:100%; border-collapse:collapse; margin-bottom:15px; }
-.subjects-table th, .subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
+.subjects-table th,.subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
 .subjects-table th { background:#0099FF; color:#fff; }
 .subjects-table .pass { background:#28a745; color:#fff; }
 .subjects-table .fail { background:#dc3545; color:#fff; }
 
-.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
+.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center;
+ font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
 
-/* Info Table */
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
 
-/* Footer */
-footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
+footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
 
-/* Responsive */
 @media(max-width:992px){
-  #filters { flex-direction:column; align-items:center; gap:10px; }
-  .input-group { width:100%; }
-  #filters button { width:100%; }
+  #filters{flex-direction:column;align-items:center;gap:10px;}
+  .input-group{width:100%;}
+  #filters button{width:100%;}
 }
 @media(max-width:576px){
-  #search-card { padding:15px 10px; }
-  .input-group-text { font-size:0.9rem; }
-  .form-control, .form-select { font-size:0.9rem; }
-  .subjects-table th, .subjects-table td { font-size:12px; padding:6px; }
-  .overall-result { font-size:0.95rem; padding:10px; }
-  #search-btn { font-size:1rem; }
+  #search-card{padding:15px 10px;}
+  .input-group-text{font-size:.9rem;}
+  .form-control,.form-select{font-size:.9rem;}
+  .subjects-table th,.subjects-table td{font-size:12px;padding:6px;}
+  .overall-result{font-size:.95rem;padding:10px;}
+  #search-btn{font-size:1rem;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container">
     <a class="navbar-brand" href="#">
@@ -92,14 +88,12 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
   </div>
 </nav>
 
-<!-- Page Title -->
 <section class="py-5 bg-light">
   <div class="container text-center">
     <h2 class="section-title">Check Your Result</h2>
   </div>
 </section>
 
-<!-- Search Card -->
 <div id="search-card">
   <div id="filters">
     <div class="input-group flex-fill">
@@ -130,15 +124,12 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
   </div>
 </div>
 
-<!-- Result Display -->
 <div id="result-container" class="result-card-container"></div>
 
-<!-- Download Button -->
 <div id="download-wrapper" class="text-center mt-3" style="display:none;">
   <button id="download-btn" class="btn btn-success"><i class="bi bi-download"></i> Download as Image</button>
 </div>
 
-<!-- Footer -->
 <footer>
   <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
 </footer>
@@ -148,141 +139,114 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-const WORKER_URL = "https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
-let studentResults = [];
-const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
+const WORKER_URL="https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
+let studentResults=[];
+let subjectTotals={};
+const logoBase64="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
 
-// Convert UTC date string (if any) to local YYYY-MM-DD
-function utcToLocalYMD(utcDateStr) {
-  if (!utcDateStr) return "";
-  const date = new Date(utcDateStr);
-  const local = new Date(date.getTime() + (date.getTimezoneOffset() * 60000 * -1));
-  const y = local.getFullYear();
-  const m = String(local.getMonth() + 1).padStart(2, '0');
-  const d = String(local.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
+function utcToLocalYMD(utcDateStr){
+ if(!utcDateStr)return"";
+ const date=new Date(utcDateStr);
+ const local=new Date(date.getTime()+(date.getTimezoneOffset()*60000*-1));
+ const y=local.getFullYear();
+ const m=String(local.getMonth()+1).padStart(2,'0');
+ const d=String(local.getDate()).padStart(2,'0');
+ return`${y}-${m}-${d}`;
 }
 
 // Fetch all results
 fetch(WORKER_URL)
-  .then(res => res.json())
-  .then(data => {
-    studentResults = data.map(s => ({
-      ...s,
-      "DOB": utcToLocalYMD(s["DOB"])
-    }));
+.then(res=>res.json())
+.then(data=>{
+  // detect totals row (first entry)
+  if(data[0]&&data[0]["__totals__"]){subjectTotals=data[0]["__totals__"];data=data.slice(1);}
+  studentResults=data.map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
 
-    const classSet = new Set();
-    const examSet = new Set();
-    studentResults.forEach(s => {
-      classSet.add(s["Class"]);
-      examSet.add(s["Exam Type"]);
-    });
+  const classSelect=document.getElementById('class-select');
+  const examSelect=document.getElementById('exam-select');
+  const classSet=new Set(),examSet=new Set();
+  studentResults.forEach(s=>{classSet.add(s["Class"]);examSet.add(s["Exam Type"]);});
+  classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
+  examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
+})
+.catch(err=>console.error("Error fetching data:",err));
 
-    const classSelect = document.getElementById('class-select');
-    classSet.forEach(c => classSelect.appendChild(new Option(c, c)));
+// Search button
+document.getElementById('search-btn').addEventListener('click',function(){
+ const roll=document.getElementById('roll-number').value.trim();
+ const cls=document.getElementById('class-select').value;
+ const section=document.getElementById('section-input').value.trim();
+ const exam=document.getElementById('exam-select').value;
+ const dob=document.getElementById('dob-input').value;
+ const container=document.getElementById('result-container');
+ const downloadWrapper=document.getElementById('download-wrapper');
+ downloadWrapper.style.display='none';
 
-    const examSelect = document.getElementById('exam-select');
-    examSet.forEach(e => examSelect.appendChild(new Option(e, e)));
-  })
-  .catch(err => console.error("Error fetching data:", err));
+ if(!roll||!cls||!section||!exam||!dob){
+   container.innerHTML='<p class="text-center mt-4 text-danger">Please fill all fields.</p>';
+   return;
+ }
 
-// Handle search
-document.getElementById('search-btn').addEventListener('click', function() {
-  const roll = document.getElementById('roll-number').value.trim();
-  const cls = document.getElementById('class-select').value;
-  const section = document.getElementById('section-input').value.trim();
-  const exam = document.getElementById('exam-select').value;
-  const dob = document.getElementById('dob-input').value;
-  const container = document.getElementById('result-container');
-  const downloadWrapper = document.getElementById('download-wrapper');
-  downloadWrapper.style.display = 'none';
+ const student=studentResults.find(s=>
+   String(s["Roll No"]).trim()===roll &&
+   String(s["Class"])===String(cls) &&
+   String(s["Section"]).toLowerCase()===section.toLowerCase() &&
+   String(s["Exam Type"]).trim()===exam &&
+   String(s["DOB"])===dob
+ );
 
-  if (!roll || !cls || !section || !exam || !dob) {
-    container.innerHTML = '<p class="text-center mt-4 text-danger">Please fill all fields.</p>';
-    return;
-  }
+ if(!student){container.innerHTML='<p class="text-center mt-4 text-danger">No student found.</p>';return;}
 
-  const student = studentResults.find(s =>
-    String(s["Roll No"]).trim() === roll &&
-    String(s["Class"]) === String(cls) &&
-    String(s["Section"]).toLowerCase() === section.toLowerCase() &&
-    String(s["Exam Type"]).trim() === exam &&
-    String(s["DOB"]) === dob
-  );
+ const subjectColumns=Object.keys(student).filter(h=>
+  !["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"].includes(h)
+ );
 
-  if (!student) {
-    container.innerHTML = '<p class="text-center mt-4 text-danger">No student found.</p>';
-    return;
-  }
+ let totalMarks=0,totalMax=0,subjectRows='';
 
-  const subjectColumns = Object.keys(student).filter(h =>
-    !["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"].includes(h)
-  );
+ subjectColumns.forEach(sub=>{
+   let val=student[sub];
+   if(val===""||val==null)return;
+   if(val==="AB")val="Absent";else val=Number(val);
 
-  let totalMarks = 0;
-  let subjectsCount = 0;
-  let subjectRows = '';
+   const isAbsent=val==="Absent";
+   const maxForSub=subjectTotals[sub]||100;
+   const marks=isAbsent?"Absent":val;
+   const passMark=Math.ceil(maxForSub*0.35);
+   const status=isAbsent?"Fail":(val>=passMark?"Pass":"Fail");
+   const rowClass=status==="Pass"?"pass":"fail";
 
-  subjectColumns.forEach(sub => {
-    let val = student[sub];
-    if (val === "" || val == null) return;
-    if (val === "AB") val = "Absent";
-    else val = Number(val);
+   subjectRows+=`<tr class="${rowClass}"><td>${sub}</td><td>${marks}</td><td>${maxForSub}</td><td>${status}</td></tr>`;
+   if(!isAbsent){totalMarks+=val;totalMax+=maxForSub;}
+ });
 
-    const isAbsent = val === "Absent";
-    const marks = isAbsent ? "Absent" : val;
-    const status = isAbsent ? "Fail" : (val >= 35 ? "Pass" : "Fail");
-    const rowClass = status === "Pass" ? "pass" : "fail";
+ const percentage=totalMax>0?((totalMarks/totalMax)*100).toFixed(2):0;
+ const hasFail=subjectRows.includes('class="fail"');
+ const overallStatus=(!hasFail&&percentage>=35)?"Pass":"Fail";
 
-    subjectRows += `
-      <tr class="${rowClass}">
-        <td>${sub}</td>
-        <td>${marks}</td>
-        <td>100</td>
-        <td>${status}</td>
-      </tr>
-    `;
-
-    if (!isAbsent) {
-      totalMarks += val;
-      subjectsCount++;
-    }
-  });
-
-  const maxMarks = subjectsCount * 100;
-  const percentage = ((totalMarks / maxMarks) * 100).toFixed(2);
-  const overallStatus = percentage >= 35 ? "Pass" : "Fail";
-
-  const html = `
-  <div class="result-card" id="printable-result">
-    <div id="image-content">
-      <img src="${logoBase64}" class="logo" alt="School Logo">
-      <h4>${student["Exam Type"]} Exam Result</h4>
-      <table class="info-table">
-        <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
-        <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
-        <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-      </table>
-
-      <table class="subjects-table">
-        <tr><th>Subject</th><th>Marks</th><th>Total</th><th>Result</th></tr>
-        ${subjectRows}
-      </table>
-
-      <div class="overall-result">
-        <p><strong>Total:</strong> ${totalMarks} / ${maxMarks}</p>
-        <p><strong>Percentage:</strong> ${percentage}%</p>
-        <p><strong>Grade:</strong> ${student["Grade"]}</p>
-        <p><strong>Overall Result:</strong> ${overallStatus}</p>
-      </div>
-    </div>
-  </div>`;
-
-  container.innerHTML = html;
-  downloadWrapper.style.display = 'block';
+ container.innerHTML=`
+ <div class="result-card" id="printable-result">
+  <div id="image-content">
+   <img src="${logoBase64}" class="logo" alt="School Logo">
+   <h4>${student["Exam Type"]} Exam Result</h4>
+   <table class="info-table">
+     <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
+     <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
+     <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
+   </table>
+   <table class="subjects-table">
+     <tr><th>Subject</th><th>Marks</th><th>Total</th><th>Result</th></tr>
+     ${subjectRows}
+   </table>
+   <div class="overall-result">
+     <p><strong>Total:</strong> ${totalMarks} / ${totalMax}</p>
+     <p><strong>Percentage:</strong> ${percentage}%</p>
+     <p><strong>Grade:</strong> ${student["Grade"]}</p>
+     <p><strong>Overall Result:</strong> ${overallStatus}</p>
+   </div>
+  </div>
+ </div>`;
+ downloadWrapper.style.display='block';
 });
 </script>
-
 </body>
 </html>
