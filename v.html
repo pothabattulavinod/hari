@@ -59,7 +59,6 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
   .input-group { width:100%; }
   #filters button { width:100%; }
 }
-
 @media(max-width:576px){
   #search-card { padding:15px 10px; }
   .input-group-text { font-size:0.9rem; }
@@ -70,6 +69,7 @@ footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-al
 }
 </style>
 </head>
+
 <body>
 
 <!-- Navbar -->
@@ -152,12 +152,14 @@ const WORKER_URL = "https://sweet-star-d68b.vinodyadavpothabattula666.workers.de
 let studentResults = [];
 const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
 
-// Convert UTC to local date
+// Convert UTC date string (if any) to local YYYY-MM-DD
 function utcToLocalYMD(utcDateStr) {
+  if (!utcDateStr) return "";
   const date = new Date(utcDateStr);
-  const y = date.getFullYear();
-  const m = String(date.getMonth()+1).padStart(2,'0');
-  const d = String(date.getDate()).padStart(2,'0');
+  const local = new Date(date.getTime() + (date.getTimezoneOffset() * 60000 * -1));
+  const y = local.getFullYear();
+  const m = String(local.getMonth() + 1).padStart(2, '0');
+  const d = String(local.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
 
@@ -170,7 +172,6 @@ fetch(WORKER_URL)
       "DOB": utcToLocalYMD(s["DOB"])
     }));
 
-    // Populate dropdowns
     const classSet = new Set();
     const examSet = new Set();
     studentResults.forEach(s => {
@@ -204,10 +205,10 @@ document.getElementById('search-btn').addEventListener('click', function() {
 
   const student = studentResults.find(s =>
     String(s["Roll No"]).trim() === roll &&
-    s["Class"] === cls &&
+    String(s["Class"]) === String(cls) &&
     String(s["Section"]).toLowerCase() === section.toLowerCase() &&
-    s["Exam Type"] === exam &&
-    s["DOB"] === dob
+    String(s["Exam Type"]).trim() === exam &&
+    String(s["DOB"]) === dob
   );
 
   if (!student) {
@@ -215,7 +216,6 @@ document.getElementById('search-btn').addEventListener('click', function() {
     return;
   }
 
-  // Prepare subject table
   const subjectColumns = Object.keys(student).filter(h =>
     !["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"].includes(h)
   );
@@ -226,7 +226,7 @@ document.getElementById('search-btn').addEventListener('click', function() {
 
   subjectColumns.forEach(sub => {
     let val = student[sub];
-    if (val === "" || val == null) return; // skip empty subjects
+    if (val === "" || val == null) return;
     if (val === "AB") val = "Absent";
     else val = Number(val);
 
@@ -283,5 +283,6 @@ document.getElementById('search-btn').addEventListener('click', function() {
   downloadWrapper.style.display = 'block';
 });
 </script>
+
 </body>
 </html>
