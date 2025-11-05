@@ -38,7 +38,7 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .subjects-table th,.subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
 .subjects-table th { background:#0099FF; color:#fff; }
 
-.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
+.overall-result { background:#ffe66d; padding:10px 15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
 
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
@@ -120,12 +120,10 @@ function utcToLocalYMD(utcDateStr){
 fetch(WORKER_URL)
 .then(res=>res.json())
 .then(data=>{
-  // Extract total marks row
   const totals = data.find(d=>d["Roll No"]==="Total Marks →");
   if(totals) { totalMarksRow = totals; }
   studentResults = data.filter(d=>d["Roll No"]!=="Total Marks →").map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
 
-  // Populate class and exam selects
   const classSet = new Set(), examSet = new Set();
   studentResults.forEach(s=>{ classSet.add(s["Class"]); examSet.add(s["Exam Type"]); });
   const classSelect = document.getElementById('class-select');
@@ -173,10 +171,15 @@ document.getElementById('search-btn').addEventListener('click',()=>{
     </tr>`;
   });
 
-  // Highlight Total / Grade / Rank if not empty
-  const totalHTML = student["Total"]?`<strong>Total:</strong> ${student["Total"]} / ${totalMax}`:'';
-  const gradeHTML = student["Grade"]?`<strong>Grade:</strong> ${student["Grade"]}`:'';
-  const rankHTML = student["Rank"]?`<strong>Rank:</strong> ${student["Rank"]}`:'';
+  // Highlight Total / Grade / Rank only if present
+  let highlightHTML='';
+  if(student["Total"] || student["Grade"] || student["Rank"]){
+    highlightHTML='<div class="overall-result">';
+    if(student["Total"]) highlightHTML += `<span><strong>Total:</strong> ${student["Total"]} / ${totalMax}</span> `;
+    if(student["Grade"]) highlightHTML += `<span style="margin-left:15px;"><strong>Grade:</strong> ${student["Grade"]}</span> `;
+    if(student["Rank"]) highlightHTML += `<span style="margin-left:15px;"><strong>Rank:</strong> ${student["Rank"]}</span>`;
+    highlightHTML+='</div>';
+  }
 
   container.innerHTML=`
   <div class="result-card">
@@ -186,8 +189,8 @@ document.getElementById('search-btn').addEventListener('click',()=>{
       <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
       <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
       <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-      <tr><td colspan="2">${totalHTML} ${gradeHTML} ${rankHTML}</td></tr>
     </table>
+    ${highlightHTML}
     <table class="subjects-table">
       <tr><th>Subject</th><th>Marks</th><th>Total</th></tr>
       ${subjectRows}
