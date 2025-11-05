@@ -14,8 +14,6 @@
 body { font-family:'Roboto',sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; }
 h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 
-.header-img { width:100%; height:auto; display:block; margin:0 auto; max-height:222px; object-fit:cover; }
-
 .navbar { background:linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
 .navbar-brand { font-weight:700; color:#fff; }
 .navbar-nav .nav-link { color:#fff; font-weight:500; }
@@ -34,37 +32,27 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
 .result-card h4 { color:#0099FF; margin-bottom:15px; text-align:center; }
 
+.header-image { width:100%; height:auto; max-height:222px; object-fit:cover; }
+
 .subjects-table { width:100%; border-collapse:collapse; margin-bottom:15px; }
 .subjects-table th,.subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
 .subjects-table th { background:#0099FF; color:#fff; }
 
-.overall-highlight { background:#ffe66d; padding:15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
+.overall-result { background:#ffe66d; padding:10px 15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
 
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
 
 footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
 
-@media(max-width:992px){
-  #filters{flex-direction:column;align-items:center;gap:10px;}
-  .input-group{width:100%;}
-  #filters button{width:100%;}
-}
-@media(max-width:576px){
-  #search-card{padding:15px 10px;}
-  .input-group-text{font-size:.9rem;}
-  .form-control,.form-select{font-size:.9rem;}
-  .subjects-table th,.subjects-table td{font-size:12px;padding:6px;}
-  .overall-highlight{font-size:.95rem;padding:10px;}
-  #search-btn{font-size:1rem;}
-}
+@media(max-width:992px){ #filters{flex-direction:column;align-items:center;gap:10px;} .input-group{width:100%;} #filters button{width:100%;} }
+@media(max-width:576px){ .subjects-table th,.subjects-table td{font-size:12px;padding:6px;} .header-image { max-height:150px; } }
 </style>
 </head>
-
 <body>
 
 <!-- Header Image -->
-<img src="https://raw.githubusercontent.com/pothabattulavinod/ad/refs/heads/main/HETSheader1.png" alt="Hari E Techno School" class="header-img">
+<img src="https://raw.githubusercontent.com/pothabattulavinod/ad/refs/heads/main/HETSheader1.png" alt="Hari E Techno School Header" class="header-image">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
@@ -83,14 +71,12 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
   </div>
 </nav>
 
-<!-- Page Title -->
 <section class="py-5 bg-light">
   <div class="container text-center">
     <h2 class="section-title">Check Your Result</h2>
   </div>
 </section>
 
-<!-- Search Card -->
 <div id="search-card">
   <div id="filters">
     <div class="input-group flex-fill">
@@ -99,9 +85,7 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-journal-bookmark"></i></span>
-      <select id="class-select" class="form-select">
-        <option value="">Select Class</option>
-      </select>
+      <select id="class-select" class="form-select"><option value="">Select Class</option></select>
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-building"></i></span>
@@ -109,9 +93,7 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-card-checklist"></i></span>
-      <select id="exam-select" class="form-select">
-        <option value="">Select Exam</option>
-      </select>
+      <select id="exam-select" class="form-select"><option value="">Select Exam</option></select>
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
@@ -121,18 +103,16 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
   </div>
 </div>
 
-<!-- Result Display -->
 <div id="result-container" class="result-card-container"></div>
 
 <footer>
   <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
 const WORKER_URL="https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
 let studentResults=[];
+let totalMarksRow={};
 
 // Convert UTC DOB to YYYY-MM-DD
 function utcToLocalYMD(utcDateStr){
@@ -146,19 +126,19 @@ function utcToLocalYMD(utcDateStr){
 fetch(WORKER_URL)
 .then(res=>res.json())
 .then(data=>{
-  // Remove totals row from studentResults
-  studentResults=data.filter(s=>s["Roll No"]!=="Total Marks →").map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
+  const totals = data.find(d=>d["Roll No"]==="Total Marks →");
+  if(totals) { totalMarksRow = totals; }
+  studentResults = data.filter(d=>d["Roll No"]!=="Total Marks →").map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
 
-  // Populate class and exam selects
-  const classSet=new Set(), examSet=new Set();
-  studentResults.forEach(s=>{classSet.add(s["Class"]); examSet.add(s["Exam Type"]);});
-  const classSelect=document.getElementById('class-select');
-  const examSelect=document.getElementById('exam-select');
+  const classSet = new Set(), examSet = new Set();
+  studentResults.forEach(s=>{ classSet.add(s["Class"]); examSet.add(s["Exam Type"]); });
+  const classSelect = document.getElementById('class-select');
+  const examSelect = document.getElementById('exam-select');
   classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
   examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
 });
 
-// Search and display
+// Search
 document.getElementById('search-btn').addEventListener('click',()=>{
   const roll=document.getElementById('roll-number').value.trim();
   const cls=document.getElementById('class-select').value;
@@ -167,12 +147,9 @@ document.getElementById('search-btn').addEventListener('click',()=>{
   const dob=document.getElementById('dob-input').value;
   const container=document.getElementById('result-container');
 
-  if(!roll||!cls||!section||!exam||!dob){
-    container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>';
-    return;
-  }
+  if(!roll||!cls||!section||!exam||!dob){ container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>'; return; }
 
-  const student=studentResults.find(s=>
+  const student = studentResults.find(s=>
     String(s["Roll No"])===roll &&
     String(s["Class"])===cls &&
     String(s["Section"]).toLowerCase()===section.toLowerCase() &&
@@ -182,16 +159,32 @@ document.getElementById('search-btn').addEventListener('click',()=>{
 
   if(!student){ container.innerHTML='<p class="text-center text-danger">No student found.</p>'; return; }
 
-  const infoCols=["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
-  const subjects=Object.keys(student).filter(k=>!infoCols.includes(k) && student[k]!=="");
+  const infoCols = ["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
+  const subjects = Object.keys(student).filter(k=>!infoCols.includes(k));
 
   let subjectRows='';
+  let totalObtained = 0, totalMax = 0;
+
   subjects.forEach(sub=>{
-    // Fetch total marks for this subject from totals row
-    let totalRow = studentResults.find(r=>r["Roll No"]==="Total Marks →");
-    let totalMarks = totalRow ? totalRow[sub] : 100;
-    subjectRows+=`<tr><td>${sub}</td><td>${student[sub]} / ${totalMarks}</td></tr>`;
+    const marks = student[sub];
+    const max = totalMarksRow[sub] || 100;
+    totalObtained += marks?Number(marks):0;
+    totalMax += max;
+    subjectRows += `<tr>
+      <td>${sub}</td>
+      <td>${marks}</td>
+      <td>${max}</td>
+    </tr>`;
   });
+
+  let highlightHTML='';
+  if(student["Total"] || student["Grade"] || student["Rank"]){
+    highlightHTML='<div class="overall-result">';
+    if(student["Total"]) highlightHTML += `<span><strong>Total:</strong> ${student["Total"]} / ${totalMax}</span> `;
+    if(student["Grade"]) highlightHTML += `<span style="margin-left:15px;"><strong>Grade:</strong> ${student["Grade"]}</span> `;
+    if(student["Rank"]) highlightHTML += `<span style="margin-left:15px;"><strong>Rank:</strong> ${student["Rank"]}</span>`;
+    highlightHTML+='</div>';
+  }
 
   container.innerHTML=`
   <div class="result-card">
@@ -200,18 +193,16 @@ document.getElementById('search-btn').addEventListener('click',()=>{
       <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
       <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
       <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-      ${(student["Total"]!="" || student["Grade"]!="" || student["Rank"]!=="")?`
-      <tr><td><strong>Total:</strong> ${student["Total"]} / ${totalRow["Total"] || 0}</td>
-          <td><strong>Grade:</strong> ${student["Grade"] || ""}</td>
-          <td><strong>Rank:</strong> ${student["Rank"] || ""}</td></tr>`:""}
     </table>
+    ${highlightHTML}
     <table class="subjects-table">
-      <tr><th>Subject</th><th>Marks</th></tr>
+      <tr><th>Subject</th><th>Marks</th><th>Total</th></tr>
       ${subjectRows}
     </table>
   </div>`;
 });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
