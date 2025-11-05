@@ -41,6 +41,8 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
 
+.overall-summary { background:#ffe66d; padding:12px 15px; border-radius:12px; font-weight:600; font-size:1.1rem; text-align:center; margin-top:15px; color:#2c3e50; }
+
 footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
 
 @media(max-width:992px){ #filters{flex-direction:column;align-items:center;gap:10px;} .input-group{width:100%;} #filters button{width:100%;} }
@@ -110,61 +112,68 @@ let totalMarksRow={};
 function utcToLocalYMD(utcDateStr){
   if(!utcDateStr) return "";
   const date=new Date(utcDateStr);
-  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  const y=date.getFullYear(), m=String(date.getMonth()+1).padStart(2,'0'), d=String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
 }
 
 // Fetch JSON
 fetch(WORKER_URL)
 .then(res=>res.json())
 .then(data=>{
-  totalMarksRow = data.find(s => s["Roll No"] === "Total Marks →") || {};
-  studentResults = data.filter(s => s["Roll No"] !== "Total Marks →")
-                        .map(s => ({...s, "DOB": utcToLocalYMD(s["DOB"])}));
+  // Detect total marks row
+  totalMarksRow = data.find(r => r["Roll No"] === "Total Marks →") || {};
+  studentResults = data.filter(r => r["Roll No"] !== "Total Marks →").map(s=>({...s, "DOB": utcToLocalYMD(s["DOB"])}));
 
+  // Populate class and exam selects
   const classSet = new Set(), examSet = new Set();
-  studentResults.forEach(s => { classSet.add(s["Class"]); examSet.add(s["Exam Type"]); });
+  studentResults.forEach(s=>{classSet.add(s["Class"]); examSet.add(s["Exam Type"]);});
   const classSelect = document.getElementById('class-select');
   const examSelect = document.getElementById('exam-select');
-  classSet.forEach(c => classSelect.appendChild(new Option(c,c)));
-  examSet.forEach(e => examSelect.appendChild(new Option(e,e)));
+  classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
+  examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
 });
 
-// Display result
-document.getElementById('search-btn').addEventListener('click', () => {
-  const roll = document.getElementById('roll-number').value.trim();
-  const cls = document.getElementById('class-select').value;
-  const section = document.getElementById('section-input').value.trim().toLowerCase();
-  const exam = document.getElementById('exam-select').value;
-  const dob = document.getElementById('dob-input').value;
-  const container = document.getElementById('result-container');
+// Search and display
+document.getElementById('search-btn').addEventListener('click', ()=>{
+  const roll=document.getElementById('roll-number').value.trim();
+  const cls=document.getElementById('class-select').value;
+  const section=document.getElementById('section-input').value.trim();
+  const exam=document.getElementById('exam-select').value;
+  const dob=document.getElementById('dob-input').value;
+  const container=document.getElementById('result-container');
 
-  if(!roll||!cls||!section||!exam||!dob){
-    container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>'; 
-    return;
-  }
+  if(!roll||!cls||!section||!exam||!dob){ container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>'; return; }
 
   const student = studentResults.find(s =>
     String(s["Roll No"]) === roll &&
     String(s["Class"]) === cls &&
-    String(s["Section"]).toLowerCase() === section &&
+    String(s["Section"]).toLowerCase() === section.toLowerCase() &&
     String(s["Exam Type"]) === exam &&
     String(s["DOB"]) === dob
   );
 
-  if(!student){
-    container.innerHTML='<p class="text-center text-danger">No student found.</p>'; 
-    return;
-  }
+  if(!student){ container.innerHTML='<p class="text-center text-danger">No student found.</p>'; return; }
 
   const infoCols = ["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
   const subjects = Object.keys(student).filter(k => !infoCols.includes(k));
 
   let subjectRows = '';
-  subjects.forEach(sub => {
-    const obtained = student[sub];
-    const max = totalMarksRow[sub] || '';
-    subjectRows += `<tr><td>${sub}</td><td>${obtained}</td><td>${max}</td></tr>`;
+  subjects.forEach(sub=>{
+    const totalSubMarks = totalMarksRow[sub] || '-';
+    subjectRows += `<tr><td>${sub}</td><td>${student[sub]}</td><td>${totalSubMarks}</td></tr>`;
   });
+
+  // Only show overall summary if at least one field has value
+  const hasSummary = student["Total"] || student["Grade"] || student["Rank"];
+
+  let overallHTML = '';
+  if(hasSummary){
+    overallHTML = `<div class="overall-summary">
+      ${student["Total"] ? `<p><strong>Total:</strong> ${student["Total"]} / ${totalMarksRow["Total"] || '-'}</p>` : ''}
+      ${student["Grade"] ? `<p><strong>Grade:</strong> ${student["Grade"]}</p>` : ''}
+      ${student["Rank"] ? `<p><strong>Rank:</strong> ${student["Rank"]}</p>` : ''}
+    </div>`;
+  }
 
   container.innerHTML = `
     <div class="result-card">
@@ -174,14 +183,13 @@ document.getElementById('search-btn').addEventListener('click', () => {
         <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
         <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
         <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-        <tr><td><strong>Total:</strong> ${student["Total"]} / ${totalMarksRow["Total"]}</td><td><strong>Grade:</strong> ${student["Grade"]}</td></tr>
       </table>
       <table class="subjects-table">
         <tr><th>Subject</th><th>Marks Obtained</th><th>Total Marks</th></tr>
         ${subjectRows}
       </table>
-    </div>
-  `;
+      ${overallHTML}
+    </div>`;
 });
 </script>
 
