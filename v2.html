@@ -104,83 +104,81 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
 </footer>
 
 <script>
-// New WORKER_URL
+// Worker URL
 const WORKER_URL = "https://rough-violet-f922.vinodyadavpothabattula666.workers.dev/";
 
 // Store attendance data
 let attendanceData = [];
 
-// Fetch attendance JSON
+// Convert UTC DOB to YYYY-MM-DD
+function utcToLocalYMD(utcDateStr){
+  if(!utcDateStr) return "";
+  const date=new Date(utcDateStr);
+  const y=date.getFullYear(), m=String(date.getMonth()+1).padStart(2,'0'), d=String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+
+// Fetch attendance data
 fetch(WORKER_URL)
   .then(res => res.json())
   .then(data => {
-    attendanceData = data; // keep original DOB and date keys as-is
+    attendanceData = data; // keep original keys as-is
 
     // Populate class dropdown
     const classSet = new Set(attendanceData.map(s => s.Class));
     const classSelect = document.getElementById('class-select');
-    classSet.forEach(c => classSelect.appendChild(new Option(c, c)));
+    classSet.forEach(c => classSelect.appendChild(new Option(c,c)));
   })
   .catch(err => console.error("Failed to fetch attendance data:", err));
 
-// Map sheet codes to full text
-const statusMap = {
-  "P": "Present",
-  "A": "Absent",
-  "L": "Late",
-  "LE": "Leave"
-};
+// Map codes to full status
+const statusMap = { "P":"Present", "A":"Absent", "L":"Late", "LE":"Leave" };
 
-// Format DOB (use as-is from sheet)
-function formatDOB(dobStr) {
-  return dobStr.split('T')[0] || dobStr;
-}
-
-// Search button click
-document.getElementById('search-btn').addEventListener('click', () => {
+// Search button
+document.getElementById('search-btn').addEventListener('click', ()=>{
   const roll = document.getElementById('roll-number').value.trim();
   const cls = document.getElementById('class-select').value;
   const section = document.getElementById('section-input').value.trim();
-  const dob = document.getElementById('dob-input').value;
+  const dobInput = document.getElementById('dob-input').value;
   const container = document.getElementById('result-container');
 
-  if(!roll || !cls || !section || !dob){
-    container.innerHTML = '<p class="text-center text-danger">Please fill all fields.</p>';
+  if(!roll || !cls || !section || !dobInput){
+    container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>';
     return;
   }
 
-  const student = attendanceData.find(s =>
-    String(s.Roll) === roll &&
-    String(s.Class) === cls &&
-    s.Section.toLowerCase() === section.toLowerCase() &&
-    formatDOB(s.DOB) === dob
+  const student = attendanceData.find(s=>
+    String(s.Roll)===roll &&
+    String(s.Class)===cls &&
+    s.Section.toLowerCase()===section.toLowerCase() &&
+    utcToLocalYMD(s.DOB)===dobInput
   );
 
   if(!student){
-    container.innerHTML = '<p class="text-center text-danger">No student found.</p>';
+    container.innerHTML='<p class="text-center text-danger">No student found.</p>';
     return;
   }
 
-  // Filter out info columns to get date columns
-  const infoCols = ["Roll","Name","Class","Section","DOB"];
-  const dateCols = Object.keys(student).filter(k => !infoCols.includes(k));
+  const infoCols=["Roll","Name","Class","Section","DOB"];
+  const dateCols = Object.keys(student).filter(k=>!infoCols.includes(k));
 
-  let rowsHTML = '';
-  dateCols.forEach(d => {
+  let rowsHTML='';
+  dateCols.forEach(d=>{
     const statusCode = student[d] || "";
-    rowsHTML += `<tr>
-      <td>${d}</td>
+    const formattedDate = utcToLocalYMD(d); // Convert attendance date
+    rowsHTML+=`<tr>
+      <td>${formattedDate}</td>
       <td>${statusMap[statusCode] || statusCode}</td>
     </tr>`;
   });
 
-  container.innerHTML = `
+  container.innerHTML=`
   <div class="result-card">
     <h4>Attendance Record</h4>
     <table class="info-table">
       <tr><td><strong>Name:</strong> ${student.Name}</td><td><strong>Roll No:</strong> ${student.Roll}</td></tr>
       <tr><td><strong>Class:</strong> ${student.Class}</td><td><strong>Section:</strong> ${student.Section}</td></tr>
-      <tr><td><strong>DOB:</strong> ${formatDOB(student.DOB)}</td></tr>
+      <tr><td><strong>DOB:</strong> ${utcToLocalYMD(student.DOB)}</td></tr>
     </table>
     <table class="attendance-table">
       <tr><th>Date</th><th>Status</th></tr>
