@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari E Techno School | Student Result</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Fredoka+One&display=swap" rel="stylesheet">
+
+<style>
+body { font-family:'Roboto',sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; }
+h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
+
+.navbar { background:linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
+.navbar-brand { font-weight:700; color:#fff; }
+.navbar-nav .nav-link { color:#fff; font-weight:500; }
+.navbar-nav .nav-link:hover,.navbar-nav .nav-link.active { color:#ffe66d; }
+
+.section-title { text-align:center; margin-bottom:30px; color:#ff6b6b; }
+
+#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+#filters { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; }
+.input-group-text { background:#0099FF; color:#fff; border:none; border-radius:12px 0 0 12px; }
+.form-control,.form-select { border-radius:0 12px 12px 0; border-left:none; }
+#filters button { flex:none; background:#0099FF; color:#fff; font-weight:600; border:none; border-radius:12px; }
+#filters button:hover { background:#0077cc; }
+
+.result-card-container { max-width:900px; margin:20px auto; }
+.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+.result-card h4 { color:#0099FF; margin-bottom:15px; text-align:center; }
+
+.header-image { width:100%; height:auto; max-height:222px; object-fit:cover; }
+
+.subjects-table { width:100%; border-collapse:collapse; margin-bottom:15px; }
+.subjects-table th,.subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
+.subjects-table th { background:#0099FF; color:#fff; }
+
+.overall-result { background:#ffe66d; padding:10px 15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
+
+.info-table { width:100%; margin-bottom:20px; }
+.info-table td { padding:5px 10px; font-weight:500; }
+
+footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
+
+@media(max-width:992px){ #filters{flex-direction:column;align-items:center;gap:10px;} .input-group{width:100%;} #filters button{width:100%;} }
+@media(max-width:576px){ .subjects-table th,.subjects-table td{font-size:12px;padding:6px;} .header-image { max-height:150px; } }
+</style>
+</head>
+<body>
+
+<!-- Header Image -->
+<img src="https://raw.githubusercontent.com/pothabattulavinod/ad/refs/heads/main/HETSheader1.png" alt="Hari E Techno School Header" class="header-image">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Hari E Techno School</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Results</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="section-title">Check Your Result</h2>
+  </div>
+</section>
+
+<div id="search-card">
+  <div id="filters">
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+      <input type="text" id="roll-number" placeholder="Roll Number" class="form-control">
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-journal-bookmark"></i></span>
+      <select id="class-select" class="form-select"><option value="">Select Class</option></select>
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-building"></i></span>
+      <input type="text" id="section-input" placeholder="Section" class="form-control">
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-card-checklist"></i></span>
+      <select id="exam-select" class="form-select"><option value="">Select Exam</option></select>
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+      <input type="date" id="dob-input" class="form-control">
+    </div>
+    <button id="search-btn" class="btn w-100 mt-2"><i class="bi bi-search"></i> Search</button>
+  </div>
+</div>
+
+<div id="result-container" class="result-card-container"></div>
+
+<footer>
+  <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
+</footer>
+
+<script>
+const WORKER_URL="https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
+let studentResults=[];
+let totalMarksRow={};
+
+// Convert UTC DOB to YYYY-MM-DD
+function utcToLocalYMD(utcDateStr){
+  if(!utcDateStr) return "";
+  const date=new Date(utcDateStr);
+  const y=date.getFullYear(), m=String(date.getMonth()+1).padStart(2,'0'), d=String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+
+// Fetch JSON
+fetch(WORKER_URL)
+.then(res=>res.json())
+.then(data=>{
+  const totals = data.find(d=>d["Roll No"]==="Total Marks →");
+  if(totals) { totalMarksRow = totals; }
+  studentResults = data.filter(d=>d["Roll No"]!=="Total Marks →").map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
+
+  const classSet = new Set(), examSet = new Set();
+  studentResults.forEach(s=>{ classSet.add(s["Class"]); examSet.add(s["Exam Type"]); });
+  const classSelect = document.getElementById('class-select');
+  const examSelect = document.getElementById('exam-select');
+  classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
+  examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
+});
+
+// Search
+document.getElementById('search-btn').addEventListener('click', () => {
+  const roll = document.getElementById('roll-number').value.trim();
+  const cls = document.getElementById('class-select').value;
+  const section = document.getElementById('section-input').value.trim();
+  const exam = document.getElementById('exam-select').value;
+  const dob = document.getElementById('dob-input').value;
+  const container = document.getElementById('result-container');
+
+  if (!roll || !cls || !section || !exam || !dob) {
+    container.innerHTML = '<p class="text-center text-danger">Please fill all fields.</p>';
+    return;
+  }
+
+  const student = studentResults.find(s =>
+    String(s["Roll No"]) === roll &&
+    String(s["Class"]) === cls &&
+    String(s["Section"]).toLowerCase() === section.toLowerCase() &&
+    String(s["Exam Type"]) === exam &&
+    String(s["DOB"]) === dob
+  );
+
+  if (!student) {
+    container.innerHTML = '<p class="text-center text-danger">No student found.</p>';
+    return;
+  }
+
+  const infoCols = ["Roll No", "Name", "Class", "Section", "DOB", "Exam Type", "Total", "Rank", "Grade"];
+  const subjects = Object.keys(student).filter(k => !infoCols.includes(k));
+
+  let subjectRows = '';
+  let totalObtained = 0, totalMax = 0;
+
+  subjects.forEach(sub => {
+    const marks = student[sub];
+    if (marks === null || marks === undefined || marks === "") return; // Skip empty subjects
+    const max = totalMarksRow[sub] || 100;
+    totalObtained += Number(marks);
+    totalMax += max;
+    subjectRows += `<tr>
+      <td>${sub}</td>
+      <td>${marks}</td>
+      <td>${max}</td>
+    </tr>`;
+  });
+
+  let highlightHTML = '';
+  if (student["Total"] || student["Grade"] || student["Rank"]) {
+    highlightHTML = '<div class="overall-result">';
+    if (student["Total"]) highlightHTML += `<span><strong>Total:</strong> ${student["Total"]} / ${totalMax}</span> `;
+    if (student["Grade"]) highlightHTML += `<span style="margin-left:15px;"><strong>Grade:</strong> ${student["Grade"]}</span> `;
+    if (student["Rank"]) highlightHTML += `<span style="margin-left:15px;"><strong>Rank:</strong> ${student["Rank"]}</span>`;
+    highlightHTML += '</div>';
+  }
+
+  container.innerHTML = `
+    <div class="result-card">
+      <h4>${student["Exam Type"]} Exam Result</h4>
+      <table class="info-table">
+        <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
+        <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
+        <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
+      </table>
+      ${highlightHTML}
+      <table class="subjects-table">
+        <tr><th>Subject</th><th>Marks</th><th>Total</th></tr>
+        ${subjectRows}
+      </table>
+    </div>`;
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
