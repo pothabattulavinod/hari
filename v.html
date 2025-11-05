@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Fredoka+One&display=swap" rel="stylesheet">
 
 <style>
-:root { --pink:#ff6b6b; --yellow:#ffe66d; --blue:#0099FF; --lightblue:#e7f5ff; }
 body { font-family:'Roboto',sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; }
 h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .navbar { background:linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
@@ -19,64 +18,41 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .navbar-brand img { height:50px; margin-right:10px; transition:transform .3s; }
 .navbar-brand:hover img { transform:scale(1.1); }
 .navbar-nav .nav-link { color:#fff; font-weight:500; }
-.navbar-nav .nav-link:hover,.navbar-nav .nav-link.active { color:var(--yellow); }
+.navbar-nav .nav-link:hover,.navbar-nav .nav-link.active { color:#ffe66d; }
 
-.section-title { text-align:center; margin-bottom:30px; color:var(--pink); }
+.section-title { text-align:center; margin-bottom:30px; color:#ff6b6b; }
 
-#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff;
- box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
 #filters { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; }
-.input-group-text { background:var(--blue); color:#fff; border:none; border-radius:12px 0 0 12px; }
+.input-group-text { background:#0099FF; color:#fff; border:none; border-radius:12px 0 0 12px; }
 .form-control,.form-select { border-radius:0 12px 12px 0; border-left:none; }
-#filters button { flex:none; background:var(--blue); color:#fff; font-weight:600; border:none; border-radius:12px; }
+#filters button { flex:none; background:#0099FF; color:#fff; font-weight:600; border:none; border-radius:12px; }
 #filters button:hover { background:#0077cc; }
 
 .result-card-container { max-width:900px; margin:20px auto; }
-.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px;
- box-shadow:0 6px 20px rgba(0,0,0,0.1); }
-.result-card h4 { color:var(--blue); margin-bottom:15px; text-align:center; }
+.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+.result-card h4 { color:#0099FF; margin-bottom:15px; text-align:center; }
 .result-card img.logo { height:80px; display:block; margin:0 auto 15px auto; }
 
 .subjects-table { width:100%; border-collapse:collapse; margin-bottom:15px; }
 .subjects-table th,.subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
 .subjects-table th { background:#0099FF; color:#fff; }
-.subjects-table .pass { background:#28a745; color:#fff; }
-.subjects-table .fail { background:#dc3545; color:#fff; }
-
-.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center;
- font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
 
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
 
 footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
 
-@media(max-width:992px){
-  #filters{flex-direction:column;align-items:center;gap:10px;}
-  .input-group{width:100%;}
-  #filters button{width:100%;}
-}
-@media(max-width:576px){
-  #search-card{padding:15px 10px;}
-  .input-group-text{font-size:.9rem;}
-  .form-control,.form-select{font-size:.9rem;}
-  .subjects-table th,.subjects-table td{font-size:12px;padding:6px;}
-  .overall-result{font-size:.95rem;padding:10px;}
-  #search-btn{font-size:1rem;}
-}
+@media(max-width:992px){ #filters{flex-direction:column;align-items:center;gap:10px;} .input-group{width:100%;} #filters button{width:100%;} }
+@media(max-width:576px){ #search-card{padding:15px 10px;} .input-group-text{font-size:.9rem;} .form-control,.form-select{font-size:.9rem;} .subjects-table th,.subjects-table td{font-size:12px;padding:6px;} }
 </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container">
-    <a class="navbar-brand" href="#">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA..." alt="Logo">
-      Hari E Techno School
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand" href="#"><img src="data:image/png;base64,iVBOR..." alt="Logo">Hari E Techno School</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse justify-content-end" id="navMenu">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
@@ -120,135 +96,84 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
 </div>
 
 <div id="result-container" class="result-card-container"></div>
-<div id="download-wrapper" class="text-center mt-3" style="display:none;">
-  <button id="download-btn" class="btn btn-success"><i class="bi bi-download"></i> Download as Image</button>
-</div>
 
 <footer>
   <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script>
 const WORKER_URL="https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
 let studentResults=[];
-let subjectTotals={};
-const logoBase64="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
 
+// Convert UTC DOB to YYYY-MM-DD
 function utcToLocalYMD(utcDateStr){
- if(!utcDateStr)return"";
- const date=new Date(utcDateStr);
- const local=new Date(date.getTime()+(date.getTimezoneOffset()*60000*-1));
- const y=local.getFullYear();
- const m=String(local.getMonth()+1).padStart(2,'0');
- const d=String(local.getDate()).padStart(2,'0');
- return`${y}-${m}-${d}`;
+  if(!utcDateStr) return "";
+  const date=new Date(utcDateStr);
+  const y=date.getFullYear(), m=String(date.getMonth()+1).padStart(2,'0'), d=String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
 }
 
-// Fetch data
+// Fetch JSON
 fetch(WORKER_URL)
 .then(res=>res.json())
 .then(data=>{
-  // Extract totals row (first row)
-  if(data[0]["Roll No"]==="Total Marks →"){
-      subjectTotals={...data[0]};
-      data=data.slice(1);
-  }
-  studentResults=data.map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
+  // Remove totals row from studentResults
+  studentResults=data.filter(s=>s["Roll No"]!=="Total Marks →").map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
 
+  // Populate class and exam selects
   const classSet=new Set(), examSet=new Set();
   studentResults.forEach(s=>{classSet.add(s["Class"]); examSet.add(s["Exam Type"]);});
-
   const classSelect=document.getElementById('class-select');
   const examSelect=document.getElementById('exam-select');
   classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
   examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
-})
-.catch(err=>console.error(err));
+});
 
-// Search button
-document.getElementById('search-btn').addEventListener('click', function(){
- const roll=document.getElementById('roll-number').value.trim();
- const cls=document.getElementById('class-select').value;
- const section=document.getElementById('section-input').value.trim();
- const exam=document.getElementById('exam-select').value;
- const dob=document.getElementById('dob-input').value;
- const container=document.getElementById('result-container');
- const downloadWrapper=document.getElementById('download-wrapper');
- downloadWrapper.style.display='none';
+// Search and display
+document.getElementById('search-btn').addEventListener('click',()=>{
+  const roll=document.getElementById('roll-number').value.trim();
+  const cls=document.getElementById('class-select').value;
+  const section=document.getElementById('section-input').value.trim();
+  const exam=document.getElementById('exam-select').value;
+  const dob=document.getElementById('dob-input').value;
+  const container=document.getElementById('result-container');
 
- if(!roll||!cls||!section||!exam||!dob){
-   container.innerHTML='<p class="text-center mt-4 text-danger">Please fill all fields.</p>';
-   return;
- }
+  if(!roll||!cls||!section||!exam||!dob){ container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>'; return; }
 
- const student=studentResults.find(s=>
-   String(s["Roll No"])===roll &&
-   String(s["Class"])===String(cls) &&
-   String(s["Section"]).toLowerCase()===section.toLowerCase() &&
-   String(s["Exam Type"])===exam &&
-   String(s["DOB"])===dob
- );
+  const student=studentResults.find(s=>
+    String(s["Roll No"])===roll &&
+    String(s["Class"])===cls &&
+    String(s["Section"]).toLowerCase()===section.toLowerCase() &&
+    String(s["Exam Type"])===exam &&
+    String(s["DOB"])===dob
+  );
 
- if(!student){container.innerHTML='<p class="text-center mt-4 text-danger">No student found.</p>'; return;}
+  if(!student){ container.innerHTML='<p class="text-center text-danger">No student found.</p>'; return; }
 
- const infoColumns=["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
- const subjectColumns=Object.keys(student).filter(h=>!infoColumns.includes(h));
+  const infoCols=["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
+  const subjects=Object.keys(student).filter(k=>!infoCols.includes(k));
 
- let totalMarks=0, totalMax=0, subjectRows='';
+  let subjectRows='';
+  subjects.forEach(sub=>{
+    subjectRows+=`<tr><td>${sub}</td><td>${student[sub]}</td></tr>`;
+  });
 
- subjectColumns.forEach(sub=>{
-   let val=student[sub];
-   if(val===""||val==null)return;
-   if(val==="AB") val="Absent"; else val=Number(val);
-
-   const isAbsent=val==="Absent";
-   const maxForSub=Number(subjectTotals[sub])||100;
-   const passMark=Math.ceil(maxForSub*0.35);
-   const marks=isAbsent?"Absent":val;
-   const status=isAbsent?"Fail":(val>=passMark?"Pass":"Fail");
-   const rowClass=status==="Pass"?"pass":"fail";
-
-   subjectRows+=`<tr class="${rowClass}">
-     <td>${sub}</td>
-     <td>${marks}</td>
-     <td>${maxForSub}</td>
-     <td>${status}</td>
-   </tr>`;
-
-   if(!isAbsent){totalMarks+=val; totalMax+=maxForSub;}
- });
-
- const percentage=totalMax>0?((totalMarks/totalMax)*100).toFixed(2):0;
- const overallStatus=subjectRows.includes('class="fail"')?"Fail":"Pass";
-
- container.innerHTML=`
- <div class="result-card" id="printable-result">
-   <div id="image-content">
-     <img src="${logoBase64}" class="logo" alt="School Logo">
-     <h4>${student["Exam Type"]} Exam Result</h4>
-     <table class="info-table">
-       <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
-       <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
-       <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-     </table>
-     <table class="subjects-table">
-       <tr><th>Subject</th><th>Marks</th><th>Total</th><th>Result</th></tr>
-       ${subjectRows}
-     </table>
-     <div class="overall-result">
-       <p><strong>Total:</strong> ${totalMarks} / ${totalMax}</p>
-       <p><strong>Percentage:</strong> ${percentage}%</p>
-       <p><strong>Grade:</strong> ${student["Grade"]}</p>
-       <p><strong>Overall Result:</strong> ${overallStatus}</p>
-     </div>
-   </div>
- </div>`;
- downloadWrapper.style.display='block';
+  container.innerHTML=`
+  <div class="result-card">
+    <img src="data:image/png;base64,iVBOR..." class="logo" alt="Logo">
+    <h4>${student["Exam Type"]} Exam Result</h4>
+    <table class="info-table">
+      <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
+      <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
+      <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
+      <tr><td><strong>Total:</strong> ${student["Total"]}</td><td><strong>Grade:</strong> ${student["Grade"]}</td></tr>
+    </table>
+    <table class="subjects-table">
+      <tr><th>Subject</th><th>Marks</th></tr>
+      ${subjectRows}
+    </table>
+  </div>`;
 });
 </script>
-
 </body>
 </html>
