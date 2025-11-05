@@ -114,10 +114,7 @@ let attendanceData = [];
 fetch(WORKER_URL)
   .then(res => res.json())
   .then(data => {
-    attendanceData = data.map(s => ({
-      ...s,
-      DOB: new Date(s.DOB).toISOString().split('T')[0]
-    }));
+    attendanceData = data; // keep original DOB and date keys as-is
 
     // Populate class dropdown
     const classSet = new Set(attendanceData.map(s => s.Class));
@@ -126,11 +123,17 @@ fetch(WORKER_URL)
   })
   .catch(err => console.error("Failed to fetch attendance data:", err));
 
-// Format DOB
-function formatDOB(utcDateStr){
-  const date = new Date(utcDateStr);
-  const y = date.getFullYear(), m = String(date.getMonth()+1).padStart(2,'0'), d = String(date.getDate()).padStart(2,'0');
-  return `${y}-${m}-${d}`;
+// Map sheet codes to full text
+const statusMap = {
+  "P": "Present",
+  "A": "Absent",
+  "L": "Late",
+  "LE": "Leave"
+};
+
+// Format DOB (use as-is from sheet)
+function formatDOB(dobStr) {
+  return dobStr.split('T')[0] || dobStr;
 }
 
 // Search button click
@@ -158,12 +161,17 @@ document.getElementById('search-btn').addEventListener('click', () => {
     return;
   }
 
+  // Filter out info columns to get date columns
   const infoCols = ["Roll","Name","Class","Section","DOB"];
   const dateCols = Object.keys(student).filter(k => !infoCols.includes(k));
 
   let rowsHTML = '';
   dateCols.forEach(d => {
-    rowsHTML += `<tr><td>${d}</td><td>${student[d]}</td></tr>`;
+    const statusCode = student[d] || "";
+    rowsHTML += `<tr>
+      <td>${d}</td>
+      <td>${statusMap[statusCode] || statusCode}</td>
+    </tr>`;
   });
 
   container.innerHTML = `
