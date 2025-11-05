@@ -23,8 +23,7 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 
 .section-title { text-align:center; margin-bottom:30px; color:var(--pink); }
 
-#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff;
- box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
 #filters { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; }
 .input-group-text { background:var(--blue); color:#fff; border:none; border-radius:12px 0 0 12px; }
 .form-control,.form-select { border-radius:0 12px 12px 0; border-left:none; }
@@ -32,8 +31,7 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 #filters button:hover { background:#0077cc; }
 
 .result-card-container { max-width:900px; margin:20px auto; }
-.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px;
- box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
 .result-card h4 { color:var(--blue); margin-bottom:15px; text-align:center; }
 .result-card img.logo { height:80px; display:block; margin:0 auto 15px auto; }
 
@@ -43,9 +41,7 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .subjects-table .pass { background:#28a745; color:#fff; }
 .subjects-table .fail { background:#dc3545; color:#fff; }
 
-.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center;
- font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
-
+.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
 
@@ -134,7 +130,6 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
   <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
 </footer>
 
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -144,34 +139,35 @@ let studentResults=[];
 let subjectTotals={};
 const logoBase64="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
 
+// Convert UTC to local YYYY-MM-DD
 function utcToLocalYMD(utcDateStr){
- if(!utcDateStr)return"";
+ if(!utcDateStr) return "";
  const date=new Date(utcDateStr);
  const local=new Date(date.getTime()+(date.getTimezoneOffset()*60000*-1));
  const y=local.getFullYear();
  const m=String(local.getMonth()+1).padStart(2,'0');
  const d=String(local.getDate()).padStart(2,'0');
- return`${y}-${m}-${d}`;
+ return `${y}-${m}-${d}`;
 }
 
-// Fetch all results
+// Fetch data
 fetch(WORKER_URL)
 .then(res=>res.json())
 .then(data=>{
-  // detect totals row (first entry)
-  if(data[0]&&data[0]["__totals__"]){subjectTotals=data[0]["__totals__"];data=data.slice(1);}
-  studentResults=data.map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
+  // Detect totals row if sent as special field
+  if(data[0] && data[0]["__totals__"]){subjectTotals=data[0]["__totals__"]; data=data.slice(1);}
+  studentResults = data.map(s => ({...s,"DOB":utcToLocalYMD(s["DOB"])}));
 
   const classSelect=document.getElementById('class-select');
   const examSelect=document.getElementById('exam-select');
-  const classSet=new Set(),examSet=new Set();
-  studentResults.forEach(s=>{classSet.add(s["Class"]);examSet.add(s["Exam Type"]);});
+  const classSet=new Set(), examSet=new Set();
+  studentResults.forEach(s=>{classSet.add(s["Class"]); examSet.add(s["Exam Type"]);});
   classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
   examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
 })
 .catch(err=>console.error("Error fetching data:",err));
 
-// Search button
+// Search
 document.getElementById('search-btn').addEventListener('click',function(){
  const roll=document.getElementById('roll-number').value.trim();
  const cls=document.getElementById('class-select').value;
@@ -195,33 +191,32 @@ document.getElementById('search-btn').addEventListener('click',function(){
    String(s["DOB"])===dob
  );
 
- if(!student){container.innerHTML='<p class="text-center mt-4 text-danger">No student found.</p>';return;}
+ if(!student){container.innerHTML='<p class="text-center mt-4 text-danger">No student found.</p>'; return;}
 
  const subjectColumns=Object.keys(student).filter(h=>
-  !["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"].includes(h)
+   !["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"].includes(h)
  );
 
- let totalMarks=0,totalMax=0,subjectRows='';
+ let totalMarks=0, totalMax=0, subjectRows='';
 
  subjectColumns.forEach(sub=>{
    let val=student[sub];
-   if(val===""||val==null)return;
-   if(val==="AB")val="Absent";else val=Number(val);
+   if(val===""||val==null) return;
+   if(val==="AB") val="Absent"; else val=Number(val);
 
    const isAbsent=val==="Absent";
-   const maxForSub=subjectTotals[sub]||100;
-   const marks=isAbsent?"Absent":val;
+   const maxForSub=subjectTotals[sub] || 100;
    const passMark=Math.ceil(maxForSub*0.35);
    const status=isAbsent?"Fail":(val>=passMark?"Pass":"Fail");
    const rowClass=status==="Pass"?"pass":"fail";
+   const marksDisplay=isAbsent?"Absent":val;
 
-   subjectRows+=`<tr class="${rowClass}"><td>${sub}</td><td>${marks}</td><td>${maxForSub}</td><td>${status}</td></tr>`;
-   if(!isAbsent){totalMarks+=val;totalMax+=maxForSub;}
+   subjectRows+=`<tr class="${rowClass}"><td>${sub}</td><td>${marksDisplay}</td><td>${maxForSub}</td><td>${status}</td></tr>`;
+   if(!isAbsent){totalMarks+=val; totalMax+=maxForSub;}
  });
 
  const percentage=totalMax>0?((totalMarks/totalMax)*100).toFixed(2):0;
- const hasFail=subjectRows.includes('class="fail"');
- const overallStatus=(!hasFail&&percentage>=35)?"Pass":"Fail";
+ const overallStatus=subjectRows.includes('class="fail"') || percentage<35 ? "Fail" : "Pass";
 
  container.innerHTML=`
  <div class="result-card" id="printable-result">
@@ -248,5 +243,6 @@ document.getElementById('search-btn').addEventListener('click',function(){
  downloadWrapper.style.display='block';
 });
 </script>
+
 </body>
 </html>
