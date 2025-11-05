@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari E Techno School | Student Result</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Fredoka+One&display=swap" rel="stylesheet">
+
+<style>
+:root { --pink:#ff6b6b; --yellow:#ffe66d; --blue:#0099FF; --lightblue:#e7f5ff; }
+body { font-family:'Roboto', sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; }
+h1,h2,h3,h4,h5 { font-family:'Fredoka One', cursive; margin:0; }
+.navbar { background: linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
+.navbar-brand { display:flex; align-items:center; font-weight:700; color:#fff; }
+.navbar-brand img { height:50px; margin-right:10px; transition: transform 0.3s; }
+.navbar-brand:hover img { transform: scale(1.1); }
+.navbar-nav .nav-link { color:#fff; font-weight:500; }
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color:var(--yellow); }
+
+.section-title { text-align:center; margin-bottom:30px; color:var(--pink); }
+
+/* Search Card */
+#search-card { max-width:950px; margin:20px auto; padding:30px; border-radius:20px; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+#filters { display:flex; gap:15px; flex-wrap:wrap; justify-content:center; }
+.input-group-text { background:var(--blue); color:#fff; border:none; border-radius:12px 0 0 12px; }
+.form-control, .form-select { border-radius:0 12px 12px 0; border-left:none; }
+#filters button { flex:none; background:var(--blue); color:#fff; font-weight:600; border:none; border-radius:12px; }
+#filters button:hover { background:#0077cc; }
+
+/* Result Cards */
+.result-card-container { max-width:900px; margin:20px auto; }
+.result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+.result-card h4 { color:var(--blue); margin-bottom:15px; text-align:center; }
+.result-card img.logo { height:80px; display:block; margin:0 auto 15px auto; }
+
+/* Subjects Table */
+.subjects-table { width:100%; border-collapse:collapse; margin-bottom:15px; }
+.subjects-table th, .subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
+.subjects-table th { background:#0099FF; color:#fff; }
+.subjects-table .pass { background:#28a745; color:#fff; }
+.subjects-table .fail { background:#dc3545; color:#fff; }
+
+.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
+
+/* Info Table */
+.info-table { width:100%; margin-bottom:20px; }
+.info-table td { padding:5px 10px; font-weight:500; }
+
+/* Footer */
+footer { background: linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
+
+/* Responsive */
+@media(max-width:992px){
+  #filters { flex-direction:column; align-items:center; gap:10px; }
+  .input-group { width:100%; }
+  #filters button { width:100%; }
+}
+
+@media(max-width:576px){
+  #search-card { padding:15px 10px; }
+  .input-group-text { font-size:0.9rem; }
+  .form-control, .form-select { font-size:0.9rem; }
+  .subjects-table th, .subjects-table td { font-size:12px; padding:6px; }
+  .overall-result { font-size:0.95rem; padding:10px; }
+  #search-btn { font-size:1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA..." alt="Logo">
+      Hari E Techno School
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#">Results</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Title -->
+<section class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="section-title">Check Your Result</h2>
+  </div>
+</section>
+
+<!-- Search Card -->
+<div id="search-card">
+  <div id="filters">
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+      <input type="text" id="roll-number" placeholder="Roll Number" class="form-control">
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-journal-bookmark"></i></span>
+      <select id="class-select" class="form-select">
+        <option value="">Select Class</option>
+      </select>
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-building"></i></span>
+      <input type="text" id="section-input" placeholder="Section" class="form-control">
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-card-checklist"></i></span>
+      <select id="exam-select" class="form-select">
+        <option value="">Select Exam</option>
+      </select>
+    </div>
+    <div class="input-group flex-fill">
+      <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+      <input type="date" id="dob-input" class="form-control">
+    </div>
+    <button id="search-btn" class="btn w-100 mt-2"><i class="bi bi-search"></i> Search</button>
+  </div>
+</div>
+
+<!-- Result Display -->
+<div id="result-container" class="result-card-container"></div>
+
+<!-- Download Button -->
+<div id="download-wrapper" class="text-center mt-3" style="display:none;">
+  <button id="download-btn" class="btn btn-success"><i class="bi bi-download"></i> Download as Image</button>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 Hari E Techno School, Rajanagaram | All Rights Reserved</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+const WORKER_URL = "https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
+let studentResults = [];
+const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
+
+// Convert UTC to local date
+function utcToLocalYMD(utcDateStr) {
+  const date = new Date(utcDateStr);
+  const y = date.getFullYear();
+  const m = String(date.getMonth()+1).padStart(2,'0');
+  const d = String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+
+// Fetch all results
+fetch(WORKER_URL)
+  .then(res => res.json())
+  .then(data => {
+    studentResults = data.map(s => ({
+      ...s,
+      "DOB": utcToLocalYMD(s["DOB"])
+    }));
+
+    // Populate dropdowns
+    const classSet = new Set();
+    const examSet = new Set();
+    studentResults.forEach(s => {
+      classSet.add(s["Class"]);
+      examSet.add(s["Exam Type"]);
+    });
+
+    const classSelect = document.getElementById('class-select');
+    classSet.forEach(c => classSelect.appendChild(new Option(c, c)));
+
+    const examSelect = document.getElementById('exam-select');
+    examSet.forEach(e => examSelect.appendChild(new Option(e, e)));
+  })
+  .catch(err => console.error("Error fetching data:", err));
+
+// Handle search
+document.getElementById('search-btn').addEventListener('click', function() {
+  const roll = document.getElementById('roll-number').value.trim();
+  const cls = document.getElementById('class-select').value;
+  const section = document.getElementById('section-input').value.trim();
+  const exam = document.getElementById('exam-select').value;
+  const dob = document.getElementById('dob-input').value;
+  const container = document.getElementById('result-container');
+  const downloadWrapper = document.getElementById('download-wrapper');
+  downloadWrapper.style.display = 'none';
+
+  if (!roll || !cls || !section || !exam || !dob) {
+    container.innerHTML = '<p class="text-center mt-4 text-danger">Please fill all fields.</p>';
+    return;
+  }
+
+  const student = studentResults.find(s =>
+    String(s["Roll No"]).trim() === roll &&
+    s["Class"] === cls &&
+    String(s["Section"]).toLowerCase() === section.toLowerCase() &&
+    s["Exam Type"] === exam &&
+    s["DOB"] === dob
+  );
+
+  if (!student) {
+    container.innerHTML = '<p class="text-center mt-4 text-danger">No student found.</p>';
+    return;
+  }
+
+  // Prepare subject table
+  const subjectColumns = Object.keys(student).filter(h =>
+    !["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"].includes(h)
+  );
+
+  let totalMarks = 0;
+  let subjectsCount = 0;
+  let subjectRows = '';
+
+  subjectColumns.forEach(sub => {
+    let val = student[sub];
+    if (val === "" || val == null) return; // skip empty subjects
+    if (val === "AB") val = "Absent";
+    else val = Number(val);
+
+    const isAbsent = val === "Absent";
+    const marks = isAbsent ? "Absent" : val;
+    const status = isAbsent ? "Fail" : (val >= 35 ? "Pass" : "Fail");
+    const rowClass = status === "Pass" ? "pass" : "fail";
+
+    subjectRows += `
+      <tr class="${rowClass}">
+        <td>${sub}</td>
+        <td>${marks}</td>
+        <td>100</td>
+        <td>${status}</td>
+      </tr>
+    `;
+
+    if (!isAbsent) {
+      totalMarks += val;
+      subjectsCount++;
+    }
+  });
+
+  const maxMarks = subjectsCount * 100;
+  const percentage = ((totalMarks / maxMarks) * 100).toFixed(2);
+  const overallStatus = percentage >= 35 ? "Pass" : "Fail";
+
+  const html = `
+  <div class="result-card" id="printable-result">
+    <div id="image-content">
+      <img src="${logoBase64}" class="logo" alt="School Logo">
+      <h4>${student["Exam Type"]} Exam Result</h4>
+      <table class="info-table">
+        <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
+        <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
+        <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
+      </table>
+
+      <table class="subjects-table">
+        <tr><th>Subject</th><th>Marks</th><th>Total</th><th>Result</th></tr>
+        ${subjectRows}
+      </table>
+
+      <div class="overall-result">
+        <p><strong>Total:</strong> ${totalMarks} / ${maxMarks}</p>
+        <p><strong>Percentage:</strong> ${percentage}%</p>
+        <p><strong>Grade:</strong> ${student["Grade"]}</p>
+        <p><strong>Overall Result:</strong> ${overallStatus}</p>
+      </div>
+    </div>
+  </div>`;
+
+  container.innerHTML = html;
+  downloadWrapper.style.display = 'block';
+});
+</script>
+</body>
+</html>
