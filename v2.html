@@ -121,8 +121,6 @@ fetch(WORKER_URL)
   .then(res=>res.json())
   .then(data=>{
     attendanceData = data;
-
-    // Populate class dropdown
     const classSet = new Set(attendanceData.map(s => s.Class));
     const classSelect = document.getElementById('class-select');
     classSet.forEach(c => classSelect.appendChild(new Option(c,c)));
@@ -133,28 +131,36 @@ fetch(WORKER_URL)
 const statusMap = { "P":"Present", "A":"Absent", "L":"Late", "LE":"Leave" };
 const statusColor = { "P":"green", "A":"red", "L":"orange", "LE":"gray" };
 
-// Generate month filter dropdown
-function generateMonthFilter(student, container) {
+// Helper: "Month Year" display
+function getMonthYear(dateStr){
+  const date = new Date(dateStr);
+  const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// Generate month filter with Month Name + Year
+function generateMonthFilter(student, container){
   const infoCols = ["Roll","Name","Class","Section","DOB"];
   const dateCols = Object.keys(student).filter(k => !infoCols.includes(k));
-  const monthsSet = new Set();
   const monthMap = {};
 
   dateCols.forEach(d=>{
     const dateObj = new Date(d);
-    const monthStr = `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2,'0')}`;
-    monthsSet.add(monthStr);
-    if(!monthMap[monthStr]) monthMap[monthStr]=[];
-    monthMap[monthStr].push(d);
+    const monthKey = `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2,'0')}`;
+    if(!monthMap[monthKey]) monthMap[monthKey]=[];
+    monthMap[monthKey].push(d);
   });
 
-  const months = Array.from(monthsSet).sort();
+  const months = Object.keys(monthMap).sort();
   const latestMonth = months[months.length-1];
 
   const monthSelect = document.createElement('select');
   monthSelect.className = "form-select my-2";
+
   months.forEach(m=>{
-    const option = new Option(m,m);
+    const [year, month] = m.split('-');
+    const monthName = getMonthYear(`${m}-01`);
+    const option = new Option(monthName, m);
     if(m===latestMonth) option.selected=true;
     monthSelect.appendChild(option);
   });
@@ -163,7 +169,7 @@ function generateMonthFilter(student, container) {
   return { monthSelect, monthMap, latestMonth };
 }
 
-// Render attendance table for selected month
+// Render attendance table
 function renderAttendanceTable(student, monthMap, selectedMonth, container){
   const dateCols = monthMap[selectedMonth] || [];
   let rowsHTML = '';
