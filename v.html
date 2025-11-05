@@ -38,15 +38,15 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .subjects-table th,.subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
 .subjects-table th { background:#0099FF; color:#fff; }
 
+.overall-result { background:#ffe66d; padding:15px; border-radius:12px; text-align:center; font-weight:600; font-size:1.1rem; margin-top:15px; color:#2c3e50; }
+
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
-
-.overall-summary { background:#ffe66d; padding:12px 15px; border-radius:12px; font-weight:600; font-size:1.1rem; text-align:center; margin-top:15px; color:#2c3e50; }
 
 footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
 
 @media(max-width:992px){ #filters{flex-direction:column;align-items:center;gap:10px;} .input-group{width:100%;} #filters button{width:100%;} }
-@media(max-width:576px){ #search-card{padding:15px 10px;} .input-group-text{font-size:.9rem;} .form-control,.form-select{font-size:.9rem;} .subjects-table th,.subjects-table td{font-size:12px;padding:6px;} }
+@media(max-width:576px){ .subjects-table th,.subjects-table td{font-size:12px;padding:6px;} }
 </style>
 </head>
 <body>
@@ -120,21 +120,22 @@ function utcToLocalYMD(utcDateStr){
 fetch(WORKER_URL)
 .then(res=>res.json())
 .then(data=>{
-  // Detect total marks row
-  totalMarksRow = data.find(r => r["Roll No"] === "Total Marks →") || {};
-  studentResults = data.filter(r => r["Roll No"] !== "Total Marks →").map(s=>({...s, "DOB": utcToLocalYMD(s["DOB"])}));
+  // Extract total marks row
+  const totals = data.find(d=>d["Roll No"]==="Total Marks →");
+  if(totals) { totalMarksRow = totals; }
+  studentResults = data.filter(d=>d["Roll No"]!=="Total Marks →").map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
 
   // Populate class and exam selects
   const classSet = new Set(), examSet = new Set();
-  studentResults.forEach(s=>{classSet.add(s["Class"]); examSet.add(s["Exam Type"]);});
+  studentResults.forEach(s=>{ classSet.add(s["Class"]); examSet.add(s["Exam Type"]); });
   const classSelect = document.getElementById('class-select');
   const examSelect = document.getElementById('exam-select');
   classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
   examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
 });
 
-// Search and display
-document.getElementById('search-btn').addEventListener('click', ()=>{
+// Search
+document.getElementById('search-btn').addEventListener('click',()=>{
   const roll=document.getElementById('roll-number').value.trim();
   const cls=document.getElementById('class-select').value;
   const section=document.getElementById('section-input').value.trim();
@@ -144,54 +145,55 @@ document.getElementById('search-btn').addEventListener('click', ()=>{
 
   if(!roll||!cls||!section||!exam||!dob){ container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>'; return; }
 
-  const student = studentResults.find(s =>
-    String(s["Roll No"]) === roll &&
-    String(s["Class"]) === cls &&
-    String(s["Section"]).toLowerCase() === section.toLowerCase() &&
-    String(s["Exam Type"]) === exam &&
-    String(s["DOB"]) === dob
+  const student = studentResults.find(s=>
+    String(s["Roll No"])===roll &&
+    String(s["Class"])===cls &&
+    String(s["Section"]).toLowerCase()===section.toLowerCase() &&
+    String(s["Exam Type"])===exam &&
+    String(s["DOB"])===dob
   );
 
   if(!student){ container.innerHTML='<p class="text-center text-danger">No student found.</p>'; return; }
 
   const infoCols = ["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
-  const subjects = Object.keys(student).filter(k => !infoCols.includes(k));
+  const subjects = Object.keys(student).filter(k=>!infoCols.includes(k));
 
-  let subjectRows = '';
+  let subjectRows='';
+  let totalObtained = 0, totalMax = 0;
+
   subjects.forEach(sub=>{
-    const totalSubMarks = totalMarksRow[sub] || '-';
-    subjectRows += `<tr><td>${sub}</td><td>${student[sub]}</td><td>${totalSubMarks}</td></tr>`;
+    const marks = student[sub];
+    const max = totalMarksRow[sub] || 100;
+    totalObtained += marks?Number(marks):0;
+    totalMax += max;
+    subjectRows += `<tr>
+      <td>${sub}</td>
+      <td>${marks}</td>
+      <td>${max}</td>
+    </tr>`;
   });
 
-  // Only show overall summary if at least one field has value
-  const hasSummary = student["Total"] || student["Grade"] || student["Rank"];
+  // Highlight Total / Grade / Rank if not empty
+  const totalHTML = student["Total"]?`<strong>Total:</strong> ${student["Total"]} / ${totalMax}`:'';
+  const gradeHTML = student["Grade"]?`<strong>Grade:</strong> ${student["Grade"]}`:'';
+  const rankHTML = student["Rank"]?`<strong>Rank:</strong> ${student["Rank"]}`:'';
 
-  let overallHTML = '';
-  if(hasSummary){
-    overallHTML = `<div class="overall-summary">
-      ${student["Total"] ? `<p><strong>Total:</strong> ${student["Total"]} / ${totalMarksRow["Total"] || '-'}</p>` : ''}
-      ${student["Grade"] ? `<p><strong>Grade:</strong> ${student["Grade"]}</p>` : ''}
-      ${student["Rank"] ? `<p><strong>Rank:</strong> ${student["Rank"]}</p>` : ''}
-    </div>`;
-  }
-
-  container.innerHTML = `
-    <div class="result-card">
-      <img src="data:image/png;base64,iVBOR..." class="logo" alt="Logo">
-      <h4>${student["Exam Type"]} Exam Result</h4>
-      <table class="info-table">
-        <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
-        <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
-        <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-      </table>
-      <table class="subjects-table">
-        <tr><th>Subject</th><th>Marks Obtained</th><th>Total Marks</th></tr>
-        ${subjectRows}
-      </table>
-      ${overallHTML}
-    </div>`;
+  container.innerHTML=`
+  <div class="result-card">
+    <img src="data:image/png;base64,iVBOR..." class="logo" alt="Logo">
+    <h4>${student["Exam Type"]} Exam Result</h4>
+    <table class="info-table">
+      <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
+      <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
+      <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
+      <tr><td colspan="2">${totalHTML} ${gradeHTML} ${rankHTML}</td></tr>
+    </table>
+    <table class="subjects-table">
+      <tr><th>Subject</th><th>Marks</th><th>Total</th></tr>
+      ${subjectRows}
+    </table>
+  </div>`;
 });
 </script>
-
 </body>
 </html>
