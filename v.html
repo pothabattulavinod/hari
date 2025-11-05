@@ -14,9 +14,6 @@
 body { font-family:'Roboto',sans-serif; background:#f8f9fa; color:#2c3e50; margin:0; }
 h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .navbar { background:linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
-.navbar-brand { display:flex; align-items:center; font-weight:700; color:#fff; }
-.navbar-brand img { height:50px; margin-right:10px; transition:transform .3s; }
-.navbar-brand:hover img { transform:scale(1.1); }
 .navbar-nav .nav-link { color:#fff; font-weight:500; }
 .navbar-nav .nav-link:hover,.navbar-nav .nav-link.active { color:#ffe66d; }
 
@@ -32,7 +29,8 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .result-card-container { max-width:900px; margin:20px auto; }
 .result-card { background:#fff; border-radius:15px; padding:20px; margin-bottom:20px; box-shadow:0 6px 20px rgba(0,0,0,0.1); }
 .result-card h4 { color:#0099FF; margin-bottom:15px; text-align:center; }
-.result-card img.logo { height:80px; display:block; margin:0 auto 15px auto; }
+
+.header-image { width:100%; height:auto; max-height:222px; object-fit:cover; margin-bottom:20px; }
 
 .subjects-table { width:100%; border-collapse:collapse; margin-bottom:15px; }
 .subjects-table th,.subjects-table td { border:1px solid #ddd; padding:10px; text-align:center; font-weight:500; }
@@ -46,24 +44,13 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
 
 @media(max-width:992px){ #filters{flex-direction:column;align-items:center;gap:10px;} .input-group{width:100%;} #filters button{width:100%;} }
-@media(max-width:576px){ .subjects-table th,.subjects-table td{font-size:12px;padding:6px;} }
+@media(max-width:576px){ .subjects-table th,.subjects-table td{font-size:12px;padding:6px;} .header-image { max-height:150px; } }
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="#"><img src="data:image/png;base64,iVBOR..." alt="Logo">Hari E Techno School</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-        <li class="nav-item"><a class="nav-link active" href="#">Results</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<!-- Header Image -->
+<img src="https://raw.githubusercontent.com/pothabattulavinod/ad/refs/heads/main/HETSheader1.png" alt="Hari E Techno School Header" class="header-image">
 
 <section class="py-5 bg-light">
   <div class="container text-center">
@@ -171,7 +158,6 @@ document.getElementById('search-btn').addEventListener('click',()=>{
     </tr>`;
   });
 
-  // Highlight Total / Grade / Rank only if present
   let highlightHTML='';
   if(student["Total"] || student["Grade"] || student["Rank"]){
     highlightHTML='<div class="overall-result">';
@@ -183,7 +169,6 @@ document.getElementById('search-btn').addEventListener('click',()=>{
 
   container.innerHTML=`
   <div class="result-card">
-    <img src="data:image/png;base64,iVBOR..." class="logo" alt="Logo">
     <h4>${student["Exam Type"]} Exam Result</h4>
     <table class="info-table">
       <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
