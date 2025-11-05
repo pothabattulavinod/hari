@@ -101,9 +101,7 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-journal-bookmark"></i></span>
-      <select id="class-select" class="form-select">
-        <option value="">Select Class</option>
-      </select>
+      <select id="class-select" class="form-select"><option value="">Select Class</option></select>
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-building"></i></span>
@@ -111,9 +109,7 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-card-checklist"></i></span>
-      <select id="exam-select" class="form-select">
-        <option value="">Select Exam</option>
-      </select>
+      <select id="exam-select" class="form-select"><option value="">Select Exam</option></select>
     </div>
     <div class="input-group flex-fill">
       <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
@@ -124,7 +120,6 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
 </div>
 
 <div id="result-container" class="result-card-container"></div>
-
 <div id="download-wrapper" class="text-center mt-3" style="display:none;">
   <button id="download-btn" class="btn btn-success"><i class="bi bi-download"></i> Download as Image</button>
 </div>
@@ -137,117 +132,123 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-const WORKER_URL = "https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
-let studentResults = [];
-let subjectTotals = {};
-const logoBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
+const WORKER_URL="https://sweet-star-d68b.vinodyadavpothabattula666.workers.dev/?key=mySecret123";
+let studentResults=[];
+let subjectTotals={};
+const logoBase64="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAA...";
 
 function utcToLocalYMD(utcDateStr){
-  if(!utcDateStr) return "";
-  const date = new Date(utcDateStr);
-  const local = new Date(date.getTime() + (date.getTimezoneOffset() * 60000 * -1));
-  const y = local.getFullYear();
-  const m = String(local.getMonth()+1).padStart(2,'0');
-  const d = String(local.getDate()).padStart(2,'0');
-  return `${y}-${m}-${d}`;
+ if(!utcDateStr)return"";
+ const date=new Date(utcDateStr);
+ const local=new Date(date.getTime()+(date.getTimezoneOffset()*60000*-1));
+ const y=local.getFullYear();
+ const m=String(local.getMonth()+1).padStart(2,'0');
+ const d=String(local.getDate()).padStart(2,'0');
+ return`${y}-${m}-${d}`;
 }
 
-// Fetch all results
+// Fetch data
 fetch(WORKER_URL)
-  .then(res => res.json())
-  .then(data => {
-    if(data[0] && data[0]["__totals__"]) {
-      subjectTotals = data[0]["__totals__"];
-      data = data.slice(1);
-    }
-    studentResults = data.map(s => ({ ...s, "DOB": utcToLocalYMD(s["DOB"]) }));
+.then(res=>res.json())
+.then(data=>{
+  // Extract totals row (first row)
+  if(data[0]["Roll No"]==="Total Marks →"){
+      subjectTotals={...data[0]};
+      data=data.slice(1);
+  }
+  studentResults=data.map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
 
-    const classSelect = document.getElementById('class-select');
-    const examSelect = document.getElementById('exam-select');
-    const classSet = new Set(), examSet = new Set();
-    studentResults.forEach(s => { if(s["Class"]) classSet.add(s["Class"].toString().trim()); if(s["Exam Type"]) examSet.add(s["Exam Type"].toString().trim()); });
-    classSet.forEach(c => classSelect.appendChild(new Option(c,c)));
-    examSet.forEach(e => examSelect.appendChild(new Option(e,e)));
-  })
-  .catch(err => console.error("Error fetching data:", err));
+  const classSet=new Set(), examSet=new Set();
+  studentResults.forEach(s=>{classSet.add(s["Class"]); examSet.add(s["Exam Type"]);});
+
+  const classSelect=document.getElementById('class-select');
+  const examSelect=document.getElementById('exam-select');
+  classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
+  examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
+})
+.catch(err=>console.error(err));
 
 // Search button
-document.getElementById('search-btn').addEventListener('click', function() {
-  const roll = document.getElementById('roll-number').value.trim();
-  const cls = document.getElementById('class-select').value.trim();
-  const section = document.getElementById('section-input').value.trim().toLowerCase();
-  const exam = document.getElementById('exam-select').value.trim();
-  const dobInput = document.getElementById('dob-input').value.trim();
-  const container = document.getElementById('result-container');
-  const downloadWrapper = document.getElementById('download-wrapper');
-  downloadWrapper.style.display = 'none';
+document.getElementById('search-btn').addEventListener('click', function(){
+ const roll=document.getElementById('roll-number').value.trim();
+ const cls=document.getElementById('class-select').value;
+ const section=document.getElementById('section-input').value.trim();
+ const exam=document.getElementById('exam-select').value;
+ const dob=document.getElementById('dob-input').value;
+ const container=document.getElementById('result-container');
+ const downloadWrapper=document.getElementById('download-wrapper');
+ downloadWrapper.style.display='none';
 
-  if(!roll || !cls || !section || !exam || !dobInput){
-    container.innerHTML = '<p class="text-center mt-4 text-danger">Please fill all fields.</p>';
-    return;
-  }
+ if(!roll||!cls||!section||!exam||!dob){
+   container.innerHTML='<p class="text-center mt-4 text-danger">Please fill all fields.</p>';
+   return;
+ }
 
-  const student = studentResults.find(s =>
-    s["Roll No"].toString().trim() === roll &&
-    s["Class"].toString().trim() === cls &&
-    (s["Section"]||"").toString().trim().toLowerCase() === section &&
-    s["Exam Type"].toString().trim().toLowerCase() === exam.toLowerCase() &&
-    s["DOB"] === dobInput
-  );
+ const student=studentResults.find(s=>
+   String(s["Roll No"])===roll &&
+   String(s["Class"])===String(cls) &&
+   String(s["Section"]).toLowerCase()===section.toLowerCase() &&
+   String(s["Exam Type"])===exam &&
+   String(s["DOB"])===dob
+ );
 
-  if(!student){
-    container.innerHTML = '<p class="text-center mt-4 text-danger">No student found. Check all fields and DOB format (YYYY-MM-DD).</p>';
-    console.log("Student not found. Search values:", {roll, cls, section, exam, dobInput});
-    console.log("Available students:", studentResults);
-    return;
-  }
+ if(!student){container.innerHTML='<p class="text-center mt-4 text-danger">No student found.</p>'; return;}
 
-  const subjectColumns = Object.keys(student).filter(h => !["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"].includes(h));
-  let totalMarks=0, totalMax=0, subjectRows='';
+ const infoColumns=["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
+ const subjectColumns=Object.keys(student).filter(h=>!infoColumns.includes(h));
 
-  subjectColumns.forEach(sub => {
-    let val = student[sub];
-    if(val === "" || val == null) return;
-    if(val === "AB") val = "Absent"; else val = Number(val);
-    const isAbsent = val === "Absent";
-    const maxForSub = subjectTotals[sub] || 100;
-    const marks = isAbsent ? "Absent" : val;
-    const passMark = Math.ceil(maxForSub * 0.35);
-    const status = isAbsent ? "Fail" : (val >= passMark ? "Pass" : "Fail");
-    const rowClass = status === "Pass" ? "pass" : "fail";
-    subjectRows += `<tr class="${rowClass}"><td>${sub}</td><td>${marks}</td><td>${maxForSub}</td><td>${status}</td></tr>`;
-    if(!isAbsent){ totalMarks += val; totalMax += maxForSub; }
-  });
+ let totalMarks=0, totalMax=0, subjectRows='';
 
-  const percentage = totalMax>0 ? ((totalMarks/totalMax)*100).toFixed(2) : 0;
-  const hasFail = subjectRows.includes('class="fail"');
-  const overallStatus = (!hasFail && percentage >= 35) ? "Pass" : "Fail";
+ subjectColumns.forEach(sub=>{
+   let val=student[sub];
+   if(val===""||val==null)return;
+   if(val==="AB") val="Absent"; else val=Number(val);
 
-  container.innerHTML = `
-    <div class="result-card" id="printable-result">
-      <div id="image-content">
-        <img src="${logoBase64}" class="logo" alt="School Logo">
-        <h4>${student["Exam Type"]} Exam Result</h4>
-        <table class="info-table">
-          <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
-          <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
-          <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-        </table>
-        <table class="subjects-table">
-          <tr><th>Subject</th><th>Marks</th><th>Total</th><th>Result</th></tr>
-          ${subjectRows}
-        </table>
-        <div class="overall-result">
-          <p><strong>Total:</strong> ${totalMarks} / ${totalMax}</p>
-          <p><strong>Percentage:</strong> ${percentage}%</p>
-          <p><strong>Grade:</strong> ${student["Grade"]}</p>
-          <p><strong>Overall Result:</strong> ${overallStatus}</p>
-        </div>
-      </div>
-    </div>
-  `;
-  downloadWrapper.style.display = 'block';
+   const isAbsent=val==="Absent";
+   const maxForSub=Number(subjectTotals[sub])||100;
+   const passMark=Math.ceil(maxForSub*0.35);
+   const marks=isAbsent?"Absent":val;
+   const status=isAbsent?"Fail":(val>=passMark?"Pass":"Fail");
+   const rowClass=status==="Pass"?"pass":"fail";
+
+   subjectRows+=`<tr class="${rowClass}">
+     <td>${sub}</td>
+     <td>${marks}</td>
+     <td>${maxForSub}</td>
+     <td>${status}</td>
+   </tr>`;
+
+   if(!isAbsent){totalMarks+=val; totalMax+=maxForSub;}
+ });
+
+ const percentage=totalMax>0?((totalMarks/totalMax)*100).toFixed(2):0;
+ const overallStatus=subjectRows.includes('class="fail"')?"Fail":"Pass";
+
+ container.innerHTML=`
+ <div class="result-card" id="printable-result">
+   <div id="image-content">
+     <img src="${logoBase64}" class="logo" alt="School Logo">
+     <h4>${student["Exam Type"]} Exam Result</h4>
+     <table class="info-table">
+       <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
+       <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
+       <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
+     </table>
+     <table class="subjects-table">
+       <tr><th>Subject</th><th>Marks</th><th>Total</th><th>Result</th></tr>
+       ${subjectRows}
+     </table>
+     <div class="overall-result">
+       <p><strong>Total:</strong> ${totalMarks} / ${totalMax}</p>
+       <p><strong>Percentage:</strong> ${percentage}%</p>
+       <p><strong>Grade:</strong> ${student["Grade"]}</p>
+       <p><strong>Overall Result:</strong> ${overallStatus}</p>
+     </div>
+   </div>
+ </div>`;
+ downloadWrapper.style.display='block';
 });
 </script>
+
 </body>
 </html>
