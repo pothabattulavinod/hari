@@ -106,11 +106,9 @@ footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-ali
 <script>
 // Worker URL
 const WORKER_URL = "https://rough-violet-f922.vinodyadavpothabattula666.workers.dev/";
-
-// Store attendance data
 let attendanceData = [];
 
-// Convert UTC DOB to YYYY-MM-DD
+// Convert UTC date to YYYY-MM-DD
 function utcToLocalYMD(utcDateStr){
   if(!utcDateStr) return "";
   const date=new Date(utcDateStr);
@@ -120,21 +118,70 @@ function utcToLocalYMD(utcDateStr){
 
 // Fetch attendance data
 fetch(WORKER_URL)
-  .then(res => res.json())
-  .then(data => {
-    attendanceData = data; // keep original keys as-is
+  .then(res=>res.json())
+  .then(data=>{
+    attendanceData = data;
 
     // Populate class dropdown
     const classSet = new Set(attendanceData.map(s => s.Class));
     const classSelect = document.getElementById('class-select');
     classSet.forEach(c => classSelect.appendChild(new Option(c,c)));
   })
-  .catch(err => console.error("Failed to fetch attendance data:", err));
+  .catch(err=>console.error("Failed to fetch attendance data:", err));
 
-// Map codes to full status
+// Map codes to full status and colors
 const statusMap = { "P":"Present", "A":"Absent", "L":"Late", "LE":"Leave" };
+const statusColor = { "P":"green", "A":"red", "L":"orange", "LE":"gray" };
 
-// Search button
+// Generate month filter dropdown
+function generateMonthFilter(student, container) {
+  const infoCols = ["Roll","Name","Class","Section","DOB"];
+  const dateCols = Object.keys(student).filter(k => !infoCols.includes(k));
+  const monthsSet = new Set();
+  const monthMap = {};
+
+  dateCols.forEach(d=>{
+    const dateObj = new Date(d);
+    const monthStr = `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2,'0')}`;
+    monthsSet.add(monthStr);
+    if(!monthMap[monthStr]) monthMap[monthStr]=[];
+    monthMap[monthStr].push(d);
+  });
+
+  const months = Array.from(monthsSet).sort();
+  const latestMonth = months[months.length-1];
+
+  const monthSelect = document.createElement('select');
+  monthSelect.className = "form-select my-2";
+  months.forEach(m=>{
+    const option = new Option(m,m);
+    if(m===latestMonth) option.selected=true;
+    monthSelect.appendChild(option);
+  });
+
+  container.appendChild(monthSelect);
+  return { monthSelect, monthMap, latestMonth };
+}
+
+// Render attendance table for selected month
+function renderAttendanceTable(student, monthMap, selectedMonth, container){
+  const dateCols = monthMap[selectedMonth] || [];
+  let rowsHTML = '';
+  dateCols.forEach(d=>{
+    const statusCode = student[d] || "";
+    const formattedDate = utcToLocalYMD(d);
+    rowsHTML += `<tr>
+      <td>${formattedDate}</td>
+      <td style="color:${statusColor[statusCode] || 'black'}; font-weight:600;">${statusMap[statusCode] || statusCode}</td>
+    </tr>`;
+  });
+
+  container.querySelector('.attendance-table').innerHTML = `
+    <tr><th>Date</th><th>Status</th></tr>
+    ${rowsHTML}`;
+}
+
+// Search button click
 document.getElementById('search-btn').addEventListener('click', ()=>{
   const roll = document.getElementById('roll-number').value.trim();
   const cls = document.getElementById('class-select').value;
@@ -142,7 +189,7 @@ document.getElementById('search-btn').addEventListener('click', ()=>{
   const dobInput = document.getElementById('dob-input').value;
   const container = document.getElementById('result-container');
 
-  if(!roll || !cls || !section || !dobInput){
+  if(!roll||!cls||!section||!dobInput){
     container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>';
     return;
   }
@@ -159,19 +206,6 @@ document.getElementById('search-btn').addEventListener('click', ()=>{
     return;
   }
 
-  const infoCols=["Roll","Name","Class","Section","DOB"];
-  const dateCols = Object.keys(student).filter(k=>!infoCols.includes(k));
-
-  let rowsHTML='';
-  dateCols.forEach(d=>{
-    const statusCode = student[d] || "";
-    const formattedDate = utcToLocalYMD(d); // Convert attendance date
-    rowsHTML+=`<tr>
-      <td>${formattedDate}</td>
-      <td>${statusMap[statusCode] || statusCode}</td>
-    </tr>`;
-  });
-
   container.innerHTML=`
   <div class="result-card">
     <h4>Attendance Record</h4>
@@ -180,11 +214,18 @@ document.getElementById('search-btn').addEventListener('click', ()=>{
       <tr><td><strong>Class:</strong> ${student.Class}</td><td><strong>Section:</strong> ${student.Section}</td></tr>
       <tr><td><strong>DOB:</strong> ${utcToLocalYMD(student.DOB)}</td></tr>
     </table>
-    <table class="attendance-table">
-      <tr><th>Date</th><th>Status</th></tr>
-      ${rowsHTML}
-    </table>
+    <div id="month-filter-container"></div>
+    <table class="attendance-table"></table>
   </div>`;
+
+  const monthContainer = container.querySelector('#month-filter-container');
+  const { monthSelect, monthMap, latestMonth } = generateMonthFilter(student, monthContainer);
+
+  renderAttendanceTable(student, monthMap, latestMonth, container);
+
+  monthSelect.addEventListener('change', ()=>{
+    renderAttendanceTable(student, monthMap, monthSelect.value, container);
+  });
 });
 </script>
 
