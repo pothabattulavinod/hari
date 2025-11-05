@@ -109,71 +109,75 @@ let studentResults=[];
 function utcToLocalYMD(utcDateStr){
   if(!utcDateStr) return "";
   const date=new Date(utcDateStr);
-  const y=date.getFullYear(), m=String(date.getMonth()+1).padStart(2,'0'), d=String(date.getDate()).padStart(2,'0');
-  return `${y}-${m}-${d}`;
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
 }
 
-// Fetch JSON
+// Fetch data
 fetch(WORKER_URL)
 .then(res=>res.json())
 .then(data=>{
-  // Remove totals row from studentResults
-  studentResults=data.filter(s=>s["Roll No"]!=="Total Marks →").map(s=>({...s,"DOB":utcToLocalYMD(s["DOB"])}));
+  studentResults = data.filter(s => s["Roll No"] !== "Total Marks →").map(s => ({...s, "DOB": utcToLocalYMD(s["DOB"])}));
 
-  // Populate class and exam selects
-  const classSet=new Set(), examSet=new Set();
-  studentResults.forEach(s=>{classSet.add(s["Class"]); examSet.add(s["Exam Type"]);});
-  const classSelect=document.getElementById('class-select');
-  const examSelect=document.getElementById('exam-select');
-  classSet.forEach(c=>classSelect.appendChild(new Option(c,c)));
-  examSet.forEach(e=>examSelect.appendChild(new Option(e,e)));
+  // Populate class and exam dropdowns
+  const classSet = new Set(), examSet = new Set();
+  studentResults.forEach(s => { classSet.add(s["Class"]); examSet.add(s["Exam Type"]); });
+  const classSelect = document.getElementById('class-select');
+  const examSelect = document.getElementById('exam-select');
+  classSet.forEach(c => classSelect.appendChild(new Option(c,c)));
+  examSet.forEach(e => examSelect.appendChild(new Option(e,e)));
 });
 
-// Search and display
-document.getElementById('search-btn').addEventListener('click',()=>{
-  const roll=document.getElementById('roll-number').value.trim();
-  const cls=document.getElementById('class-select').value;
-  const section=document.getElementById('section-input').value.trim();
-  const exam=document.getElementById('exam-select').value;
-  const dob=document.getElementById('dob-input').value;
-  const container=document.getElementById('result-container');
+// Display result
+document.getElementById('search-btn').addEventListener('click', () => {
+  const roll = document.getElementById('roll-number').value.trim();
+  const cls = document.getElementById('class-select').value;
+  const section = document.getElementById('section-input').value.trim().toLowerCase();
+  const exam = document.getElementById('exam-select').value;
+  const dob = document.getElementById('dob-input').value;
+  const container = document.getElementById('result-container');
 
-  if(!roll||!cls||!section||!exam||!dob){ container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>'; return; }
+  if(!roll||!cls||!section||!exam||!dob){
+    container.innerHTML='<p class="text-center text-danger">Please fill all fields.</p>'; 
+    return;
+  }
 
-  const student=studentResults.find(s=>
-    String(s["Roll No"])===roll &&
-    String(s["Class"])===cls &&
-    String(s["Section"]).toLowerCase()===section.toLowerCase() &&
-    String(s["Exam Type"])===exam &&
-    String(s["DOB"])===dob
+  const student = studentResults.find(s =>
+    String(s["Roll No"]) === roll &&
+    String(s["Class"]) === cls &&
+    String(s["Section"]).toLowerCase() === section &&
+    String(s["Exam Type"]) === exam &&
+    String(s["DOB"]) === dob
   );
 
-  if(!student){ container.innerHTML='<p class="text-center text-danger">No student found.</p>'; return; }
+  if(!student){
+    container.innerHTML='<p class="text-center text-danger">No student found.</p>'; 
+    return;
+  }
 
   const infoCols=["Roll No","Name","Class","Section","DOB","Exam Type","Total","Rank","Grade"];
   const subjects=Object.keys(student).filter(k=>!infoCols.includes(k));
 
-  let subjectRows='';
-  subjects.forEach(sub=>{
-    subjectRows+=`<tr><td>${sub}</td><td>${student[sub]}</td></tr>`;
-  });
+  let subjectRows = '';
+  subjects.forEach(sub => { subjectRows += `<tr><td>${sub}</td><td>${student[sub]}</td></tr>`; });
 
-  container.innerHTML=`
-  <div class="result-card">
-    <img src="data:image/png;base64,iVBOR..." class="logo" alt="Logo">
-    <h4>${student["Exam Type"]} Exam Result</h4>
-    <table class="info-table">
-      <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
-      <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
-      <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
-      <tr><td><strong>Total:</strong> ${student["Total"]}</td><td><strong>Grade:</strong> ${student["Grade"]}</td></tr>
-    </table>
-    <table class="subjects-table">
-      <tr><th>Subject</th><th>Marks</th></tr>
-      ${subjectRows}
-    </table>
-  </div>`;
+  container.innerHTML = `
+    <div class="result-card">
+      <img src="data:image/png;base64,iVBOR..." class="logo" alt="Logo">
+      <h4>${student["Exam Type"]} Exam Result</h4>
+      <table class="info-table">
+        <tr><td><strong>Name:</strong> ${student["Name"]}</td><td><strong>Roll No:</strong> ${student["Roll No"]}</td></tr>
+        <tr><td><strong>Class:</strong> ${student["Class"]}</td><td><strong>Section:</strong> ${student["Section"]}</td></tr>
+        <tr><td><strong>DOB:</strong> ${student["DOB"]}</td></tr>
+        <tr><td><strong>Total:</strong> ${student["Total"]}</td><td><strong>Grade:</strong> ${student["Grade"]}</td></tr>
+      </table>
+      <table class="subjects-table">
+        <tr><th>Subject</th><th>Marks</th></tr>
+        ${subjectRows}
+      </table>
+    </div>
+  `;
 });
 </script>
+
 </body>
 </html>
