@@ -41,6 +41,14 @@ h1,h2,h3,h4,h5 { font-family:'Fredoka One',cursive; margin:0; }
 .info-table { width:100%; margin-bottom:20px; }
 .info-table td { padding:5px 10px; font-weight:500; }
 
+.month-filter-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #0099FF;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
 footer { background:linear-gradient(90deg,#0f2027,#2c5364); color:#fff; text-align:center; padding:20px 0; }
 
 @media(max-width:992px){ #filters{flex-direction:column;align-items:center;gap:10px;} .input-group{width:100%;} #filters button{width:100%;} }
@@ -138,7 +146,7 @@ function getMonthYear(dateStr){
   return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 }
 
-// Generate month filter with Month Name + Year
+// Generate month filter with Month Name + Year and title
 function generateMonthFilter(student, container){
   const infoCols = ["Roll","Name","Class","Section","DOB"];
   const dateCols = Object.keys(student).filter(k => !infoCols.includes(k));
@@ -154,11 +162,16 @@ function generateMonthFilter(student, container){
   const months = Object.keys(monthMap).sort();
   const latestMonth = months[months.length-1];
 
+  // Add title above dropdown
+  const title = document.createElement('div');
+  title.className = "month-filter-title";
+  title.textContent = "Select Month";
+  container.appendChild(title);
+
   const monthSelect = document.createElement('select');
   monthSelect.className = "form-select my-2";
 
   months.forEach(m=>{
-    const [year, month] = m.split('-');
     const monthName = getMonthYear(`${m}-01`);
     const option = new Option(monthName, m);
     if(m===latestMonth) option.selected=true;
