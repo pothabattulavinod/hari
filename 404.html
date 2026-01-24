@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>404 - Page Not Found | HARI E-TECHNO SCHOOL</title>
+<meta name="description" content="Oops! The page you are looking for does not exist at HARI E-TECHNO SCHOOL." />
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<script>
+tailwind.config = {
+  theme:{
+    extend:{
+      colors:{
+        primary:'#1e3a8a',
+        accent:'#38bdf8',
+        muted:'#f1f5f9',
+        dark:'#0b1120'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+html{scroll-behavior:smooth;}
+body{font-family:system-ui, sans-serif;}
+</style>
+</head>
+<body class="bg-muted text-gray-700 flex items-center justify-center min-h-screen">
+
+<div class="text-center px-4 sm:px-6 lg:px-8">
+  <h1 class="text-8xl sm:text-9xl font-extrabold text-primary mb-4">404</h1>
+  <h2 class="text-3xl sm:text-4xl font-bold mb-6">Oops! Page Not Found</h2>
+  <a href="index.html" class="bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-accent hover:text-dark transition">
+    Go to Home
+  </a>
+  <div class="mt-8 flex justify-center gap-4">
+    <a href="tel:07799114947" class="bg-primary text-white p-4 rounded-full shadow hover:scale-105 transition">
+      <i class="fa-solid fa-phone text-white text-xl"></i>
+    </a>
+    <a href="https://wa.me/917799114947" target="_blank" class="bg-green-500 p-4 rounded-full shadow hover:scale-105 transition">
+      <i class="fa-brands fa-whatsapp text-white text-xl"></i>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
