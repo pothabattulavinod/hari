@@ -1,331 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hari E Techno School | Coming Soon & Diwali Wishes</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HARI E-TECHNO SCHOOL | Best school in Rajanagaram</title>
+<meta name="description" content="HARI E-TECHNO SCHOOL, Rajanagaram – A premium future-ready school delivering academic excellence, values and digital learning." />
 
-<!-- Bootstrap & Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Merriweather:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<script>
+tailwind.config = {
+  theme:{
+    extend:{
+      colors:{
+        primary:'#1e3a8a',
+        accent:'#38bdf8',
+        muted:'#f1f5f9',
+        dark:'#0b1120'
+      }
+    }
+  }
+}
+</script>
 
 <style>
-:root { --blue:#0099FF; --border:#203a43; --gold:#ffe66d; }
-
-body { 
-  font-family:'Roboto', sans-serif; 
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); 
-  margin:0; 
-  color:#fff; 
-}
-
-/* Navbar */
-.navbar { background: linear-gradient(90deg,#2c5364,#203a43,#0f2027); }
-
-/* Navbar brand */
-.navbar-brand {
-  display:flex;
-  align-items:center;
-  color: var(--gold);
-  font-weight:700;
-  padding: 5px 12px;
-  background-color: transparent;
-  border-radius: 0;
-}
-
-/* Empty menu placeholder */
-.navbar-nav .nav-link { color:#fff; cursor:default; pointer-events:none; }
-
-/* Hero Section */
-.hero {
-  text-align:center;
-  padding:60px 20px 40px 20px;
-}
-
-.hero h1 {
-  font-family:'Merriweather', serif;
-  font-size:3rem;
-  color:var(--blue);
-  margin-bottom:20px;
-}
-
-.hero p {
-  font-family:'Roboto', sans-serif;
-  font-size:1.5rem;
-  max-width:700px;
-  margin:0 auto 30px auto;
-  line-height:1.5;
-}
-
-/* Diwali Wish Card */
-#wish-card, #wish-preview {
-  max-width:700px; 
-  margin:40px auto; 
-  background: linear-gradient(135deg, #ffffff, #f0f8ff); 
-  padding:30px; 
-  border:5px solid var(--border); 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15), 0 0 20px rgba(0,153,255,0.3); 
-  color:#2c3e50;
-  transition: transform 0.3s, box-shadow 0.3s;
-  border-radius:0;
-}
-
-#wish-card:hover, #wish-preview:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.25), 0 0 30px rgba(0,153,255,0.5);
-}
-
-/* Form */
-#wish-form .input-group-text { background:var(--blue); color:#fff; border:none; border-radius:0; }
-#wish-form .form-control { border-radius:0; border-left:none; }
-#wish-form button { background:var(--blue); color:#fff; font-weight:700; border:none; border-radius:0; }
-#wish-form button:hover { background:#0077cc; }
-
-/* Result */
-#wish-result { display:none; margin:30px auto; position:relative; }
-
-#wish-preview { 
-  text-align:justify; 
-  position:relative; 
-  overflow:hidden; 
-  font-family:'Merriweather', serif;
-}
-
-/* Header Image */
-#wish-preview .header-img {
-  display: block;
-  width: 100%;
-  max-height: 160px;
-  object-fit: cover;
-  margin-bottom: 20px;
-  position: relative;
-  z-index: 1;
-  border-bottom: 4px solid var(--blue);
-}
-
-/* Watermark (unchanged) */
-#wish-preview::before {
-  content:"";
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  width:250px;
-  height:250px;
-  background:url('https://harietechnoschool.com/LOGO.png') no-repeat center center;
-  background-size:contain;
-  opacity:0.12; 
-  pointer-events:none;
-  z-index:0;
-}
-
-#wish-preview h2 { 
-  font-family:'Merriweather', serif; 
-  font-size:2rem; 
-  color:var(--blue); 
-  margin-bottom:20px; 
-  text-align:center; 
-  position:relative; 
-  z-index:1; 
-}
-
-#wish-preview .wish-text { 
-  font-size:1.15rem; 
-  position:relative; 
-  z-index:1; 
-  text-align:justify;
-  line-height:1.5; 
-  margin:0; 
-  color:#2c3e50;
-}
-
-.wish-name { font-weight:700; color:var(--blue); }
-
-#wish-preview .signature, #wish-preview .designation { 
-  color:#2c3e50; 
-  position:relative; 
-  z-index:1; 
-}
-
-#wish-preview .signature { 
-  margin-top:20px; 
-  font-family:'Great Vibes', cursive; 
-  font-size:1.8rem; 
-  font-weight:700; 
-  text-align:right; 
-}
-
-#wish-preview .designation { 
-  font-family:'Merriweather', serif; 
-  font-size:1rem; 
-  text-align:right; 
-  margin-top:5px; 
-}
-
-footer { 
-  background: linear-gradient(90deg,#0f2027,#2c5364); 
-  color:#fff; 
-  text-align:center; 
-  padding:20px 0; 
-  margin-top:30px; 
-  font-size:0.9rem; 
-}
-
-@media(max-width:992px){
-  #wish-form { flex-direction:column; gap:10px; }
-  .input-group { width:100%; }
-  #wish-form button { width:100%; }
-}
-
-@media(max-width:576px){
-  #wish-preview h2 { font-size:1.5rem; }
-  #wish-preview .wish-text { font-size:1rem; }
-  #wish-preview .signature { font-size:1.5rem; }
-  #wish-preview .designation { font-size:0.9rem; }
-}
+html{scroll-behavior:smooth;}
+.section{padding:5rem 1rem;}
+.glass{backdrop-filter:blur(10px);background:rgba(255,255,255,.85);}
+.nav-link{padding:0.5rem 1rem;border-radius:0.375rem;transition:all 0.3s;}
+.nav-link.active{background-color:#1e3a8a;color:white !important;}
+.slider-btn{background-color:rgba(0,0,0,0.5);color:white;padding:0.5rem;border-radius:9999px;transition:all 0.3s;}
+.slider-btn:hover{background-color:rgba(0,0,0,0.8);}
 </style>
 </head>
-<body>
+<body class="bg-white text-gray-700">
 
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      Hari E Techno School
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
+<!-- HEADER -->
+<header class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur shadow">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <div>
+      <h1 class="text-xl sm:text-2xl font-extrabold text-primary">HARI E-TECHNO SCHOOL</h1>
+      <p class="text-xs text-gray-500">Rajanagaram • Andhra Pradesh</p>
+    </div>
+    <button onclick="openPopup()" class="bg-primary text-white px-5 py-2 rounded-full font-semibold shadow">
+      Admissions Open
     </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="#">Menu</a></li>
-      </ul>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="pt-32 pb-28 bg-gradient-to-br from-primary via-blue-900 to-dark text-white">
+  <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-6">
+        Shaping <span class="text-accent">Future-Ready</span><br>Global Learners
+      </h2>
+      <p class="text-lg opacity-90 mb-8">
+        A premium digital school nurturing excellence, discipline and values.
+      </p>
+      <div class="flex gap-4">
+        <button onclick="openPopup()" class="bg-accent text-dark px-8 py-3 rounded-full font-bold">
+          Enquire Admissions
+        </button>
+        <a href="tel:07799114947" class="border border-white px-8 py-3 rounded-full font-semibold">
+          Call Now
+        </a>
+      </div>
+    </div>
+
+    <div class="glass rounded-2xl p-6 shadow-xl">
+      <div class="grid grid-cols-2 gap-4 text-center">
+        <div>
+          <h3 class="text-3xl font-bold text-primary">20+</h3>
+          <p class="text-sm">Expert Faculty</p>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold text-primary">100%</h3>
+          <p class="text-sm">Digital Learning</p>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold text-primary">Safe</h3>
+          <p class="text-sm">Secure Campus</p>
+        </div>
+        <div>
+          <h3 class="text-3xl font-bold text-primary">CBSE</h3>
+          <p class="text-sm">Inspired Pedagogy</p>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
+</section>
 
-<div class="hero">
-  <h1>Welcome to Hari E Techno School</h1>
-  <p>We are coming soon with exciting updates! Meanwhile, celebrate the festival of lights with your personalized Diwali wish from us.</p>
-</div>
+<!-- ABOUT -->
+<section class="section max-w-6xl mx-auto">
+  <h3 class="text-3xl font-bold text-primary mb-6">About Our School</h3>
+  <p class="text-lg leading-relaxed">
+    HARI E-TECHNO SCHOOL is a future-focused institution that blends strong academics,
+    digital integration, disciplined learning and value-based education to prepare
+    students for a dynamic world.
+  </p>
+</section>
 
-<div id="wish-card">
-  <form id="wish-form">
-    <div class="input-group mb-3">
-      <span class="input-group-text"><i class="bi bi-person"></i></span>
-      <input type="text" id="student-name" class="form-control" placeholder="Student Name" required>
+<!-- VISION / MISSION / VALUES -->
+<section class="bg-muted section">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+    <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
+      <i class="fa-solid fa-eye text-primary text-3xl mb-4"></i>
+      <h4 class="font-bold text-xl mb-2">Our Vision</h4>
+      <p>To nurture confident learners with global competence.</p>
     </div>
-    <div class="input-group mb-3">
-      <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
-      <input type="text" id="parent-name" class="form-control" placeholder="Parent Name" required>
+    <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
+      <i class="fa-solid fa-bullseye text-primary text-3xl mb-4"></i>
+      <h4 class="font-bold text-xl mb-2">Our Mission</h4>
+      <p>Deliver holistic education through innovation and discipline.</p>
     </div>
-    <button type="submit" class="btn w-100"><i class="bi bi-send"></i> Show Diwali Wish</button>
-  </form>
-</div>
-
-<div id="wish-result">
-  <div id="wish-preview">
-    <!-- New Letterhead Header Image -->
-    <img src="https://harietechnoschool.com/IMG-20251018-WA0015.jpg" class="header-img" alt="Letter Header">
-    
-    <h2>Hari E Techno School Wishes You!</h2>
-    <p class="wish-text" id="preview-wish"></p>
-    <div class="signature">- Hari</div>
-    <div class="designation">Chairman</div>
+    <div class="bg-white p-8 rounded-2xl shadow hover:shadow-xl transition">
+      <i class="fa-solid fa-heart text-primary text-3xl mb-4"></i>
+      <h4 class="font-bold text-xl mb-2">Our Values</h4>
+      <p>Integrity, respect, responsibility and excellence.</p>
+    </div>
   </div>
-  <div class="text-center mt-3">
-    <button id="download-btn" class="btn btn-success"><i class="bi bi-download"></i> Download Image</button>
-  </div>
-</div>
+</section>
 
-<footer>
-  <p>© 2025 Hari E Techno School | All Rights Reserved</p>
+<!-- ACADEMICS -->
+<section class="section max-w-7xl mx-auto">
+  <h3 class="text-3xl font-bold text-primary text-center mb-12">Academic Programme</h3>
+  <div class="grid md:grid-cols-3 gap-10">
+    <div class="border rounded-2xl p-8 hover:shadow-xl transition">
+      <h4 class="text-xl font-bold mb-3">Primary School</h4>
+      <p>Strong foundations through joyful and structured learning.</p>
+    </div>
+    <div class="border rounded-2xl p-8 hover:shadow-xl transition">
+      <h4 class="text-xl font-bold mb-3">Middle School</h4>
+      <p>Concept mastery with analytical and digital skills.</p>
+    </div>
+    <div class="border rounded-2xl p-8 hover:shadow-xl transition">
+      <h4 class="text-xl font-bold mb-3">High School</h4>
+      <p>Board-focused excellence with career readiness.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FACILITIES -->
+<section class="bg-muted section">
+  <h3 class="text-3xl font-bold text-primary text-center mb-12">World-Class Facilities</h3>
+  <div class="max-w-7xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">Smart Classrooms</div>
+    <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">Science & Computer Labs</div>
+    <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">Transport Facility</div>
+    <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">CCTV Security</div>
+  </div>
+</section>
+
+<!-- PRINCIPAL -->
+<section class="section max-w-6xl mx-auto">
+  <h3 class="text-3xl font-bold text-primary mb-6">From the Principal’s Desk</h3>
+  <p class="text-lg leading-relaxed">
+    “We believe education is not just about academics, but about shaping character,
+    confidence and curiosity in every child.”
+  </p>
+</section>
+
+<!-- ADMISSION CTA -->
+<section class="bg-primary text-white py-20 text-center">
+  <h3 class="text-4xl font-bold mb-4">Admissions Open 2026–27</h3>
+  <p class="text-lg mb-8">Give your child a strong, future-ready foundation.</p>
+  <button onclick="openPopup()" class="bg-accent text-dark px-10 py-4 rounded-full font-bold hover:scale-105 transition">
+    Apply for Admission
+  </button>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-gray-300 py-10 text-center text-sm">
+  <p>📍 Rajanagaram, Jagannadhapuram, Andhra Pradesh</p>
+  <p class="mt-2">📞 077991 14947</p>
+  <p class="mt-4">© 2026 HARI E-TECHNO SCHOOL. All Rights Reserved.</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- FLOATING BUTTONS -->
+<a href="https://wa.me/917799114947" target="_blank" class="fixed bottom-20 right-5 bg-green-500 p-4 rounded-full shadow-xl z-50 hover:scale-110 transition">
+  <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+</a>
+
+<a href="tel:07799114947" class="fixed bottom-5 right-5 bg-primary p-4 rounded-full shadow-xl z-50 hover:scale-110 transition">
+  <i class="fa-solid fa-phone text-white text-2xl"></i>
+</a>
+
+<!-- POPUP -->
+<div id="popup" class="fixed inset-0 hidden items-center justify-center bg-black/60 z-50">
+  <div class="bg-white p-8 rounded-2xl w-11/12 max-w-md relative shadow-xl">
+    <button onclick="closePopup()" class="absolute top-3 right-4 text-2xl">&times;</button>
+    <h3 class="text-2xl font-bold text-primary mb-4">Admission Enquiry</h3>
+
+    <input id="phone" type="tel" placeholder="Parent Mobile Number" class="w-full border p-3 rounded mb-4">
+
+    <select id="cls" class="w-full border p-3 rounded mb-6">
+      <option value="">Select Class</option>
+      <option>Nursery</option><option>LKG</option><option>UKG</option>
+      <option>1st Class</option><option>2nd Class</option><option>3rd Class</option><option>4th Class</option><option>5th Class</option><option>6th Class</option><option>7th Class</option><option>8thth Class</option><option>1ST YEAR</option>
+    <option>2ND YEAR</option></select>
+
+    <button onclick="sendWhatsApp()" class="bg-green-500 text-white w-full py-3 rounded-full font-bold hover:scale-105 transition">
+      Send via WhatsApp
+    </button>
+  </div>
+</div>
+
 <script>
-const wishForm = document.getElementById('wish-form');
-const previewWish = document.getElementById('preview-wish');
-const wishResult = document.getElementById('wish-result');
-const wishPreview = document.getElementById('wish-preview');
+const popup=document.getElementById('popup');
+function openPopup(){popup.classList.remove('hidden');popup.classList.add('flex');}
+function closePopup(){popup.classList.add('hidden');popup.classList.remove('flex');}
+setTimeout(openPopup,7000);
 
-const diwaliWishes = [
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
-On this joyous Diwali, Hari E Techno School sends its heartfelt wishes. 
-May your home be filled with lights of happiness, health, prosperity, and wisdom. 
-May <span class="wish-name">{student}</span> continue to shine academically and personally. 
-Let the festival bring countless moments of laughter, love, and cherished memories for the entire family.<br><br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
-As Diwali lights up the world, we wish your life to sparkle with joy, peace, and success. 
-May <span class="wish-name">{student}</span> embrace new opportunities with courage and wisdom. 
-Hari E Techno School blesses your family with boundless happiness and countless moments to treasure. 
-Let this Diwali illuminate your path towards brighter achievements.<br><br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
-May the glow of diyas and the echoes of happiness fill your home. 
-Hari E Techno School extends heartfelt wishes to you. 
-May <span class="wish-name">{student}</span> excel in studies, develop new talents, and grow with love and kindness. 
-May your family enjoy prosperity, health, and delightful moments throughout the year.<br><br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
-This Diwali, may every lamp you light bring new hope, success, and joy into your lives. 
-Hari E Techno School wishes <span class="wish-name">{student}</span> continuous progress and learning. 
-Celebrate the festival with delight, and may your journey ahead be bright and prosperous.<br><br>
-With warm regards,`,
-
-  `Dear <span class="wish-name">{parent}</span> (Parent) and <span class="wish-name">{student}</span> (Student),<br><br>
-On this festival of lights, may your hearts be filled with love, your home with laughter, and your life with endless happiness. 
-Hari E Techno School blesses <span class="wish-name">{student}</span> and your family with joy, knowledge, and success.<br><br>
-With warm regards,`
-];
-
-function capitalizeWords(str) {
-    return str.replace(/\b\w/g, char => char.toUpperCase());
+function sendWhatsApp(){
+  const phone=document.getElementById('phone').value;
+  const cls=document.getElementById('cls').value;
+  if(!phone||!cls){alert('Please fill all details');return;}
+  const msg=`Hello, I am interested in admission.\nParent Mobile: ${phone}\nClass Required: ${cls}`;
+  window.open(`https://wa.me/917799114947?text=${encodeURIComponent(msg)}`,'_blank');
 }
-
-wishForm.addEventListener('submit', function(e){
-  e.preventDefault();
-  let student = document.getElementById('student-name').value.trim();
-  let parent = document.getElementById('parent-name').value.trim();
-  if(!student || !parent){ alert("Please enter both Student Name and Parent Name."); return; }
-  student = capitalizeWords(student);
-  parent = capitalizeWords(parent);
-  const randomIndex = Math.floor(Math.random() * diwaliWishes.length);
-  let selectedWish = diwaliWishes[randomIndex];
-  selectedWish = selectedWish.replace(/{parent}/g, parent).replace(/{student}/g, student);
-  previewWish.innerHTML = selectedWish;
-  wishResult.style.display = 'block';
-  wishResult.scrollIntoView({behavior:'smooth'});
-});
-
-document.getElementById('download-btn').addEventListener('click', function(){
-    const clone = wishPreview.cloneNode(true);
-    clone.style.width = '500px';
-    clone.style.maxWidth = '500px';
-    clone.style.padding = '50px 40px';
-    clone.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
-    clone.style.position = 'absolute';
-    clone.style.top = '-9999px';
-    clone.style.backgroundColor = '#fff';
-    document.body.appendChild(clone);
-
-    html2canvas(clone, { scale: 3, useCORS: true, backgroundColor: '#fff', scrollY: -window.scrollY })
-    .then(canvas => {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = 'Hari_Diwali_Wish.png';
-        link.click();
-        document.body.removeChild(clone);
-    }).catch(err => {
-        console.error("Error generating image:", err);
-        alert("Sorry, failed to generate the image.");
-    });
-});
 </script>
 </body>
 </html>
