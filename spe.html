@@ -149,83 +149,625 @@ body { background:#f4f6f9; font-family:'Segoe UI'; }
 /* SAMPLE QUESTIONS (you can replace with your 120 later) */
 const questions = [
 
-/* ===== REASONING ===== */
-{q:"1, 2, 9, 4, 25, 6, ?", options:["51","49","50","47"], answer:1},
-{q:"16, 33, 67, 135, ?", options:["371","175","271","287"], answer:2},
-{q:"3, 12, 27, 48, 75, 108, ?", options:["147","162","183","192"], answer:1},
-{q:"8, 18, 38, 78, 158, ?", options:["318","340","290","268"], answer:0},
-{q:"B3M, E7J, H15G, K31D, ?", options:["N65A","063A","N63A","N63Z"], answer:0},
-{q:"MTH, ORK, UPN, YNQ, ?", options:["CKT","CLT","ELT","EKT"], answer:3},
-{q:"Boat : Oar :: Bicycle : ?", options:["Road","Wheel","Seat","Pedal"], answer:3},
-{q:"Heart : Cardiology :: Virus : ?", options:["Zoology","Hospital","Virology","Biology"], answer:2},
-{q:"Binding : Book :: Frame : ?", options:["Picture","Car","Glass","Wall"], answer:0},
-{q:"Waitress : Restaurant :: Teacher : ?", options:["Student","School","Book","Class"], answer:1},
+/* ===== QUESTIONS 1–30 ===== */
 
-/* ===== MATH ===== */
-{q:"LCM of 3 and 4?", options:["12","24","6","8"], answer:0},
-{q:"HCF of 9 and 12?", options:["3","6","9","12"], answer:0},
-{q:"5² = ?", options:["10","20","25","30"], answer:2},
-{q:"√64 = ?", options:["6","7","8","9"], answer:2},
-{q:"7 × 8 = ?", options:["54","56","58","60"], answer:1},
-{q:"12 ÷ 4 = ?", options:["2","3","4","5"], answer:1},
-{q:"2³ = ?", options:["6","8","10","12"], answer:1},
-{q:"√25 = ?", options:["3","4","5","6"], answer:2},
-{q:"10% of 150?", options:["10","15","20","25"], answer:1},
-{q:"20% of 50?", options:["5","10","15","20"], answer:1},
+{
+q:"1.  A and B started a business with some amount after 9 months  B left the business and C joins the businesss  with Rs 12000. And remains in business till the end of the year. After one year A,Band C got Rs48 Rs 48 and Rs24 respectively.Find the sum of the amount Aand B started the business?",
+options:["10000","15000","12000","14000"],
+answer:2
+},
+{
+q:"2. The area of rectangle and its perimeter are in ratio 3:1. Perimeter of square side of which is 50% less than the length of rectangle is 20cm. Find the breadth of rectangle?",
+options:["12cm","15cm","20cm","25cm"],
+answer:0
+},
+{
+q:"3. 1, 2, 9, 4, 25, 6,?",
+options:["51","49","50","47"],
+answer:1
+},
+{
+q:"4. 16, 33, 67, 135, ?",
+options:["371","175","271","287"],
+answer:3
+},
+{
+q:"5. 8, 24, 16, 2, 7, 14, 6, 18, 12, 5.5, 10 ?",
+options:["14","10","7","5"],
+answer:0
+},
+{
+q:"6. MTH, ORK, UPN. YNQ. ?",
+options:["CKT","CLT","ELT","EKT"],
+answer:2
+},
+{
+q:"7. B3M, E7J, H15G, K31D, ?",
+options:["N65A","063A","N63A","N63Z"],
+answer:2
+},
+{
+q:"8. 5X9,X8U12, 11R15, 14018,?",
+options:["17L21","17K21","17M2","17L23"],
+answer:0
+},
+{
+q:"9.  Amit said, \"This girl is the wife of the grandson of my mother.\" How is amit related to the girl?",
+options:["Father","Father-in-law","Grandfather","Husband"],
+answer:3
+},
+{
+q:"10. Neelam, who is Rohit's daugher, says to Indu, \"Your mohter Reeta is the younger sister of my father, who is  the third child of Sohanji. How is Sohanji related to Indu?",
+options:["Maternal-uncle","Grandfather","Father","Father-in-law"],
+answer:1
+},
+{
+q:"11.  A walks 10 metres towards East and then 10 metres to his right. Then every time turning to his left, he walks 5, 15 and 15 metres respectively. How far is he now from his starting point?",
+options:["5 meters","10 metres","15 metres","20 metres"],
+answer:1
+},
+{
+q:"12.  A and B start from a fixed point. A moves towards North and after walking 3 Kms tums to his right and covers 4 kms. B moves towards West and walks 5 Kms and then turns to his right and walks 3 Kms. Now how far are A and B from each other?",
+options:["1 Kms","5 Kms","8 Kms","9 Kms"],
+answer:2
+},
+{
+q:"13.  Boat is related to Oar in the same way as Bicycle is related to",
+options:["Road","Wheel","Seat","Paddle"],
+answer:1
+},
+{
+q:"14. On 14th day after 5th March be Wednesday, what day of the week will tall on 10th Dec. of the same year",
+options:["Friday","Wednesday","Thursday","Tuesday"],
+answer:0
+},
+{
+q:"15. A sum of money lent at Cl for 2 yr at 20% pa would fetch Rs. 964 more, if the interest was payable half yearly than if it was payable annually. What is the sum?",
+options:["Rs. 40000","Rs. 60000","Rs. 90000","Rs500000"],
+answer:0
+},
+{
+q:"16. The respective ratio of milk and water in the mixture is 4:3 respective. If 6 litre of water is added to this mixture, the respective ratio of milk and water becomes 8: 7. Find the quantity of milk in the original mixture?",
+options:["96 litre","36 litre","84 litre","48 litre"],
+answer:3
+},
+{
+q:"17. A maximum size sphere is cut from a solid cube, length of whose diagonal is 21 cm. Find the volume of the sphere taken out from the cube.",
+options:["519√3 cm3","529√3 cm3","593√3 cm3","539√3 cm3"],
+answer:1
+},
+{
+q:"18. The ratio of the amounts invested by A to B is 2:3. A invested his amount for 4 months more than that of B. If B invested his amount for 8 months, then find the profit share of A, when the total profit received by both A and B together is Rs. 10000?",
+options:["Rs. 5000","Rs. 7500","Rs. 4500","Rs. 6500"],
+answer:1
+},
+{
+q:"19. If ratio between total surface area of cylinder to its curved surface area is 4: 3 then radius of cylinder is what percent less then height of cylinder?",
+options:["331 1/3%","50%","66 2/3%","55%"],
+answer:1
+},
+{
+q:"20. The area of a right-angle triangle is 24 m² and hypotenuse of the triangle is 10 cm. Find the perimeter (in m) of the triangle.",
+options:["24","30","20","25"],
+answer:0
+},
+{
+q:"21. If X's father is the brother of Y and Y has a daughter Z; and Z's father is T and T's only brother-in-law is S; and if S is married to U and their only daughter is X. How is X related to Y?",
+options:["Niece","Father","Daughter","Uncle"],
+answer:0
+},
+{
+q:"22. RAMO: SCPS :: VXMJ:?",
+options:["WZPN","WQPN","WQZN","WPZN"],
+answer:3
+},
+{
+q:"23. In a certain code language, 'WORTH' is written as 'ZRRWK' and 'TRACK' is written as 'WUAFN'. How will 'FAITH' be written in that language?",
+options:["JDIWK","HDIWL","KDIVK","IDIWK"],
+answer:0
+},
+{
+q:"24. Four letter-clusters have been given, out of which three are alike in some manner and one is different.",
+options:["JPZ","MQB","DLP","FHN"],
+answer:3
+},
+{
+q:"25. Four letter-clusters have been given, out of which three are alike in some manner and one is different.",
+options:["BEHK","HLOB","PSVY","KNQT"],
+answer:1
+},
+{
+q:"26. If you had been late, you__________ the train.",
+options:["would miss","will have missed","would have missed","will miss"],
+answer:2
+},
+{
+q:"27.I_________ for hours when my eyes began to hurt.",
+options:["had been reading","was reading","am reading","have been reading"],
+answer:0
+},
+{
+q:"28.She said that she___________clouds.",
+options:["like","likes","will like","liked"],
+answer:3
+},
+{
+q:"29.What were you doing when I____ you last night?",
+options:["call","calling","calls","called"],
+answer:3
+},
+{
+q:"30.She________ for London.",
+options:["will leaving","is leaving","leave","left"],
+answer:1
+},
 
-{q:"Mean of first 10 natural numbers?", options:["5.5","4.5","5","4"], answer:0},
-{q:"Sum of angles in triangle?", options:["90°","180°","270°","360°"], answer:1},
-{q:"1 km = ?", options:["100m","1000m","10m","500m"], answer:1},
-{q:"0.5 as fraction?", options:["1/2","1/3","1/4","2/3"], answer:0},
+/* ===== QUESTIONS 31–60 ===== */
 
-/* ===== PHYSICS ===== */
-{q:"Unit of force?", options:["Watt","Newton","Joule","Volt"], answer:1},
-{q:"Unit of energy?", options:["Joule","Kg","Meter","Second"], answer:0},
-{q:"Unit of power?", options:["Watt","Joule","Volt","Amp"], answer:0},
-{q:"Electric current unit?", options:["Ampere","Meter","Second","Kg"], answer:0},
-{q:"Light travels fastest in?", options:["Air","Water","Vacuum","Glass"], answer:2},
-{q:"Sound needs?", options:["Vacuum","Medium","Light","Heat"], answer:1},
-{q:"Mirror reflects?", options:["Light","Heat","Sound","Air"], answer:0},
-{q:"Heat is a form of?", options:["Energy","Force","Mass","Power"], answer:0},
+{
+q:"31.A)Priority        B)Praerity               C)Prieity                          D)Prayrity",
+options:["Priority","Praerity","Prieity","Prayrity"],
+answer:0
+},
+{
+q:"32.A)Akademic    B)Acadmic             C)Academic                    D)Academik",
+options:["Akademic","Acadmic","Academic","Academik"],
+answer:2
+},
+{
+q:"33.A)Leiseure       B)Leizare                C)Lezure                         D)Leisure",
+options:["Leiseure","Leizare","Lezure","Leisure"],
+answer:3
+},
+{
+q:"34.A)Ekslence       B)Excellence          C)Ekslanse                     D)Exellance",
+options:["Ekslence","Excellence","Ekslanse","Exellance"],
+answer:1
+},
+{
+q:"35.Choose the correct option and fill up the bubbles sheet: 35. The antonym of the word \"equitable\" is",
+options:["just","equal","unfair","handsome"],
+answer:2
+},
+{
+q:"36.The synonym of the word \"motivation\" is",
+options:["determination","inspiration","stagnation","recitation"],
+answer:1
+},
+{
+q:"37.The antonym of the word \"dynamic\" is",
+options:["lazy","active","ugly","bright"],
+answer:0
+},
+{
+q:"38. If the mathematical operator, '+' means '-', 'x' means '+', '+' means 'x', and '-' means '+', then the value of 28+(11x7)-9+5 is",
+options:["45","12","13.5","18"],
+answer:3
+},
+{
+q:"39. If in a certain language 'FASHION' is coded as 'FOIHSAN', how is 'PROBLEM' coded in that language?",
+options:["PELBORM","ROBLEMP","PRBOELM","PELOBRM"],
+answer:2
+},
+{
+q:"40. If 'Q' denotes '+', 'J' denotes '×', 'T' denotes '–' and 'K' denotes '÷', then 30 K 2 Q 3 J 6 T 5 = ?",
+options:["18","28","31","103"],
+answer:2
+},
+{
+q:"41. If in each of the following groups of numbers, last two digits are interchanged and after that they are arranged in descending order, then what will be the first digit of the middle group? 257, 491, 623, 846, 738",
+options:["7","4","8","6"],
+answer:1
+},
+{
+q:"42. Find out how many such pairs of letters are there in the given word each of which has as many letters between them in the word as in the English alphabet. ADVERTISEMENT",
+options:["Three","Four","Five","More than five"],
+answer:3
+},
+{
+q:"43. K is brother of N and X, Y is the mother of N, and Z is the father of K. Which of the following statement is not definitely true?",
+options:["K is the son of Z","Y is the wife of Z","X is the son of Y","Z is the father of X"],
+answer:2
+},
+{
+q:"44. Q's mother is sister of P and daughter of M. S is daughter of P and sister of T. How is M related to T?",
+options:["Aunt","Father","Sister","Maternal Grandfather or Maternal Grandmother"],
+answer:3
+},
+{
+q:"45. If it is possible to make only one meaningful word from the second, the sixth, the seventh, the eighth and the tenth letters of the word PERFORMANCE using each letter only once, then first letter of the word is your answer. If no such word can be formed your answer is X and if more than one such word can be formed your answer is Y.",
+options:["C","R","Y","X"],
+answer:3
+},
+{
+q:"46. Which of the following options does not have the same relationship between them as is there between DH: EG?",
+options:["VZ: XY","LP: MO","BG: CF","QT: RS"],
+answer:0
+},
+{
+q:"47. Choose the correct option that will continue the same pattern and replace the question mark in the given series. 3, 12, 27, 48, 75, 108,?",
+options:["147","162","183","192"],
+answer:1
+},
+{
+q:"48. If in a certain code language, MANGO is coded as 31–1–41–7–51, then how will LEAF be coded in that language?",
+options:["21–10–8–9","21–10–9–8","21–5–6–1","21–5–1–6"],
+answer:3
+},
+{
+q:"49. If 'A ∆ B' means 'A is the brother of B', 'A # B' means 'A is the father of B' and 'A × B' means 'A is the mother of B'. Then, which of the following means 'R is the son of M'?",
+options:["M ∆ R # S","M # S × R","M # S # R","M × R # S"],
+answer:1
+},
+{
+q:"50.  Mount Kinabalu is___________ mountain in Malaysia.",
+options:["old","high","the oldest","the highest"],
+answer:3
+},
+{
+q:"51. Golbert likes to eat junk food. He is_______ boy in the class.",
+options:["the tallest","the fattest","the ugliest","the shortest"],
+answer:1
+},
+{
+q:"52. Mercury is the planet _________to the sun.",
+options:["close","closest","far","farthest"],
+answer:1
+},
+{
+q:"53. Siti is tall. Maria is ________ than Siti.",
+options:["tall","short","taller","tallest"],
+answer:2
+},
+{
+q:"54. I have a good result but Sebastian has _________than me.",
+options:["bad","gooder","better","best"],
+answer:2
+},
+{
+q:"55. There________ a laptop on the sofa last night.",
+options:["is","are","was","were"],
+answer:2
+},
+{
+q:"56. She wants to buy the toys______ she did not have enough money.",
+options:["or","and","so","but"],
+answer:3
+},
+{
+q:"57. Which word does NOT belong with the others?",
+options:["book","index","glossary","chapter"],
+answer:0
+},
+{
+q:"58. BINDING : BOOK",
+options:["criminal : gang","display : museum","artist: carpenter","frame : picture"],
+answer:3
+},
+{
+q:"59. WAITRESS : RESTAURANT",
+options:["doctor : diagnosis","actor : role","driver : truck","teacher : school"],
+answer:3
+},
+{
+q:"60. EXPLORE : DISCOVER",
+options:["read : skim","research : learn","write : print","think : relate"],
+answer:1
+},/* ===== QUESTIONS 61–90 ===== */
 
-/* ===== CHEMISTRY ===== */
-{q:"Water formula?", options:["H2O","CO2","O2","NaCl"], answer:0},
-{q:"Neutral pH value?", options:["7","0","14","1"], answer:0},
-{q:"Gas used in photosynthesis?", options:["O2","CO2","N2","H2"], answer:1},
-{q:"NaCl is?", options:["Salt","Acid","Base","Gas"], answer:0},
-{q:"Acid turns blue litmus?", options:["Red","Blue","Green","No change"], answer:0},
-{q:"Valency of oxygen?", options:["1","2","3","4"], answer:1},
-{q:"Boiling point of water?", options:["100°C","0°C","50°C","90°C"], answer:0},
-{q:"Air is a?", options:["Mixture","Compound","Element","Solid"], answer:0},
-{q:"Ozone formula?", options:["O3","O2","CO2","H2O"], answer:0},
+{
+q:"61.Arrange the given words in the sequence in which they occur in the dictionary.",
+options:["Dear","Dean","Dead","Death"],
+answer:2
+},
+{
+q:"62.n(A*B)=6,={1,3};then n(B)=",
+options:["1","2","3","6"],
+answer:1
+},
+{
+q:"62.The graph of linear polynomial expression is",
+options:["Parabola","Hyperbola","Circle","Straight line"],
+answer:3
+},
+{
+q:"63.The total surface area of hemisphere is how much times the square of its radius",
+options:["1","4","3","2"],
+answer:2
+},
+{
+q:"64.The slope of the line perpendicular to the line joining the points (0,0)and (-8,8)is",
+options:["-1","1","1/3","-8"],
+answer:0
+},
+{
+q:"65.GCD and 65 and 117 is 65 cm -117 then the value of m is",
+options:["4","2","1","3"],
+answer:1
+},
+{
+q:"66.The number of terms of an arithmetic progression is 31. Its 16th term is m then the sum all termsof AP is",
+options:["16m","62m","1m","31/2m"],
+answer:1
+},
+{
+q:"67.Which one I the following is false?",
+options:["P(A)=1","P(A)>1","P(A)=0","P(A)=2/3"],
+answer:1
+},
+{
+q:"68.The perimeter of an equilateral triangle is 36root3 cm.Find its height?",
+options:["18cm","9cm","10cm","6cm"],
+answer:1
+},
+{
+q:"69.If the five- digit number 457 ab is divisible by 3,7,and 11, then what is the value of a2+b2-ab?",
+options:["24","36","33","49"],
+answer:0
+},
+{
+q:"70.IF 4 cot A=3 then Tan A=",
+options:["3/5","4/5","4/3","3/4"],
+answer:3
+},
+{
+q:"71.Zero of the polynomial of ax+b is",
+options:["b/a","a/b","-a/b","-b/a"],
+answer:3
+},
+{
+q:"72.if X=1/X  then the roots are",
+options:["1","-1","A,B","None"],
+answer:2
+},
+{
+q:"73.Set of rational and irrational number is called",
+options:["Real numbers","Natural numbers","Whole numbers","intergers"],
+answer:0
+},
+{
+q:"74.Angle between the lines x=1 and y=2 is",
+options:["45 degree","60 degree","90 degree","180 degree"],
+answer:2
+},
+{
+q:"75.AB and CD are two common tangents to circles which touch each other at CD ,if D lies on AB such that CD=4cm, then AB=",
+options:["6cm","4cm","9cm","8cm"],
+answer:3
+},
+{
+q:"76.The diameter of a sphere is 6cm. It is melted and drawn into a wire of diameter 2mm. The length of the wire is=",
+options:["36m","24m","26m","34m"],
+answer:1
+},
+{
+q:"77.The volume of two spheres are in the ratio 27:64 The ratio of their surface area is",
+options:["9:16","16:9","3:4","4:3"],
+answer:0
+},
+{
+q:"78.Mean of first 10 natural numbers is",
+options:["5.5","4.5","5","4"],
+answer:0
+},
+{
+q:"79.On random selection , the probability of getting a composite number among the numbers from 51 to100.",
+options:["4/5","1/5","3/5","2/5"],
+answer:0
+},
+{
+q:"80. If 9th term from the end of an A.P is 12th term from the beginning ,then the number of terms is",
+options:["18","20","19","21"],
+answer:1
+},
+{
+q:"81. Joraba Tribe in which state ?",
+options:["Arunachalpradesh","Madhya Pradesh","Rajasthan","Andaman"],
+answer:3
+},
+{
+q:"82. Which of the following is the perfect source of protein",
+options:["Potato","Tomato","Wheat","Pulses"],
+answer:3
+},
+{
+q:"83. Choose the pair that best represents a similar relationship to the one expressed in the original pair of words. Heart: Cardiology",
+options:["Plants: Zoology","Phycology: Fungi","Disease: Hospital","Virus: Virology"],
+answer:3
+},
+{
+q:"84.  Which of the following is most electronegative?",
+options:["C","N","O","F"],
+answer:3
+},
+{
+q:"85. The oxide of which of these elements is not acidic?",
+options:["CI","S","N","Li"],
+answer:3
+},
+{
+q:"86. Highly metallic element will have the configuration.",
+options:["2,8,7","2,8,8,5","2,8,8,2","2,8,2"],
+answer:2
+},
+{
+q:"87. The image formed is always erect. The mirror is",
+options:["Plane","Concave","Convex","Plane or convex"],
+answer:3
+},
+{
+q:"88. Light travels faster in",
+options:["Vacuum","Glass","Air","Diamond"],
+answer:0
+},
+{
+q:"89.  The screen of human eye is",
+options:["Comea","Pupil","Iris","Retina"],
+answer:3
+},
+{
+q:"90. For which color is the refractive index of glass maximum",
+options:["Red","Violet","Green","yellow"],
+answer:1
+},
 
-/* ===== ENGLISH ===== */
-{q:"Correct spelling?", options:["Priority","Praerity","Prieity","Prayrity"], answer:0},
-{q:"Correct spelling?", options:["Akademic","Acadmic","Academic","Academik"], answer:2},
-{q:"Correct spelling?", options:["Leiseure","Leizare","Lezure","Leisure"], answer:3},
-{q:"Correct spelling?", options:["Ekslence","Excellence","Ekslanse","Exellance"], answer:1},
+/* ===== QUESTIONS 91–120 ===== */
 
-{q:"Antonym of equitable?", options:["just","equal","unfair","handsome"], answer:2},
-{q:"Synonym of motivation?", options:["determination","inspiration","stagnation","recitation"], answer:1},
-{q:"Antonym of dynamic?", options:["lazy","active","ugly","bright"], answer:0},
-
-{q:"Assist synonym?", options:["Pardon","Check","Delay","Aid"], answer:3},
-{q:"Break loose meaning?", options:["Escape","Untie","Set free","Let go"], answer:0},
-
-{q:"She ___ for London.", options:["will leaving","is leaving","leave","left"], answer:1},
-{q:"I ___ for hours when eyes hurt.", options:["had been reading","was reading","am reading","have been reading"], answer:0},
-{q:"She said she ___ clouds.", options:["like","likes","will like","liked"], answer:3},
-
-/* ===== GK ===== */
-{q:"Most electronegative element?", options:["C","N","O","F"], answer:3},
-{q:"Chemical name of washing soda?", options:["NaCl","NaHCO3","Na2CO3","NaOH"], answer:2},
-{q:"Sunflower movement?", options:["Phototropism","Geotropism","Chemotropism","Hydrotropism"], answer:0},
-{q:"Graphite conducts electricity because?", options:["Free electrons","Allotrope","Brittle","Oxide"], answer:0},
-
-{q:"Planet closest to sun?", options:["Earth","Venus","Mercury","Mars"], answer:2},
-{q:"Human eye screen?", options:["Cornea","Pupil","Iris","Retina"], answer:3},
-
-{q:"Global integration is called?", options:["Privatization","Globalization","Liberalization","Competition"], answer:1},
+{
+q:"91.  Choose the right option to fill in the blank. The emergence of______ is directly connected to the rise of political parties.",
+options:["Monitory democracies","Direct democracies","Representative democracies","Constitutional democracies"],
+answer:2
+},
+{
+q:"92.The process of integration between different countries is called as________",
+options:["Privatization","Globalization","Liberalization","Competition"],
+answer:1
+},
+{
+q:"93. Which of the following is the most electronegative element in the periodic table?",
+options:["N","Cl","F","More than one of the above"],
+answer:2
+},
+{
+q:"94. Non-metals are generally bad conductors of electricity. However, graphite is a good conductor of electricity because it",
+options:["has free electrons","is an allotrope of carbon","is brittle","forms basic oxide"],
+answer:0
+},
+{
+q:"95. Chemical name of washing soda is:",
+options:["Sodium chloride","Sodium hydrogen carbonate","Sodium carbonate","Sodium hydroxide"],
+answer:2
+},
+{
+q:"96. Among the following pairs, which one is a mis-matched pair ?",
+options:["Plant – Producer","Rabbit - Primary consumer","Lion – Carnivore","Giraffe - Secondary consumer"],
+answer:3
+},
+{
+q:"97. The movement of sunflower in accordance with the path of sun is due",
+options:["Phototropism","Geotropism","Chemotropism","Hydrotropism"],
+answer:0
+},
+{
+q:"98. By which instrument, the presence of magnetic field be determined?",
+options:["Magnetic Needle","Ammeter","Galvanometer","Voltmeter"],
+answer:0
+},
+{
+q:"99. Select the option that can be used as a one-word substitute for the given group of words. A person who takes care of cattle",
+options:["Gardener","Cowherd","Guard","Landlord"],
+answer:1
+},
+{
+q:"100. Select the most appropriate synonym of the given word. Assist",
+options:["Pardon","Check","Delay","Aid"],
+answer:3
+},
+{
+q:"101. Select the most appropriate meaning of the given idiom. To break loose.",
+options:["To escape","To untie","To set free","To let go"],
+answer:0
+},
+{
+q:"102. Direction: From the given options, identify the segment in the sentence which contains the grammatical error. Had you told me that you were in Mumbai I could have certainly contacted you instead of waiting here.",
+options:["you were","Had you","could have","instead of"],
+answer:0
+},
+{
+q:"103. In the following question, some part of the sentence may have errors. Find out which part of the sentence has an error and select the appropriate option. If a sentence is free from error, select 'No Error'. On the eleventh hour, (A)/ she retired from the contest, (B)/ leaving the field open to her opponent. (C)/ No error (D)",
+options:["D","B","A","C"],
+answer:2
+},
+{
+q:"104. Select the option that can be used as a one-word substitute for the given group of words. First show of a film or theatre",
+options:["Debris","Easel","Charade","Premiere"],
+answer:3
+},
+{
+q:"105. Select the most appropriate option to fill in the blank. The police later____ that one of the thieves had been arrested.",
+options:["abandoned","confirmed","commenced","analysed"],
+answer:1
+},
+{
+q:"106. 4. A dice has its faces marked by letters E, R, A, L, O, T. Two positions of the same dice are shown. Which face is opposite to face E?",
+options:["L","A","O","R"],
+answer:2
+},
+{
+q:"107. Which of the following numbers will replace the question mark (?) in the given series? 8, 18, 38, 78, 158,?",
+options:["318","340","290","268"],
+answer:0
+},
+{
+q:"108. Which two signs should be interchanged to make the given equation correct? 28-12-21-7×1=60",
+options:["X and +","+and+","+and-","× and ÷"],
+answer:2
+},
+{
+q:"109. Choose the word which is different from the other words in the options",
+options:["Сапberra","Sydney","Brussels","Madrid"],
+answer:0
+},
+{
+q:"110. In the following question, select the related letter pair from the given alternatives-KW FR:?",
+options:["0C:CP","AB: BM","BM: WO","IU :DP"],
+answer:1
+},
+{
+q:"111. The position(s) of how many letters will remain unchanged if each of the letters in the word IDENTITY is arranged in reverse English alphabetical order?",
+options:["Four","Two","Three","One"],
+answer:1
+},
+{
+q:"112. Arrange the fractions ¾,5/12,13/16/29 ,3/8 in their descending order of magnitude.",
+options:[
+"3/4>3/8>13/16>16/29>5/12",
+"3/8>5/12>16/29>3/4>13/16",
+"13/16>3/4>16/29>5/12>3/8",
+"13/16>16/29>3/4>5/12>3/8"
+],
+answer:2
+},
+{
+q:"113. The ratio of present ages of Golu and Polu is 17: 19. After 5 years the age of Polu will be 81 years. What is the present age of Golu?",
+options:["56 years","68 years","52 years","74 year"],
+answer:1
+},
+{
+q:"114.The ratio of present ages of Y and Z is 5 : 8. 9 years ago, the age of Y was 7/13th the age of Z. What is the present age of Z?",
+options:["46years","52 years","48 years","40 years"],
+answer:2
+},
+{
+q:"115. A and together have Rs 1800. If 1/3 of A's amount is equal to 2/3 of B's amount, how much does B have?",
+options:["Rs. 1200","Rs. 900","Rs. 750","Rs. 600"],
+answer:3
+},
+{
+q:"116. The value of [4+2+3x6-7] is",
+options:["13","14","11","12"],
+answer:0
+},
+{
+q:"117. A batsman scored 120 runs which included 15 fours and 2 sixes. What per cent of runs were scored by him running between the wickets?",
+options:["40%","35%","37.50%","37%"],
+answer:2
+},
+{
+q:"118.  Select the word that best completes the sentence. Determine the collocation through the sentence. He tends to__________a lot of noise when he’s working.",
+options:["have","give","get","make"],
+answer:3
+},
+{
+q:"119. Select the most appropriate ANTONYM of the given word. Vigilant",
+options:["Awake","Careless","Choosy","Mindful"],
+answer:1
+},
+{
+q:"120. Select the most appropriate option to fill in the blank. She always looks on the _______side of life, no matter how tough things get.",
+options:["bright","negative","dark","neutral"],
+answer:0
+}
 
 ];
 
