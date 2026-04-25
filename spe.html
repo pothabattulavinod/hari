@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Practice Exam</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body { background:#f4f6f9; font-family:'Segoe UI'; }
+
+/* HEADER */
+.topbar {
+    background:linear-gradient(90deg,#1e3a8a,#2563eb);
+    color:white;
+    padding:14px;
+    font-size:20px;
+    font-weight:700;
+    text-align:center;
+}
+
+.exam-title {
+    background:#111827;
+    color:#22c55e;
+    text-align:center;
+    padding:8px;
+    font-size:14px;
+    letter-spacing:2px;
+}
+
+/* QUESTION BOX */
+.question-box {
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    border:1px solid #e2e8f0;
+}
+
+/* OPTIONS */
+.option {
+    border:1px solid #cbd5e1;
+    padding:12px;
+    border-radius:6px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+.option:hover { background:#eef2ff; }
+
+.option.active {
+    background:#dbeafe;
+    border-color:#2563eb;
+}
+
+.correctOpt {
+    background:#16a34a !important;
+    color:white;
+}
+
+.wrongOpt {
+    background:#dc2626 !important;
+    color:white;
+}
+
+/* PALETTE */
+.palette {
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #e2e8f0;
+}
+
+.box {
+    width:38px;height:38px;margin:5px;
+    display:inline-flex;align-items:center;justify-content:center;
+    border-radius:6px;
+    background:#e5e7eb;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.answered { background:#2563eb; color:white; }
+.correct { background:#16a34a !important; color:white; }
+.wrong { background:#dc2626 !important; color:white; }
+.current { border:2px solid black; }
+
+.btn-main {
+    background:#2563eb;
+    color:white;
+}
+.btn-main:hover { background:#1d4ed8; }
+</style>
+
+</head>
+
+<body>
+
+<div class="topbar">Smart Practice Exam</div>
+<div class="exam-title">★ GRAND EXAM ★</div>
+
+<div class="container mt-3">
+<div class="row">
+
+<!-- LEFT -->
+<div class="col-md-8">
+
+<div class="question-box">
+<div id="question"></div>
+<div id="options"></div>
+
+<div class="mt-3 d-flex justify-content-between">
+<button class="btn btn-secondary" onclick="prevQ()">Previous</button>
+<button class="btn btn-main" onclick="nextQ()">Next</button>
+</div>
+</div>
+
+<button class="btn btn-success w-100 mt-3" onclick="submitQuiz()">Submit Test</button>
+
+<div id="result"></div>
+
+</div>
+
+<!-- RIGHT -->
+<div class="col-md-4">
+<div class="palette">
+<h6>Question Palette</h6>
+<div id="palette"></div>
+
+<hr>
+
+<div>
+<span class="box answered"></span> Answered<br>
+<span class="box"></span> Not Answered<br>
+<span class="box correct"></span> Correct<br>
+<span class="box wrong"></span> Wrong
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* SAMPLE QUESTIONS (you can replace with your 120 later) */
+const questions = [
+
+/* ===== REASONING ===== */
+{q:"1, 2, 9, 4, 25, 6, ?", options:["51","49","50","47"], answer:1},
+{q:"16, 33, 67, 135, ?", options:["371","175","271","287"], answer:2},
+{q:"3, 12, 27, 48, 75, 108, ?", options:["147","162","183","192"], answer:1},
+{q:"8, 18, 38, 78, 158, ?", options:["318","340","290","268"], answer:0},
+{q:"B3M, E7J, H15G, K31D, ?", options:["N65A","063A","N63A","N63Z"], answer:0},
+{q:"MTH, ORK, UPN, YNQ, ?", options:["CKT","CLT","ELT","EKT"], answer:3},
+{q:"Boat : Oar :: Bicycle : ?", options:["Road","Wheel","Seat","Pedal"], answer:3},
+{q:"Heart : Cardiology :: Virus : ?", options:["Zoology","Hospital","Virology","Biology"], answer:2},
+{q:"Binding : Book :: Frame : ?", options:["Picture","Car","Glass","Wall"], answer:0},
+{q:"Waitress : Restaurant :: Teacher : ?", options:["Student","School","Book","Class"], answer:1},
+
+/* ===== MATH ===== */
+{q:"LCM of 3 and 4?", options:["12","24","6","8"], answer:0},
+{q:"HCF of 9 and 12?", options:["3","6","9","12"], answer:0},
+{q:"5² = ?", options:["10","20","25","30"], answer:2},
+{q:"√64 = ?", options:["6","7","8","9"], answer:2},
+{q:"7 × 8 = ?", options:["54","56","58","60"], answer:1},
+{q:"12 ÷ 4 = ?", options:["2","3","4","5"], answer:1},
+{q:"2³ = ?", options:["6","8","10","12"], answer:1},
+{q:"√25 = ?", options:["3","4","5","6"], answer:2},
+{q:"10% of 150?", options:["10","15","20","25"], answer:1},
+{q:"20% of 50?", options:["5","10","15","20"], answer:1},
+
+{q:"Mean of first 10 natural numbers?", options:["5.5","4.5","5","4"], answer:0},
+{q:"Sum of angles in triangle?", options:["90°","180°","270°","360°"], answer:1},
+{q:"1 km = ?", options:["100m","1000m","10m","500m"], answer:1},
+{q:"0.5 as fraction?", options:["1/2","1/3","1/4","2/3"], answer:0},
+
+/* ===== PHYSICS ===== */
+{q:"Unit of force?", options:["Watt","Newton","Joule","Volt"], answer:1},
+{q:"Unit of energy?", options:["Joule","Kg","Meter","Second"], answer:0},
+{q:"Unit of power?", options:["Watt","Joule","Volt","Amp"], answer:0},
+{q:"Electric current unit?", options:["Ampere","Meter","Second","Kg"], answer:0},
+{q:"Light travels fastest in?", options:["Air","Water","Vacuum","Glass"], answer:2},
+{q:"Sound needs?", options:["Vacuum","Medium","Light","Heat"], answer:1},
+{q:"Mirror reflects?", options:["Light","Heat","Sound","Air"], answer:0},
+{q:"Heat is a form of?", options:["Energy","Force","Mass","Power"], answer:0},
+
+/* ===== CHEMISTRY ===== */
+{q:"Water formula?", options:["H2O","CO2","O2","NaCl"], answer:0},
+{q:"Neutral pH value?", options:["7","0","14","1"], answer:0},
+{q:"Gas used in photosynthesis?", options:["O2","CO2","N2","H2"], answer:1},
+{q:"NaCl is?", options:["Salt","Acid","Base","Gas"], answer:0},
+{q:"Acid turns blue litmus?", options:["Red","Blue","Green","No change"], answer:0},
+{q:"Valency of oxygen?", options:["1","2","3","4"], answer:1},
+{q:"Boiling point of water?", options:["100°C","0°C","50°C","90°C"], answer:0},
+{q:"Air is a?", options:["Mixture","Compound","Element","Solid"], answer:0},
+{q:"Ozone formula?", options:["O3","O2","CO2","H2O"], answer:0},
+
+/* ===== ENGLISH ===== */
+{q:"Correct spelling?", options:["Priority","Praerity","Prieity","Prayrity"], answer:0},
+{q:"Correct spelling?", options:["Akademic","Acadmic","Academic","Academik"], answer:2},
+{q:"Correct spelling?", options:["Leiseure","Leizare","Lezure","Leisure"], answer:3},
+{q:"Correct spelling?", options:["Ekslence","Excellence","Ekslanse","Exellance"], answer:1},
+
+{q:"Antonym of equitable?", options:["just","equal","unfair","handsome"], answer:2},
+{q:"Synonym of motivation?", options:["determination","inspiration","stagnation","recitation"], answer:1},
+{q:"Antonym of dynamic?", options:["lazy","active","ugly","bright"], answer:0},
+
+{q:"Assist synonym?", options:["Pardon","Check","Delay","Aid"], answer:3},
+{q:"Break loose meaning?", options:["Escape","Untie","Set free","Let go"], answer:0},
+
+{q:"She ___ for London.", options:["will leaving","is leaving","leave","left"], answer:1},
+{q:"I ___ for hours when eyes hurt.", options:["had been reading","was reading","am reading","have been reading"], answer:0},
+{q:"She said she ___ clouds.", options:["like","likes","will like","liked"], answer:3},
+
+/* ===== GK ===== */
+{q:"Most electronegative element?", options:["C","N","O","F"], answer:3},
+{q:"Chemical name of washing soda?", options:["NaCl","NaHCO3","Na2CO3","NaOH"], answer:2},
+{q:"Sunflower movement?", options:["Phototropism","Geotropism","Chemotropism","Hydrotropism"], answer:0},
+{q:"Graphite conducts electricity because?", options:["Free electrons","Allotrope","Brittle","Oxide"], answer:0},
+
+{q:"Planet closest to sun?", options:["Earth","Venus","Mercury","Mars"], answer:2},
+{q:"Human eye screen?", options:["Cornea","Pupil","Iris","Retina"], answer:3},
+
+{q:"Global integration is called?", options:["Privatization","Globalization","Liberalization","Competition"], answer:1},
+
+];
+
+/* RANDOM 10 */
+let selectedQuestions = questions.sort(() => 0.5 - Math.random()).slice(0,10);
+
+let current = 0;
+let answers = new Array(selectedQuestions.length).fill(null);
+let submitted = false;
+
+const qEl = document.getElementById("question");
+const optEl = document.getElementById("options");
+const palette = document.getElementById("palette");
+
+function loadQ(){
+let q = selectedQuestions[current];
+
+qEl.innerHTML = `<b>${current+1}. ${q.q}</b>`;
+optEl.innerHTML = "";
+
+q.options.forEach((opt,i)=>{
+let cls = "option";
+
+if(answers[current]===i) cls += " active";
+
+if(submitted){
+if(i === q.answer) cls += " correctOpt";
+if(answers[current]===i && answers[current]!==q.answer) cls += " wrongOpt";
+}
+
+optEl.innerHTML += `<div class="${cls}" onclick="select(${i})">${opt}</div>`;
+});
+
+updatePalette();
+}
+
+function select(i){
+if(submitted) return;
+answers[current]=i;
+loadQ();
+}
+
+function nextQ(){
+if(current < selectedQuestions.length-1) current++;
+loadQ();
+}
+
+function prevQ(){
+if(current > 0) current--;
+loadQ();
+}
+
+function updatePalette(){
+palette.innerHTML="";
+selectedQuestions.forEach((_,i)=>{
+let cls="box";
+
+if(answers[i]!=null) cls+=" answered";
+if(i===current) cls+=" current";
+
+if(submitted){
+if(answers[i]===selectedQuestions[i].answer) cls+=" correct";
+else cls+=" wrong";
+}
+
+palette.innerHTML += `<div class="${cls}" onclick="gotoQ(${i})">${i+1}</div>`;
+});
+}
+
+function gotoQ(i){
+current=i;
+loadQ();
+}
+
+function submitQuiz(){
+submitted = true;
+let score=0;
+
+selectedQuestions.forEach((q,i)=>{
+if(answers[i]===q.answer) score++;
+});
+
+loadQ();
+
+document.getElementById("result").innerHTML =
+`<div class="alert alert-success mt-3">
+🎯 Score: ${score}/${selectedQuestions.length}
+</div>`;
+}
+
+loadQ();
+
+</script>
+
+</body>
+</html>
