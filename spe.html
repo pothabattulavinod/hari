@@ -785,7 +785,8 @@ const palette = document.getElementById("palette");
 function loadQ(){
 let q = selectedQuestions[current];
 
-qEl.innerHTML = `<b>${current+1}. ${q.q}</b>`;
+let cleanQ = q.q.replace(/^\d+\.\s*/, "");
+qEl.innerHTML = `<b>${current+1}. ${cleanQ}</b>`;
 optEl.innerHTML = "";
 
 q.options.forEach((opt,i)=>{
