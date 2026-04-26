@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Grand Exam 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#0b1220;
+  --bg2:#111c33;
+  --card:rgba(255,255,255,0.06);
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --primary:#60a5fa;
+  --glow:rgba(96,165,250,0.35);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter, Arial, sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  color:var(--text);
+}
+
+/* HERO */
+.hero img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:16px;
+}
+
+/* ========================= */
+/* 🔥 HIGHLIGHTED CARDS */
+/* ========================= */
+
+.card{
+  background:var(--card);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(96,165,250,0.25);
+  border-radius:18px;
+  padding:16px;
+  margin:10px 0;
+  box-shadow:0 0 0 rgba(0,0,0,0);
+  transition:0.25s ease;
+}
+
+/* GLOW HOVER EFFECT */
+.card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(96,165,250,0.6);
+  box-shadow:0 0 25px var(--glow);
+}
+
+/* TITLES */
+h1{
+  font-size:clamp(26px,3vw,40px);
+  color:white;
+}
+
+h2{
+  font-size:18px;
+  color:var(--primary);
+  margin-bottom:8px;
+}
+
+/* BADGE */
+.badge{
+  display:inline-block;
+  margin-top:8px;
+  padding:5px 10px;
+  background:rgba(96,165,250,0.25);
+  color:var(--primary);
+  border-radius:10px;
+  font-weight:600;
+  font-size:12px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+@media(max-width:768px){
+  .grid{grid-template-columns:1fr;}
+}
+
+/* IMAGE */
+.img{
+  width:100%;
+  border-radius:14px;
+  margin-top:8px;
+}
+
+/* SMALL TEXT */
+.small{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ========================= */
+/* 🔥 LED BOX (HIGHLIGHTED) */
+/* ========================= */
+
+.led-wrap{
+  margin-top:12px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.led-box{
+  width:85px;
+  height:85px;
+  background:#020617;
+  border:1px solid rgba(96,165,250,0.35);
+  border-radius:14px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  box-shadow:0 0 18px rgba(96,165,250,0.15);
+  transition:0.2s;
+}
+
+.led-box:hover{
+  box-shadow:0 0 25px rgba(96,165,250,0.4);
+  transform:scale(1.03);
+}
+
+.led-number{
+  font-family:"Courier New", monospace;
+  font-size:28px;
+  font-weight:700;
+  color:#22c55e;
+  text-shadow:0 0 10px rgba(34,197,94,0.7);
+}
+
+.led-label{
+  font-size:10px;
+  color:#94a3b8;
+  margin-top:4px;
+  letter-spacing:1px;
+}
+
+/* ========================= */
+/* 📌 INSTRUCTIONS */
+/* ========================= */
+
+.checklist{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:10px;
+}
+
+.item{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(96,165,250,0.25);
+  padding:10px 12px;
+  border-radius:12px;
+  font-size:14px;
+  color:#cbd5e1;
+  transition:0.2s;
+}
+
+.item:hover{
+  background:rgba(96,165,250,0.1);
+  transform:translateX(4px);
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:22px;
+  font-size:12px;
+  color:#94a3b8;
+  border-top:1px solid rgba(96,165,250,0.2);
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="https://raw.githubusercontent.com/pothabattulavinod/hari/refs/heads/main/IMG-20251018-WA0015.jpg">
+</div>
+
+<div class="container">
+
+  <!-- TITLE (cleaned) -->
+  <div class="card">
+    <h1>Grand Exam 2026</h1>
+    <div class="badge">📅 April 30, 2026 • 9:00 AM</div>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <div class="card">
+      <h2>📍 Location</h2>
+      <p class="small">Hari E-Techno School<br>Rajanagaram</p>
+    </div>
+
+    <div class="card">
+      <h2>⏰ Time</h2>
+      <p class="small">9:00 AM – 12:00 PM</p>
+    </div>
+
+  </div>
+
+  <!-- CAMPUS -->
+  <div class="card">
+    <h2>🏫 Campus View</h2>
+    <img class="img" src="https://lh3.googleusercontent.com/p/AF1QipPHfYJGbgN_fjKHQ0Lss4ZVQv2FnXVrKYW-Itlz=s1360-w1360-h1020-rw">
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="card">
+    <h2>⏳ Countdown to Exam</h2>
+
+    <div class="led-wrap">
+
+      <div class="led-box">
+        <div id="d" class="led-number">00</div>
+        <div class="led-label">DAYS</div>
+      </div>
+
+      <div class="led-box">
+        <div id="h" class="led-number">00</div>
+        <div class="led-label">HOURS</div>
+      </div>
+
+      <div class="led-box">
+        <div id="m" class="led-number">00</div>
+        <div class="led-label">MIN</div>
+      </div>
+
+      <div class="led-box">
+        <div id="s" class="led-number">00</div>
+        <div class="led-label">SEC</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div class="card">
+    <h2>📌 Exam Guidelines</h2>
+
+    <div class="checklist">
+      <div class="item">✔ Arrive 30 minutes before exam time</div>
+      <div class="item">✔ Mobile phones strictly prohibited</div>
+      <div class="item">✔ Carry required stationery only</div>
+      <div class="item">✔ Maintain silence inside hall</div>
+      <div class="item">✔ Follow invigilator instructions carefully</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 HARI E-TECHNO SCHOOL. All Rights Reserved.
+</footer>
+
+<script>
+const examDate = new Date("April 30, 2026 09:00:00").getTime();
+
+const d = document.getElementById("d");
+const h = document.getElementById("h");
+const m = document.getElementById("m");
+const s = document.getElementById("s");
+
+function pad(n){ return n < 10 ? "0"+n : n; }
+
+setInterval(()=>{
+  const now = new Date().getTime();
+  const diff = examDate - now;
+
+  if(diff <= 0){
+    d.textContent = h.textContent = m.textContent = s.textContent = "00";
+    return;
+  }
+
+  const days = Math.floor(diff/(1000*60*60*24));
+  const hours = Math.floor((diff/(1000*60*60))%24);
+  const mins = Math.floor((diff/(1000*60))%60);
+  const secs = Math.floor((diff/1000)%60);
+
+  d.textContent = pad(days);
+  h.textContent = pad(hours);
+  m.textContent = pad(mins);
+  s.textContent = pad(secs);
+
+},1000);
+</script>
+
+</body>
+</html>
