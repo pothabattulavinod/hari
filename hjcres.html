@@ -26,12 +26,25 @@ body{
 
 header{
   text-align:center;
-  padding:18px;
-  font-size:20px;
-  font-weight:700;
+  padding:18px 10px;
   background:rgba(255,255,255,0.05);
   border-bottom:1px solid var(--border);
   backdrop-filter:blur(10px);
+}
+
+header h2{
+  margin:0;
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+header small{
+  display:block;
+  margin-top:4px;
+  font-size:12px;
+  opacity:0.8;
+  letter-spacing:2px;
 }
 
 .wrapper{
@@ -58,7 +71,9 @@ header{
   backdrop-filter:blur(10px);
 }
 
-.searchBox{margin-bottom:15px;}
+.searchBox{
+  margin-bottom:15px;
+}
 
 .searchBox input{
   width:100%;
@@ -159,6 +174,17 @@ header{
 .Average{background:#64748b;}
 .Outstanding{background:#a855f7;}
 
+.footer{
+  text-align:center;
+  padding:15px;
+  margin-top:20px;
+  font-size:13px;
+  color:rgba(248,250,252,0.7);
+  border-top:1px solid var(--border);
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(10px);
+}
+
 @media(max-width:700px){
   .topline{flex-direction:column;}
   .badge{align-self:flex-start;}
@@ -168,7 +194,10 @@ header{
 
 <body>
 
-<header>HARI JUNIOR COLLEGE - RESULTS PORTAL</header>
+<header>
+  <h2>HARI JUNIOR COLLEGE</h2>
+  <small>RESULTS PORTAL</small>
+</header>
 
 <div class="wrapper">
 
@@ -185,32 +214,35 @@ header{
 
 </div>
 
+<footer class="footer">
+  © 2026 HARI E-TECHNO SCHOOL | All Rights Reserved
+</footer>
+
 <script>
-const data = {
-"Students":[
-{"Roll No":"HJC2026001","Name":"Rahul Kumar","Address":"Vijayawada","Grand Exam Total":108,"Remarks":"Excellent"},
-{"Roll No":"HJC2026002","Name":"Sneha Reddy","Address":"Guntur","Grand Exam Total":98,"Remarks":"Very Good"},
-{"Roll No":"HJC2026003","Name":"Arjun Varma","Address":"Hyderabad","Grand Exam Total":92,"Remarks":"Good"},
-{"Roll No":"HJC2026004","Name":"Kavya Sharma","Address":"Chennai","Grand Exam Total":80,"Remarks":"Average"},
-{"Roll No":"HJC2026005","Name":"Mohan Rao","Address":"Vizag","Grand Exam Total":115,"Remarks":"Outstanding"}
-]
-};
+let students = [];
 
-let students = data.Students;
+/* ✅ LIVE JSON FROM GITHUB */
+fetch("https://raw.githubusercontent.com/pothabattulavinod/hari/refs/heads/main/HJCRES.json")
+  .then(res => res.json())
+  .then(data => {
+    students = data.Students;
 
-document.getElementById("total").innerText = students.length;
-document.getElementById("top").innerText = Math.max(...students.map(s => s["Grand Exam Total"]));
+    document.getElementById("total").innerText = students.length;
+    document.getElementById("top").innerText =
+      Math.max(...students.map(s => s["Grand Exam Total"]));
 
-function render(list = students) {
+    render();
+  });
 
-  // ✅ SORT BY TOP MARKS
-  list = [...list].sort((a, b) => b["Grand Exam Total"] - a["Grand Exam Total"]);
+function render(list = students){
+
+  list = [...list].sort((a,b)=>b["Grand Exam Total"]-a["Grand Exam Total"]);
 
   let box = document.getElementById("list");
   box.innerHTML = "";
 
-  list.forEach(s => {
-    let percent = (s["Grand Exam Total"] / 120) * 100;
+  list.forEach(s=>{
+    let percent = (s["Grand Exam Total"]/120)*100;
     let badge = s["Remarks"].replace(/\s/g,'');
 
     box.innerHTML += `
@@ -237,15 +269,15 @@ function render(list = students) {
     </div>`;
   });
 
-  setTimeout(() => {
-    document.querySelectorAll(".fill").forEach(e => {
-      e.style.width = e.dataset.p + "%";
+  setTimeout(()=>{
+    document.querySelectorAll(".fill").forEach(e=>{
+      e.style.width = e.dataset.p+"%";
     });
-  }, 100);
+  },100);
 }
 
 /* SEARCH */
-document.getElementById("search").addEventListener("input", function() {
+document.getElementById("search").addEventListener("input",function(){
   let val = this.value.toLowerCase();
 
   let filtered = students.filter(s =>
@@ -255,8 +287,6 @@ document.getElementById("search").addEventListener("input", function() {
 
   render(filtered);
 });
-
-render();
 </script>
 
 </body>
