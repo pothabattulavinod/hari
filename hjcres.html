@@ -24,9 +24,10 @@ body{
   overflow-x:hidden;
 }
 
+/* HEADER */
 header{
   text-align:center;
-  padding:18px 10px;
+  padding:16px 10px;
   background:rgba(255,255,255,0.05);
   border-bottom:1px solid var(--border);
   backdrop-filter:blur(10px);
@@ -34,35 +35,35 @@ header{
 
 header h2{
   margin:0;
-  font-size:20px;
+  font-size:18px;
   font-weight:800;
-  letter-spacing:1px;
 }
 
 header small{
   display:block;
   margin-top:4px;
-  font-size:12px;
+  font-size:11px;
   opacity:0.8;
-  letter-spacing:2px;
 }
 
+/* WRAPPER */
 .wrapper{
   max-width:900px;
   margin:auto;
-  padding:15px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
+/* STATS */
 .stats{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin:15px 0;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
 
 .statBox{
-  flex:1;
-  min-width:160px;
   background:var(--card);
   border:1px solid var(--border);
   border-radius:12px;
@@ -71,8 +72,9 @@ header small{
   backdrop-filter:blur(10px);
 }
 
+/* SEARCH */
 .searchBox{
-  margin-bottom:15px;
+  padding:5px 0;
 }
 
 .searchBox input{
@@ -83,71 +85,74 @@ header small{
   background:rgba(255,255,255,0.05);
   color:white;
   outline:none;
+  font-size:14px;
 }
 
+/* LIST */
 .list{
   display:flex;
   flex-direction:column;
   gap:12px;
 }
 
+/* CARD */
 .row{
   display:flex;
   flex-direction:column;
   gap:10px;
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:16px;
+  border-radius:14px;
   padding:14px;
   backdrop-filter:blur(12px);
-  transition:0.25s;
 }
 
-.row:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.4);
-}
-
+/* TOP */
 .topline{
   display:flex;
   justify-content:space-between;
+  gap:8px;
   flex-wrap:wrap;
 }
 
 .name{
-  font-size:16px;
+  font-size:15px;
   font-weight:800;
   color:var(--primary);
 }
 
-.score{font-weight:700;}
+.score{
+  font-weight:700;
+}
 
+/* META */
 .meta{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  gap:6px;
+}
+
+.roll, .address{
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:6px;
 }
 
 .roll{
-  font-size:12px;
-  padding:5px 10px;
   background:rgba(59,130,246,0.18);
   border:1px solid rgba(59,130,246,0.35);
-  border-radius:8px;
   font-family:monospace;
 }
 
 .address{
-  font-size:12px;
-  padding:5px 10px;
   background:rgba(34,197,94,0.12);
   border-left:3px solid #22c55e;
-  border-radius:6px;
 }
 
+/* BAR */
 .bar{
   width:100%;
-  height:7px;
+  height:6px;
   background:rgba(255,255,255,0.15);
   border-radius:10px;
   overflow:hidden;
@@ -160,11 +165,12 @@ header small{
   transition:1.2s ease;
 }
 
+/* BADGE */
 .badge{
-  align-self:flex-end;
-  font-size:12px;
-  padding:5px 10px;
-  border-radius:8px;
+  align-self:flex-start;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:6px;
   color:white;
 }
 
@@ -174,20 +180,31 @@ header small{
 .Average{background:#64748b;}
 .Outstanding{background:#a855f7;}
 
+/* FOOTER */
 .footer{
   text-align:center;
-  padding:15px;
-  margin-top:20px;
-  font-size:13px;
+  padding:12px;
+  font-size:12px;
   color:rgba(248,250,252,0.7);
   border-top:1px solid var(--border);
   background:rgba(255,255,255,0.03);
-  backdrop-filter:blur(10px);
 }
 
-@media(max-width:700px){
-  .topline{flex-direction:column;}
-  .badge{align-self:flex-start;}
+/* 📱 MOBILE FIX */
+@media (max-width:600px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .topline{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .name{font-size:14px;}
+  .score{font-size:13px;}
+  .roll,.address{font-size:10px;}
 }
 </style>
 </head>
@@ -221,7 +238,7 @@ header small{
 <script>
 let students = [];
 
-/* ✅ LIVE JSON FROM GITHUB */
+/* LIVE JSON */
 fetch("https://raw.githubusercontent.com/pothabattulavinod/hari/refs/heads/main/HJCRES.json")
   .then(res => res.json())
   .then(data => {
@@ -231,14 +248,20 @@ fetch("https://raw.githubusercontent.com/pothabattulavinod/hari/refs/heads/main/
     document.getElementById("top").innerText =
       Math.max(...students.map(s => s["Grand Exam Total"]));
 
-    render();
+    render(students);
   });
 
-function render(list = students){
+function render(list){
+
+  let box = document.getElementById("list");
+
+  if(!list || list.length === 0){
+    box.innerHTML = `<div class="row" style="text-align:center;opacity:0.7">No results found</div>`;
+    return;
+  }
 
   list = [...list].sort((a,b)=>b["Grand Exam Total"]-a["Grand Exam Total"]);
 
-  let box = document.getElementById("list");
   box.innerHTML = "";
 
   list.forEach(s=>{
@@ -271,14 +294,20 @@ function render(list = students){
 
   setTimeout(()=>{
     document.querySelectorAll(".fill").forEach(e=>{
-      e.style.width = e.dataset.p+"%";
+      e.style.width = e.dataset.p + "%";
     });
-  },100);
+  },50);
 }
 
-/* SEARCH */
-document.getElementById("search").addEventListener("input",function(){
-  let val = this.value.toLowerCase();
+/* FIXED SEARCH */
+document.getElementById("search").addEventListener("input", function(){
+
+  let val = this.value.trim().toLowerCase();
+
+  if(val === ""){
+    render(students);
+    return;
+  }
 
   let filtered = students.filter(s =>
     s["Name"].toLowerCase().includes(val) ||
