@@ -48,6 +48,16 @@ header small{
   letter-spacing:2px;
 }
 
+/* GRAND TITLE */
+.grand-title{
+  text-align:center;
+  padding:14px 10px;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#60a5fa;
+}
+
 /* WRAPPER */
 .wrapper{
   max-width:920px;
@@ -130,7 +140,7 @@ header small{
   font-size:14px;
 }
 
-/* META (SIDE BY SIDE CLEAN) */
+/* META */
 .meta{
   display:flex;
   flex-wrap:wrap;
@@ -198,7 +208,7 @@ header small{
   background:rgba(255,255,255,0.03);
 }
 
-/* 📱 MOBILE RESPONSIVE */
+/* MOBILE */
 @media (max-width:600px){
 
   .stats{
@@ -230,6 +240,11 @@ header small{
   <h2>HARI JUNIOR COLLEGE</h2>
   <small>RESULTS PORTAL</small>
 </header>
+
+<!-- NEW TITLE ADDED HERE -->
+<div class="grand-title">
+  GRAND EXAM RESULT
+</div>
 
 <div class="wrapper">
 
@@ -313,7 +328,6 @@ function render(list){
   },50);
 }
 
-/* SEARCH */
 document.getElementById("search").addEventListener("input",function(){
 
   let val = this.value.trim().toLowerCase();
