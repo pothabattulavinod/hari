@@ -8,26 +8,29 @@
 <style>
 :root{
   --primary:#60a5fa;
-  --bg:#0b1220;
   --card:rgba(255,255,255,0.06);
   --border:rgba(255,255,255,0.10);
   --text:#f8fafc;
 }
 
-*{box-sizing:border-box;}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
   font-family:system-ui,Segoe UI,sans-serif;
   background:radial-gradient(circle at top,#1e3a8a,#0b1220 55%);
   color:var(--text);
-  overflow-x:hidden;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
 /* HEADER */
 header{
   text-align:center;
-  padding:22px 12px;
+  padding:18px 12px;
   background:rgba(255,255,255,0.04);
   border-bottom:1px solid var(--border);
   backdrop-filter:blur(12px);
@@ -35,7 +38,7 @@ header{
 
 header h2{
   margin:0;
-  font-size:20px;
+  font-size:clamp(16px,2.5vw,22px);
   font-weight:900;
   letter-spacing:1px;
 }
@@ -48,30 +51,32 @@ header small{
   letter-spacing:2px;
 }
 
-/* GRAND TITLE */
+/* TITLE */
 .grand-title{
   text-align:center;
-  padding:14px 10px;
-  font-size:24px;
+  padding:12px 10px;
+  font-size:clamp(18px,3vw,26px);
   font-weight:900;
   letter-spacing:2px;
-  color:#60a5fa;
+  color:var(--primary);
 }
 
 /* WRAPPER */
 .wrapper{
-  max-width:920px;
+  flex:1;
+  width:100%;
+  max-width:900px;
   margin:auto;
-  padding:18px;
+  padding:16px;
   display:flex;
   flex-direction:column;
-  gap:16px;
+  gap:14px;
 }
 
 /* STATS */
 .stats{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
   gap:12px;
 }
 
@@ -79,81 +84,99 @@ header small{
   background:var(--card);
   border:1px solid var(--border);
   border-radius:14px;
-  padding:14px;
+  padding:12px;
   text-align:center;
+  backdrop-filter:blur(10px);
+  font-size:14px;
+}
+
+/* ✅ PROFESSIONAL SEARCH INPUT */
+.searchBox input{
+  width:100%;
+  padding:14px 16px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.06);
+  color:#f8fafc;
+  outline:none;
+  font-size:15px;
+  font-weight:500;
+  letter-spacing:0.5px;
+  transition:0.25s ease;
   backdrop-filter:blur(10px);
 }
 
-/* SEARCH */
-.searchBox input{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,0.05);
-  color:white;
-  outline:none;
-  font-size:14px;
+/* placeholder */
+.searchBox input::placeholder{
+  color:rgba(248,250,252,0.5);
+  font-weight:400;
+}
+
+/* focus glow */
+.searchBox input:focus{
+  border-color:#60a5fa;
+  box-shadow:0 0 0 3px rgba(96,165,250,0.25);
+  background:rgba(255,255,255,0.08);
 }
 
 /* LIST */
 .list{
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:12px;
 }
 
 /* CARD */
 .row{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:16px;
+  border-radius:14px;
+  padding:14px;
   backdrop-filter:blur(14px);
   display:flex;
   flex-direction:column;
-  gap:12px;
-  transition:0.25s;
+  gap:10px;
+  transition:0.2s;
 }
 
 .row:hover{
   transform:translateY(-2px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.35);
+  box-shadow:0 10px 20px rgba(0,0,0,0.3);
 }
 
 /* TOP */
 .topline{
   display:flex;
   justify-content:space-between;
-  gap:10px;
   flex-wrap:wrap;
+  gap:8px;
 }
 
 .name{
   font-size:16px;
   font-weight:900;
   color:var(--primary);
+  word-break:break-word;
 }
 
 .score{
   font-weight:800;
-  font-size:14px;
+  font-size:13px;
 }
 
 /* META */
 .meta{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  gap:6px;
 }
 
-/* TAGS */
 .roll,
 .address{
-  font-size:12px;
-  padding:6px 10px;
-  border-radius:8px;
-  white-space:nowrap;
+  font-size:11px;
+  padding:5px 8px;
+  border-radius:7px;
+  word-break:break-word;
 }
 
 .roll{
@@ -167,10 +190,10 @@ header small{
   border-left:3px solid #22c55e;
 }
 
-/* PROGRESS BAR */
+/* PROGRESS */
 .bar{
   width:100%;
-  height:7px;
+  height:6px;
   background:rgba(255,255,255,0.12);
   border-radius:10px;
   overflow:hidden;
@@ -180,15 +203,15 @@ header small{
   height:100%;
   width:0%;
   background:linear-gradient(90deg,#22c55e,#16a34a);
-  transition:1.2s ease;
+  transition:1s ease;
 }
 
 /* BADGE */
 .badge{
   align-self:flex-start;
-  font-size:12px;
-  padding:6px 10px;
-  border-radius:8px;
+  font-size:11px;
+  padding:5px 8px;
+  border-radius:7px;
   color:white;
 }
 
@@ -201,34 +224,26 @@ header small{
 /* FOOTER */
 .footer{
   text-align:center;
-  padding:16px;
-  font-size:12px;
+  padding:14px;
+  font-size:11px;
   color:rgba(248,250,252,0.65);
   border-top:1px solid var(--border);
   background:rgba(255,255,255,0.03);
+  margin-top:auto;
 }
 
 /* MOBILE */
-@media (max-width:600px){
-
-  .stats{
-    grid-template-columns:1fr;
+@media (max-width:480px){
+  .row{
+    padding:12px;
   }
 
-  .topline{
-    flex-direction:column;
-    align-items:flex-start;
+  .score{
+    font-size:12px;
   }
-
-  .name{font-size:15px;}
-  .score{font-size:13px;}
 
   .roll,.address{
-    font-size:11px;
-  }
-
-  .wrapper{
-    padding:12px;
+    font-size:10px;
   }
 }
 </style>
@@ -241,7 +256,6 @@ header small{
   <small>RESULTS PORTAL</small>
 </header>
 
-<!-- NEW TITLE ADDED HERE -->
 <div class="grand-title">
   GRAND EXAM RESULT
 </div>
@@ -284,7 +298,7 @@ function render(list){
 
   let box = document.getElementById("list");
 
-  if(!list || list.length === 0){
+  if(!list.length){
     box.innerHTML = `<div class="row" style="text-align:center;opacity:0.7">No results found</div>`;
     return;
   }
@@ -332,7 +346,7 @@ document.getElementById("search").addEventListener("input",function(){
 
   let val = this.value.trim().toLowerCase();
 
-  if(val === ""){
+  if(!val){
     render(students);
     return;
   }
