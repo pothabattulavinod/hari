@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Results Portal</title>
+
+<style>
+:root{
+  --primary:#60a5fa;
+  --bg:#0b1220;
+  --card:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.12);
+  --text:#f8fafc;
+  --muted:#94a3b8;
+}
+
+body{
+  margin:0;
+  font-family:Segoe UI, sans-serif;
+  background:radial-gradient(circle at top,#1e3a8a,#0b1220 50%);
+  color:var(--text);
+}
+
+/* HEADER */
+header{
+  text-align:center;
+  padding:18px;
+  font-size:20px;
+  font-weight:700;
+  background:rgba(255,255,255,0.05);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
+}
+
+/* CONTAINER */
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:15px;
+}
+
+/* STATS */
+.stats{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:15px 0;
+}
+
+.statBox{
+  flex:1;
+  min-width:160px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  text-align:center;
+  backdrop-filter:blur(10px);
+}
+
+.statBox b{
+  font-size:18px;
+  color:var(--primary);
+}
+
+/* SEARCH */
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.05);
+  color:white;
+  margin-bottom:15px;
+}
+
+/* LIST */
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* CARD */
+.row{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+
+  backdrop-filter:blur(12px);
+  transition:0.25s;
+}
+
+.row:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+/* TOP */
+.topline{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.name{
+  font-size:16px;
+  font-weight:800;
+  color:var(--primary);
+}
+
+.score{
+  font-weight:700;
+}
+
+/* META */
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.roll{
+  font-size:12px;
+  padding:5px 10px;
+  background:rgba(59,130,246,0.18);
+  border:1px solid rgba(59,130,246,0.35);
+  border-radius:8px;
+  font-family:monospace;
+}
+
+.address{
+  font-size:12px;
+  padding:5px 10px;
+  background:rgba(34,197,94,0.12);
+  border-left:3px solid #22c55e;
+  border-radius:6px;
+}
+
+/* BAR */
+.bar{
+  width:100%;
+  height:7px;
+  background:rgba(255,255,255,0.15);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#16a34a);
+  transition:1.2s ease;
+}
+
+/* BADGE */
+.badge{
+  align-self:flex-end;
+  font-size:12px;
+  padding:5px 10px;
+  border-radius:8px;
+  color:white;
+}
+
+.Excellent{background:#16a34a;}
+.VeryGood{background:#2563eb;}
+.Good{background:#f59e0b;}
+.Average{background:#64748b;}
+.Outstanding{background:#a855f7;}
+
+/* MOBILE */
+@media(max-width:700px){
+  .topline{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:5px;
+  }
+
+  .badge{
+    align-self:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>HARI JUNIOR COLLEGE - RESULTS PORTAL</header>
+
+<div class="container">
+
+<!-- STATS -->
+<div class="stats">
+  <div class="statBox">Total Students<br><b id="total"></b></div>
+  <div class="statBox">Top Score<br><b id="top"></b></div>
+</div>
+
+<!-- SEARCH -->
+<input type="text" id="search" placeholder="Search by Name or Roll Number...">
+
+<!-- LIST -->
+<div class="list" id="list"></div>
+
+</div>
+
+<script>
+const data={
+"Students":[
+{"Roll No":"HJC2026001","Name":"Rahul Kumar","Address":"Vijayawada","Grand Exam Total":108,"Remarks":"Excellent"},
+{"Roll No":"HJC2026002","Name":"Sneha Reddy","Address":"Guntur","Grand Exam Total":98,"Remarks":"Very Good"},
+{"Roll No":"HJC2026003","Name":"Arjun Varma","Address":"Hyderabad","Grand Exam Total":92,"Remarks":"Good"},
+{"Roll No":"HJC2026004","Name":"Kavya Sharma","Address":"Chennai","Grand Exam Total":80,"Remarks":"Average"},
+{"Roll No":"HJC2026005","Name":"Mohan Rao","Address":"Vizag","Grand Exam Total":115,"Remarks":"Outstanding"}
+]
+};
+
+let students=data.Students;
+
+document.getElementById("total").innerText=students.length;
+document.getElementById("top").innerText=Math.max(...students.map(s=>s["Grand Exam Total"]));
+
+function render(list=students){
+let box=document.getElementById("list");
+box.innerHTML="";
+
+list.forEach(s=>{
+let percent=(s["Grand Exam Total"]/120)*100;
+let badge=s["Remarks"].replace(/\s/g,'');
+
+box.innerHTML+=`
+<div class="row">
+
+  <div class="topline">
+    <div class="name">${s["Name"]}</div>
+    <div class="score">${s["Grand Exam Total"]}/120</div>
+  </div>
+
+  <div class="meta">
+    <div class="roll">${s["Roll No"]}</div>
+    <div class="address">${s["Address"]}</div>
+  </div>
+
+  <div class="bar">
+    <div class="fill" data-p="${percent}"></div>
+  </div>
+
+  <div class="badge ${badge}">
+    ${s["Remarks"]}
+  </div>
+
+</div>`;
+});
+
+setTimeout(()=>{
+document.querySelectorAll(".fill").forEach(e=>{
+e.style.width=e.dataset.p+"%";
+});
+},100);
+}
+
+/* SEARCH */
+document.getElementById("search").addEventListener("input",function(){
+let val=this.value.toLowerCase();
+
+let filtered=students.filter(s=>
+  s["Name"].toLowerCase().includes(val) ||
+  s["Roll No"].toLowerCase().includes(val)
+);
+
+render(filtered);
+});
+
+render();
+</script>
+
+</body>
+</html>
