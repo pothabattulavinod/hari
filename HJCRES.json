@@ -1,0 +1,276 @@
+{
+    "College": "HARI JUNIOR COLLEGE",
+    "Total Students": 30,
+    "Students": [
+        {
+            "S.No": 1,
+            "Roll No": "HJC2026001",
+            "Name": "Rahul Kumar",
+            "Address": "Vijayawada",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 108,
+            "Remarks": "Excellent"
+        },
+        {
+            "S.No": 2,
+            "Roll No": "HJC2026002",
+            "Name": "Sneha Reddy",
+            "Address": "Guntur",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 98,
+            "Remarks": "Very Good"
+        },
+        {
+            "S.No": 3,
+            "Roll No": "HJC2026003",
+            "Name": "Arjun Varma",
+            "Address": "Hyderabad",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 92,
+            "Remarks": "Good"
+        },
+        {
+            "S.No": 4,
+            "Roll No": "HJC2026004",
+            "Name": "Kavya Sharma",
+            "Address": "Chennai",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 80,
+            "Remarks": "Average"
+        },
+        {
+            "S.No": 5,
+            "Roll No": "HJC2026005",
+            "Name": "Mohan Rao",
+            "Address": "Visakhapatnam",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 115,
+            "Remarks": "Outstanding"
+        },
+        {
+            "S.No": 6,
+            "Roll No": "HJC2026006",
+            "Name": "Priya Singh",
+            "Address": "Bangalore",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 89,
+            "Remarks": "Good"
+        },
+        {
+            "S.No": 7,
+            "Roll No": "HJC2026007",
+            "Name": "Ramesh Naidu",
+            "Address": "Nellore",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 70,
+            "Remarks": "Needs Improvement"
+        },
+        {
+            "S.No": 8,
+            "Roll No": "HJC2026008",
+            "Name": "Anjali Mehta",
+            "Address": "Mumbai",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 105,
+            "Remarks": "Very Good"
+        },
+        {
+            "S.No": 9,
+            "Roll No": "HJC2026009",
+            "Name": "Kiran Das",
+            "Address": "Kolkata",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 78,
+            "Remarks": "Average"
+        },
+        {
+            "S.No": 10,
+            "Roll No": "HJC2026010",
+            "Name": "Deepak Yadav",
+            "Address": "Delhi",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 112,
+            "Remarks": "Excellent"
+        },
+        {
+            "S.No": 11,
+            "Roll No": "HJC2026011",
+            "Name": "Suresh Patel",
+            "Address": "Ahmedabad",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 101,
+            "Remarks": "Very Good"
+        },
+        {
+            "S.No": 12,
+            "Roll No": "HJC2026012",
+            "Name": "Meena Iyer",
+            "Address": "Chennai",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 95,
+            "Remarks": "Very Good"
+        },
+        {
+            "S.No": 13,
+            "Roll No": "HJC2026013",
+            "Name": "Rohit Sharma",
+            "Address": "Mumbai",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 110,
+            "Remarks": "Excellent"
+        },
+        {
+            "S.No": 14,
+            "Roll No": "HJC2026014",
+            "Name": "Pooja Verma",
+            "Address": "Delhi",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 85,
+            "Remarks": "Good"
+        },
+        {
+            "S.No": 15,
+            "Roll No": "HJC2026015",
+            "Name": "Amit Das",
+            "Address": "Kolkata",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 76,
+            "Remarks": "Average"
+        },
+        {
+            "S.No": 16,
+            "Roll No": "HJC2026016",
+            "Name": "Neha Gupta",
+            "Address": "Jaipur",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 90,
+            "Remarks": "Good"
+        },
+        {
+            "S.No": 17,
+            "Roll No": "HJC2026017",
+            "Name": "Vikram Singh",
+            "Address": "Lucknow",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 67,
+            "Remarks": "Needs Improvement"
+        },
+        {
+            "S.No": 18,
+            "Roll No": "HJC2026018",
+            "Name": "Divya Nair",
+            "Address": "Kochi",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 113,
+            "Remarks": "Outstanding"
+        },
+        {
+            "S.No": 19,
+            "Roll No": "HJC2026019",
+            "Name": "Karthik Reddy",
+            "Address": "Hyderabad",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 104,
+            "Remarks": "Very Good"
+        },
+        {
+            "S.No": 20,
+            "Roll No": "HJC2026020",
+            "Name": "Anil Kumar",
+            "Address": "Bangalore",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 88,
+            "Remarks": "Good"
+        },
+        {
+            "S.No": 21,
+            "Roll No": "HJC2026021",
+            "Name": "Sunita Devi",
+            "Address": "Patna",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 72,
+            "Remarks": "Average"
+        },
+        {
+            "S.No": 22,
+            "Roll No": "HJC2026022",
+            "Name": "Rajesh Khanna",
+            "Address": "Delhi",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 116,
+            "Remarks": "Outstanding"
+        },
+        {
+            "S.No": 23,
+            "Roll No": "HJC2026023",
+            "Name": "Priya Mehta",
+            "Address": "Surat",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 99,
+            "Remarks": "Very Good"
+        },
+        {
+            "S.No": 24,
+            "Roll No": "HJC2026024",
+            "Name": "Manoj Tiwari",
+            "Address": "Varanasi",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 83,
+            "Remarks": "Good"
+        },
+        {
+            "S.No": 25,
+            "Roll No": "HJC2026025",
+            "Name": "Latha Krishnan",
+            "Address": "Madurai",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 77,
+            "Remarks": "Average"
+        },
+        {
+            "S.No": 26,
+            "Roll No": "HJC2026026",
+            "Name": "Imran Khan",
+            "Address": "Bhopal",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 69,
+            "Remarks": "Needs Improvement"
+        },
+        {
+            "S.No": 27,
+            "Roll No": "HJC2026027",
+            "Name": "Sanjay Kumar",
+            "Address": "Ranchi",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 108,
+            "Remarks": "Excellent"
+        },
+        {
+            "S.No": 28,
+            "Roll No": "HJC2026028",
+            "Name": "Kavita Joshi",
+            "Address": "Pune",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 94,
+            "Remarks": "Very Good"
+        },
+        {
+            "S.No": 29,
+            "Roll No": "HJC2026029",
+            "Name": "Naveen Chandra",
+            "Address": "Chandigarh",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 87,
+            "Remarks": "Good"
+        },
+        {
+            "S.No": 30,
+            "Roll No": "HJC2026030",
+            "Name": "Geeta Rani",
+            "Address": "Amritsar",
+            "Board Exam Total": 120,
+            "Grand Exam Total": 73,
+            "Remarks": "Average"
+        }
+    ]
+}
