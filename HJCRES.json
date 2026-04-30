@@ -1,0 +1,159 @@
+{
+  "College": "HARI JUNIOR COLLEGE",
+  "Total Students": 17,
+  "Students": [
+    {
+      "S.No": 1,
+      "Roll No": "H26001",
+      "Name": "M Gayatri",
+      "Address": "Narendrapuram",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 33,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 2,
+      "Roll No": "H26002",
+      "Name": "K Praharsha",
+      "Address": "Farijallipeta",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 42,
+      "Remarks": "Average"
+    },
+    {
+      "S.No": 3,
+      "Roll No": "H26003",
+      "Name": "S Uday Kiran",
+      "Address": "Murari",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 40,
+      "Remarks": "Average"
+    },
+    {
+      "S.No": 4,
+      "Roll No": "H26004",
+      "Name": "M Akash",
+      "Address": "Gadala",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 39,
+      "Remarks": "Average"
+    },
+    {
+      "S.No": 5,
+      "Roll No": "H26005",
+      "Name": "P Venkatesh",
+      "Address": "Narendrapuram",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 28,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 6,
+      "Roll No": "H26006",
+      "Name": "P Satya Devi",
+      "Address": "Narendrapuram",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 28,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 7,
+      "Roll No": "H26007",
+      "Name": "A Pardhu",
+      "Address": "Vodisaleru",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 48,
+      "Remarks": "Good"
+    },
+    {
+      "S.No": 8,
+      "Roll No": "H26008",
+      "Name": "T Venkata Lakshmi",
+      "Address": "Palacharla",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 30,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 9,
+      "Roll No": "H26009",
+      "Name": "N David Raju",
+      "Address": "Rajanagaram",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 27,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 10,
+      "Roll No": "H260010",
+      "Name": "P Navya",
+      "Address": "Gadarada",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 32,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 11,
+      "Roll No": "H260011",
+      "Name": "B Vijaya Durga",
+      "Address": "Nidigatla",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 33,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 12,
+      "Roll No": "H260012",
+      "Name": "M Arun Kumar",
+      "Address": "Nandarada",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 19,
+      "Remarks": "Poor"
+    },
+    {
+      "S.No": 13,
+      "Roll No": "H260013",
+      "Name": "P Mani Venkat",
+      "Address": "Rajanagaram",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 41,
+      "Remarks": "Average"
+    },
+    {
+      "S.No": 14,
+      "Roll No": "H260014",
+      "Name": "G Uttar Kumar",
+      "Address": "Rajanagaram",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 37,
+      "Remarks": "Average"
+    },
+    {
+      "S.No": 15,
+      "Roll No": "H260015",
+      "Name": "N Naga Satya",
+      "Address": "Kalavacharla",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 30,
+      "Remarks": "Needs Improvement"
+    },
+    {
+      "S.No": 16,
+      "Roll No": "H260016",
+      "Name": "P Navadeep Kumar",
+      "Address": "Kalavacharla",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 18,
+      "Remarks": "Poor"
+    },
+    {
+      "S.No": 17,
+      "Roll No": "H260017",
+      "Name": "N Krishna",
+      "Address": "Suryaraopeta",
+      "Board Exam Total": 120,
+      "Grand Exam Total": 28,
+      "Remarks": "Needs Improvement"
+    }
+  ]
+}
